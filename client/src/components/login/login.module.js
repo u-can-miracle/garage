@@ -1,1 +1,4 @@
-angular.module('login', []);
+angular.module('login', [
+    'ngToast',
+    'ngAnimate'
+]);

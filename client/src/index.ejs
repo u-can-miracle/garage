@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">	
+	<title>Document</title>
+	<base href'/'> 
+	<!-- cssDependencies:css -->
+	<link rel="stylesheet" href="dependencies/css/ngToast-animations.css">
+	<link rel="stylesheet" href="dependencies/css/ngToast.css">
+	<!-- endinject -->	
+	
+	<!-- inject:css -->
+	<link rel="stylesheet" href="assets/css/style.css">
+	<!-- endinject -->	
+</head>
+<body ng-app="app" ng-controller="appCtrl">
+
+	
+	<div ui-view></div>
+
+	<!-- jsLibs:js -->
+	<script src="dependencies/js/jquery.js"></script>
+	<script src="dependencies/js/angular.js"></script>
+	<script src="dependencies/js/bootstrap.js"></script>
+	<!-- endinject -->
+
+	<!-- jsDependencies:js -->
+	<script src="dependencies/js/ngToast.js"></script>
+	<script src="dependencies/js/angular-ui-router.js"></script>
+	<script src="dependencies/js/angular-sanitize.js"></script>
+	<script src="dependencies/js/angular-animate.js"></script>
+	<!-- endinject -->	
+
+	<!-- components:js -->
+	<script src="components/login/login.module.js"></script>
+	<script src="components/login/login.factory.js"></script>
+	<script src="components/login/login.controller.js"></script>
+	<script src="components/app.module.js"></script>
+	<script src="components/app.run.js"></script>
+	<script src="components/app.controller.js"></script>
+	<script src="components/app.config.js"></script>
+	<!-- endinject -->
+</body>
+</html>

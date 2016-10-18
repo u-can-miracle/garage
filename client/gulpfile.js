@@ -7,8 +7,8 @@ var mainBowerFiles = require('main-bower-files');
 var filter = require('gulp-filter');
 var Server = require('karma').Server;
 
-var indexPath = '../views/index.jade';
-// var indexPath = './src/not-index.html';
+// var indexPath = '../views/index.jade';
+var indexPath = './src/index.ejs';
 var scssPath = './src/assets/scss';
 var cssPath = './src/assets/css';
 var depPath = './src/dependencies'
@@ -142,7 +142,7 @@ gulp.task('karma-inject-js', ['replace-bower-files'], function() {
         .pipe(gulp.dest('./'))
 });
 
-gulp.task('inject', function() {
+gulp.task('inject', ['replace-bower-files', 'sass'], function() {
     gulp.src(indexPath)
         .pipe(inject(gulp.src(cssPath + '/style.css', {
             read: false
@@ -189,8 +189,8 @@ gulp.task('inject', function() {
             }
         ))
 
-        // .pipe(gulp.dest('./src'))
-        .pipe(gulp.dest('../views'))
+        .pipe(gulp.dest('./src'))
+        // .pipe(gulp.dest('../views'))
 });
 
 gulp.task('build-dev', ['replace-bower-files', 'sass', 'inject']);

@@ -7,10 +7,14 @@ var config = require('./server/config/config')[env];
 
 
 require('./server/config/express')(app);
+require('./server/config/mongoose')(config);
 
 
+app.get('/', function(req, res){
+	res.render('index');
+});
 app.get('*', function(req, res){
-	res.send('index');
+	res.redirect('login');
 });
 
 app.listen(config.port, function(){

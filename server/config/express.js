@@ -4,7 +4,10 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var passport = require('passport');
 
+
 var expressConfig = function(app){
+    app.set('view engine', 'ejs');
+    app.set('views', './client/src');
     app.use(express.static('client/src'));
 
     app.use( bodyParser.json() );

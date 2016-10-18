@@ -9,29 +9,32 @@
 
 
     function configFunc($stateProvider, $urlRouterProvider, $locationProvider, ngToastProvider) {
-        $locationProvider.html5Mode(true);
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false
+        });
+
         ngToastProvider.configure({
             animation: 'slide' // or 'fade'
         });
 
         $stateProvider
             .state('main', {
-                url: '/',
-                views: {
-                    '': {
-                        templateUrl: './partials/main',
-                        controller: 'appCtrl as vm'
-                    },
-                    'old-courses@main': {
-                        templateUrl: './partials/old-courses'
-                    },
-                    'new-courses@main': {
-                        templateUrl: './partials/new-courses'
-                    }
-                }
+                abstract: true,
+                template: '<div ui-view></div>',
+                url: '/'  
+            })        
+            .state('main.login', {
+                url: 'login',
+                controller: 'loginController as vm',
+                templateUrl: 'components/login/login.html'
+            })
+            .state('main.todos', {
+                url: 'todos',
+                templateUrl: 'components/todos/todos.html'
             });
 
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('login');
     }
 })();
 
