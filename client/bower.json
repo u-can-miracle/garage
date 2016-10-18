@@ -1,0 +1,38 @@
+{
+    "name": "test-ang",
+    "description": "",
+    "main": "index.js",
+    "authors": [
+        "u-can-miracle <freenickweb@gmail.com>"
+    ],
+    "license": "ISC",
+    "moduleType": [],
+    "homepage": "",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "jquery": "3.0.0",
+        "angular": "1.5.7",
+        "bootstrap-sass": "~3.3.6",
+        "angular-ui-router": "~0.3.1",
+        "ngToast": "ngtoast#^2.0.0",
+        "angular-animate": "^1.5.8"
+    },
+    "devDependencies": {
+        "angular-mocks": "~1.5.7"
+    },
+    "overrides": {
+        "ngToast": {
+            "main": [
+                "dist/ngToast.js",
+                "dist/ngToast.css",
+                "dist/ngToast-animations.css"
+            ]
+        }
+    }
+}

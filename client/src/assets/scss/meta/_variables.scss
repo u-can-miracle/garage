@@ -1,0 +1,37 @@
+/***  Custom variables  ***/
+$primary-bg: #CFD8DC;
+$secondary-bg: #ececec;
+
+$theme-color: #BBC1BE;
+
+$primary-text-color: #333;
+$secondary-text-color: #555;
+$overlay-color: #fff;
+
+$primary-border-color: $theme-color;
+$secondary-border-color: #ccc;
+
+$line-height: 1.42;
+
+
+/***  Bootstrap variables  ***/
+$grid-gutter-width: 20px;
+
+// full width after desktop
+$container-tablet: 100%;
+$container-sm: 100%;
+$icon-font-path: '../../assets/fonts/bootstrap/';
+
+// panel
+$panel-bg: transparent;
+
+
+// inputs
+$input-bg: transparent;
+$input-color: $overlay-color;
+
+
+// list group
+$list-group-bg: transparent;
+$list-group-border: none;
+

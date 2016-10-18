@@ -1,0 +1,40 @@
+{
+  "name": "test-ang",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "4.5.0",
+    "npm": "3.10.6"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "angular-mocks": "^1.5.7",
+    "gulp": "^3.9.1",
+    "gulp-angular-filesort": "^1.1.1",
+    "gulp-filter": "^4.0.0",
+    "gulp-inject": "^4.1.0",
+    "gulp-sass": "^2.3.2",
+    "gulp-watch": "^4.3.8",
+    "jasmine-core": "^2.4.1",
+    "karma": "^1.1.1",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
+    "main-bower-files": "^2.13.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "mongoose": "^4.6.2",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "passport-local": "^1.0.0"
+  }
+}

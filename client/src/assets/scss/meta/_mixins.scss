@@ -1,0 +1,71 @@
+@mixin translateZ() {
+	-webkit-transform: translatez(0);
+	-moz-transform: translatez(0);
+	-ms-transform: translatez(0);
+	-o-transform: translatez(0);
+	transform: translatez(0);
+}
+/***  Usage  ***/
+/*
+.article {
+     @include translateZ();
+}
+*/
+
+
+@mixin clearfix() {
+    &:before,
+    &:after {
+        content: "";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+/***  Usage  ***/
+/*
+.article {
+     @include clearfix();
+}
+*/
+
+
+@mixin transition($property: all, $duration: 0.5s, $function: ease) {
+    -webkit-transition: $property $duration $function;
+    -moz-transition: $property $duration $function;
+    -ms-transition: $property $duration $function;
+    -o-transition: $property $duration $function;
+    transition: $property $duration $function;
+}
+/***  Usage  ***/
+/*
+.article {
+     @include transition();
+}
+*/
+
+
+@mixin opacity($opacity){
+    $op-ms: $opacity*100;
+    -webkit-opacity: $opacity;
+    -moz-opacity: $opacity;
+    -ms-opacity: $opacity;
+    -o-opacity: $opacity;
+    opacity: $opacity;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity="+$op-ms+")";
+    filter: alpha(opacity=$op-ms);    
+
+}
+/***  Usage  ***/
+/*
+.article {
+	@include opacity();
+}
+*/
+
+@mixin background-opacity($color, $opacity: 0.3) {
+    background-color: $color; /* The Fallback */
+    background-color: rgba($color, $opacity);
+}
+
