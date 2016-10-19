@@ -5,21 +5,79 @@
 	  .module('login')
 	  .controller('loginController', loginController);
 
-	loginController.$inject = ['$http', 'ngToast', 'loginService'];
+	loginController.$inject = ['ngToast', 'loginFactory', 'factoryHelper'];
 
-	function loginController($http, ngToast, loginService) {
+	function loginController(ngToast, loginFactory, factoryHelper) {
 		var vm = this;
-		vm.signin = signin;
-		vm.isAuthenticated = loginService.isAuthenticated();
+
+		vm.userName;
+		vm.pass;
+
+		vm.reg = {};
+		vm.reg.userName;
+		vm.reg.email;
+		vm.reg.password;
+		vm.reg.confirmPassword;
+
+		vm.clearWhitespace = clearWhitespace;
+
+		vm.clearwhitespaceUsername = clearwhitespaceUsername;
+		vm.clearwhitespacePass = clearwhitespacePass;
+
+		vm.clearwhitespaceRegUsername = clearwhitespaceRegUsername;
+		vm.clearWhitespaceRegEmail = clearWhitespaceRegEmail;
+		vm.clearWhitespaceRegPass = clearWhitespaceRegPass;
+		vm.clearWhitespaceRegConfirm = clearWhitespaceRegConfirm;
+
+		vm.login = login;
+		vm.registration = registration;
+		vm.isAuthenticated = loginFactory.isAuthenticated();
 
 
 
 		/****  Declaration  ****/
-		function signin(username, password){
-			loginService.authentification(username, password) 
+
+		// Replace Whitespace
+        function clearWhitespace(vmData) {
+            return factoryHelper.notAllowWhitespace(vmData);
+        }	
+
+        function clearwhitespaceUsername(){
+        	vm.userName = clearWhitespace(vm.userName);
+        }
+        function clearwhitespacePass(){
+        	vm.pass = clearWhitespace(vm.pass);
+        }        
+
+        function clearwhitespaceRegUsername(){
+        	vm.reg.userName = clearWhitespace(vm.reg.userName);
+        }
+        function clearWhitespaceRegEmail(){
+        	vm.reg.email = clearWhitespace(vm.reg.email);
+        }	
+        function clearWhitespaceRegPass(){
+        	vm.reg.password = clearWhitespace(vm.reg.password);
+        }	
+        function clearWhitespaceRegConfirm(){
+        	vm.reg.confirmPassword = clearWhitespace(vm.reg.confirmPassword);
+        }	                
+
+
+        
+        
+        // Login
+		function registration(username, email, password){
+			loginFactory.registration(username, email, password)
+				.then(function(data){
+					console.log('reg data = ', data);
+				});
+		}
+
+		function login(username, password){
+			loginFactory.login(username, password) 
 				.then(function(data){
 					if(data === true){
-						vm.isAuthenticated = loginService.isAuthenticated();
+						vm.isAuthenticated = loginFactory.isAuthenticated();
 	                    ngToast.success({
 	                        content: 'You are logined successfully!'
 	                    });

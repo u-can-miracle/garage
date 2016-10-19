@@ -1,1 +1,145 @@
-<h2>login</h2>
+<div ng-cloak class="login-wrapper">
+  <md-content>
+    <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab label="Login">
+        <md-content class="md-padding">
+          	<form name="vm.loginForm" ng-submit="vm.login()" autocomplete="off">
+				<input style="display:none" type="text" name="fakename">
+				<input style="display:none" type="password" name="fakepass">
+				<div class="form-group"
+					 ng-class="(vm.loginForm.username.$dirty && !vm.loginForm.username.$valid) ? 'has-error' : ''">
+					<label for="username">User name</label>
+					<input 
+						ng-model="vm.userName"
+						ng-change="vm.clearwhitespaceUsername()"
+						minlength="4"
+						maxlength="32"
+						ng-trim="false"
+						required
+						class="form-control" 
+						name="username" 
+						id="username" 
+						placeholder="Username">	
+						<p ng-messages="vm.loginForm.username.$dirty && vm.loginForm.username.$error" class="help-block">
+							<span ng-message="minlength">Name should be 4 or more symbols</span>
+							<span ng-message="required">Please, enter a name</span>
+						</p>											
+				</div>
+				<div class="form-group"
+					 ng-class="(vm.loginForm.pass.$dirty && !vm.loginForm.pass.$valid) ? 'has-error' : ''">
+					<label for="pass">Password</label>
+					<input 
+						ng-model="vm.pass"
+						ng-change="vm.clearwhitespacePass()"
+						minlength="4"
+						maxlength="32"
+						ng-trim="false"
+						required					
+						type="password" 
+						class="form-control" 
+						name="pass" 
+						id="pass" 
+						placeholder="Password">
+						<p ng-messages="vm.loginForm.pass.$dirty && vm.loginForm.pass.$error" class="help-block">
+							<span ng-message="minlength">Password should be 4 or more symbols</span>
+							<span ng-message="required">Please, enter a password</span>
+						</p>												
+				</div>	
+				<button type="submit" class="btn btn-default">Submit</button>
+			</form>
+        </md-content>
+      </md-tab>
+      <md-tab label="Registration">
+        <md-content class="md-padding">
+          	<form name="vm.regForm" ng-submit="vm.registration()" autocomplete="off">
+				<input style="display:none" type="text" name="fakename1">
+				<input style="display:none" type="email" name="fakeemail1">
+				<input style="display:none" type="password" name="fakepass1">     	
+				<div class="form-group" 
+					 ng-class="(vm.regForm.username.$dirty && !vm.regForm.username.$valid) ? 'has-error' : ''">
+					<label for="username">User name</label>
+					<input 
+						ng-model="vm.reg.userName"
+						ng-change="vm.clearwhitespaceRegUsername()"
+						minlength="4"
+						maxlength="32"
+						ng-trim="false"
+						required
+						class="form-control" 
+						name="username"
+						id="username" 
+						placeholder="Username">
+						<p ng-messages="vm.regForm.username.$dirty && vm.regForm.username.$error" class="help-block">
+							<span ng-message="minlength">Name should be 4 or more symbols</span>
+							<span ng-message="required">Please, enter a name</span>
+						</p>						
+				</div>
+				<div class="form-group"
+					 ng-class="(vm.regForm.email.$dirty && !vm.regForm.email.$valid) ? 'has-error' : ''">
+					<label for="email">Email address</label>
+					<input 
+						ng-model="vm.reg.email" 
+						ng-change="vm.clearWhitespaceRegEmail()"
+						maxlength="32"
+						ng-trim="false"
+						ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" 
+						required
+						class="form-control" 
+						name="email" 
+						id="email" 
+						placeholder="Email">
+						<p ng-messages="vm.regForm.email.$dirty && vm.regForm.email.$error" class="help-block">
+							<span ng-message="pattern">Please enter a valid email address!</span>
+							<span ng-message="required">Please, enter an email</span>
+						</p>							
+				</div>
+				<div class="form-group"
+					 ng-class="(vm.regForm.password.$dirty && !vm.regForm.password.$valid) ? 'has-error' : ''">
+					<label for="pass">Password</label>
+					<input 
+						ng-model="vm.reg.password" 
+						ng-change="vm.clearWhitespaceRegPass()"
+						minlength="4"
+						maxlength="32"
+						ng-trim="false"
+						required
+						name="password"
+						type="password" 
+						class="form-control" 
+						id="pass" 
+						placeholder="Password">
+						<p ng-messages="vm.regForm.password.$dirty && vm.regForm.password.$error" class="help-block">
+							<span ng-message="minlength">Password should be 4 or more symbols</span>
+							<span ng-message="required">Please, enter a password</span>
+						</p>
+				</div>
+				<div class="form-group"
+					 ng-class="(vm.regForm.confirm.$dirty && vm.regForm.password.$dirty && vm.reg.password !== vm.reg.confirmPassword) || (vm.regForm.confirm.$dirty && !vm.regForm.confirm.$valid) ? 'has-error' : ''">
+					<label for="confirm">Repeat password</label>
+					<input 
+						ng-model="vm.reg.confirmPassword" 
+						ng-change="vm.clearWhitespaceRegConfirm()"
+						minlength="4"
+						maxlength="32"
+						ng-trim="false"
+						required
+						type="password" 
+						class="form-control" 
+						name="confirm" 
+						id="confirm" 
+						placeholder="Password">
+						<p ng-messages="vm.regForm.confirm.$dirty && vm.regForm.confirm.$error" class="help-block">
+							<span ng-message="minlength">Password should be 4 or more symbols</span>
+							<span ng-message="required">Please, enter a password</span>
+						</p>	
+						<span ng-show="vm.regForm.confirm.$dirty && vm.regForm.password.$dirty && vm.reg.password !== vm.reg.confirmPassword" class="help-block">
+							Passwords should be identical
+						</span>					
+				</div>	
+				<button type="submit" class="btn btn-default">Submit</button>
+			</form>
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+</div>

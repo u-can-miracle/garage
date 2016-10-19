@@ -34,7 +34,7 @@
                 templateUrl: 'components/todos/todos.html'
             });
 
-        $urlRouterProvider.otherwise('login');
+        $urlRouterProvider.otherwise('/login');
     }
 })();
 

@@ -1,4 +1,6 @@
 angular.module('login', [
     'ngToast',
-    'ngAnimate'
+    'ngAnimate',
+    'ngMaterial',
+    'ngMessages'
 ]);

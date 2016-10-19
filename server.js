@@ -13,9 +13,16 @@ require('./server/config/mongoose')(config);
 app.get('/', function(req, res){
 	res.render('index');
 });
-app.get('*', function(req, res){
-	res.redirect('login');
+app.post('/registration', function(req, res){
+	
+	res.json({successReg: true});
 });
+app.get('*', function(req, res){
+	res.render('index');
+	// res.redirect('/login');
+});
+
+
 
 app.listen(config.port, function(){
 	console.log('App started on port ' + config.port);

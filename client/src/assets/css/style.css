@@ -1880,7 +1880,7 @@ output {
   padding-top: 7px;
   font-size: 14px;
   line-height: 1.42857;
-  color: #fff; }
+  color: #333; }
 
 .form-control {
   display: block;
@@ -1889,7 +1889,7 @@ output {
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.42857;
-  color: #fff;
+  color: #333;
   background-color: transparent;
   background-image: none;
   border: 1px solid #ccc;
@@ -3049,7 +3049,7 @@ tbody.collapse.in {
   font-size: 14px;
   font-weight: normal;
   line-height: 1;
-  color: #fff;
+  color: #333;
   text-align: center;
   background-color: #eeeeee;
   border: 1px solid #ccc;
@@ -5397,22 +5397,22 @@ button.close {
 
 body {
   position: relative;
+  height: auto;
   padding-top: 71px;
   padding-bottom: 62px;
   background-color: #CFD8DC; }
-
-footer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  padding: 13px 0;
-  text-align: center;
-  background-color: #222222;
-  color: #fff; }
 
 .ng-toast__message {
   -webkit-transition: all, 0.5s, ease;
   -o-transition: all, 0.5s, ease;
   transition: all, 0.5s, ease; }
+
+.login-wrapper {
+  display: table;
+  width: 100%;
+  max-width: 450px;
+  margin-right: auto;
+  margin-left: auto;
+  height: 450px; }
+  .login-wrapper .form-group p {
+    margin-bottom: 0; }
