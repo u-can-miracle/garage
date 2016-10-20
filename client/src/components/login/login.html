@@ -51,7 +51,7 @@
       </md-tab>
       <md-tab label="Registration">
         <md-content class="md-padding">
-          	<form name="vm.regForm" ng-submit="vm.registration()" autocomplete="off">
+          	<form name="vm.regForm" ng-submit="vm.registration(vm.reg.userName, vm.reg.email, vm.reg.password)" autocomplete="off">
 				<input style="display:none" type="text" name="fakename1">
 				<input style="display:none" type="email" name="fakeemail1">
 				<input style="display:none" type="password" name="fakepass1">     	

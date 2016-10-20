@@ -43,6 +43,8 @@
 			};
 			var defer = $q.defer();
 
+			console.log('regUser', regUser);
+
 			$http.post('/registration', regUser)
 				.then(function(response){
 					defer.resolve(response.data);
