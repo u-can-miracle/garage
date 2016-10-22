@@ -1,59 +1,48 @@
 var express = require('express');
-var nodemailer = require('nodemailer');
-var loginRouter = express.Router();
-var crypto = require('crypto');
+var q = require('q');
 
 var userModel = require('../model/user.js');
+var loginCtrl = require('../controller/login.js');
+
+var loginRouter = express.Router();
+
+
 
 loginRouter.post('/registration', function(req, res, next) {
-    userModel.create(req.body, function(err, data) {
-        if (err) {
-            next(err);
+    var user = req.body;
+    q.all([
+        loginCtrl.isUsernameExist(user.username),
+        loginCtrl.isEmailExist(user.email)        
+    ])
+    .then(function(result){
+        var isUsernameExist = result[0];
+        var isEmailExist = result[1];
+        if(isUsernameExist){
+            console.log('usernameAlreadyExist');
+            res.json({usernameAlreadyExist: true});  
+        } else if(isEmailExist){
+            console.log('emailAlreadyExist');
+            res.json({emailAlreadyExist: true});
+        } else {
+            console.log('result', result);
+            return userModel.create(user); 
         }
-
-        // send email
-        sendResetEmail(req.body.email, req)
-
-        res.json(data);
+    })
+    .then(function(user){
+        console.log('user', user);
+        if(user){
+            loginCtrl.sendEmail(user.email, req, next);
+            res.json(user);
+        }
+    })
+    .catch(function(err){
+        console.log('catch', err);
+        res.status(500);
+        res.json(err);
     });
 });
 
-function sendResetEmail(userEmail, req, next) {
-    var smtpTransport = nodemailer.createTransport("SMTP", {
-        host: 'smtp.gmail.com',
-        port: 465,
-        auth: {
-            user: 'rubygarag@gmail.com',
-            pass: 'weekpassword'
-        },
-        secureConnection: true
-    });
-    var token = crypto.randomBytes(16).toString('hex');
 
-    smtpTransport.sendMail({ //email options
-        from: "Fullstuck-js mailer <rubygarag@gmail.com>", // sender address.  Must be the same as authenticated user if using Gmail.
-        to: userEmail, // receiver
-        subject: "Registration confirmation", // subject
-        text: 'You are receiving this because you (or someone else) have registered at rubygarage-fullstack-js.heroku.com.\n\n' +
-            'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-            'http://' + req.headers.host + '/confirm/' + token + '\n\n' +
-            'If you did not request this, please ignore this email and your password will remain unchanged.\n'
-    }, function(error, response) { //callback
-        if (error) {
-            console.log('error', error);
-            return next(err);
-        } else {
-            userModel.findOneAndUpdate({
-                'email': userEmail
-            }, {
-                $set: {
-                    'registration-key': token
-                }
-            }, {upsert:true}, function(error, doc) { });
-        }
-        smtpTransport.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
-    });
-
-}
 
 module.exports = loginRouter;
+

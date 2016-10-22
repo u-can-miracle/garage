@@ -19,6 +19,8 @@
 		vm.reg.password;
 		vm.reg.confirmPassword;
 
+		vm.reg.alreadyExist;
+
 		vm.clearWhitespace = clearWhitespace;
 
 		vm.clearwhitespaceUsername = clearwhitespaceUsername;
@@ -64,12 +66,21 @@
 
 
         
-        
-        // Login
+        // Registration
 		function registration(username, email, password){
 			loginFactory.registration(username, email, password)
 				.then(function(data){
 					console.log('reg data = ', data);
+					if(data.usernameAlreadyExist){
+						vm.reg.alreadyExist = 'This username already exist';
+					} else if(data.emailAlreadyExist){
+						vm.reg.alreadyExist = 'This email already exist';
+					} else {
+						vm.reg.alreadyExist = null;
+	                    ngToast.success({
+	                        content: 'You are register successfully!'
+	                    });						
+					}
 				});
 		}
 
