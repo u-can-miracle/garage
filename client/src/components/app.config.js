@@ -27,11 +27,16 @@
             .state('main.login', {
                 url: 'login',
                 controller: 'loginController as vm',
-                templateUrl: 'components/login/login.html'
+                templateUrl: '/components/login/templates/login.html'
+            })
+            .state('main.confirm', {
+                url: 'confirm/:hash',
+                controller: 'loginController as vm',
+                templateUrl: '/components/login/templates/confirm.html'
             })
             .state('main.todos', {
                 url: 'todos',
-                templateUrl: 'components/todos/todos.html'
+                templateUrl: '/components/todos/todos.html'
             });
 
         $urlRouterProvider.otherwise('/login');

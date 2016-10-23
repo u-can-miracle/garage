@@ -148,14 +148,14 @@ gulp.task('inject', ['replace-bower-files', 'sass'], function() {
             read: false
         }), {
             ignorePath: 'src',
-            addRootSlash: false
+            addRootSlash: true
         }))
 
 	    .pipe(inject(gulp.src(jsLibsPath, {
 	        read: false
 	    }), {
 	        ignorePath: 'src',
-	        addRootSlash: false,
+	        addRootSlash: true,
 	        name: 'jsLibs'
 	    }))
 
@@ -163,7 +163,7 @@ gulp.task('inject', ['replace-bower-files', 'sass'], function() {
 	    	read: false
 	    }), {
 	    	ignorePath: 'src',
-	    	addRootSlash: false,
+	    	addRootSlash: true,
 	    	name: 'cssDependencies'
 	    }))
 
@@ -173,7 +173,7 @@ gulp.task('inject', ['replace-bower-files', 'sass'], function() {
             }).pipe(angularFilesort()), 
             {
 	            ignorePath: 'src',
-	            addRootSlash: false,
+	            addRootSlash: true,
 	            name: 'jsDependencies'
 	        }
 	    ))
@@ -184,7 +184,7 @@ gulp.task('inject', ['replace-bower-files', 'sass'], function() {
             }).pipe(angularFilesort()),
             {
                 ignorePath: 'src',
-                addRootSlash: false,
+                addRootSlash: true,
                 name: 'components'
             }
         ))

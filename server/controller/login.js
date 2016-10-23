@@ -1,5 +1,4 @@
 var nodemailer = require('nodemailer');
-var crypto = require('crypto');
 var q = require('q');
 
 var mongoose = require('mongoose');
@@ -10,7 +9,8 @@ var userModel = require('../model/user.js');
 module.exports = {
 	isUsernameExist: isUsernameExist,
 	isEmailExist: isEmailExist,
-	sendEmail: sendEmail
+	sendEmail: sendEmail,
+	getUserByHash: getUserByHash
 };
 
 function isUsernameExist(username){
@@ -25,8 +25,8 @@ function isEmailExist(email){
         });
 }
 
-function sendEmail(email, req, next){
-	var token = crypto.randomBytes(16).toString('hex');
+function sendEmail(email, hash, req, next){
+	
     var smtpTransport = nodemailer.createTransport("SMTP", {
         host: 'smtp.gmail.com',
         port: 465,
@@ -44,7 +44,7 @@ function sendEmail(email, req, next){
         subject: "Fullstack-js registration", // subject
         text: 'You are receiving this because you (or someone else) have registered at rubygarage-fullstack-js.heroku.com.\n\n' +
             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-            'http://' + req.headers.host + '/confirm/' + token + '\n\n' +
+            'http://' + req.headers.host + '/confirm/' + hash + '\n\n' +
             'If you did not request this, please ignore this email and your password will remain unchanged.\n'
     }, function (error, response) { //callback
         if (error) {
@@ -53,3 +53,8 @@ function sendEmail(email, req, next){
         smtpTransport.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
     });
 }
+
+function getUserByHash(hash){
+	return userModel.findOne({registrationKey: hash});
+}
+
