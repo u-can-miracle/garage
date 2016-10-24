@@ -1,5 +1,8 @@
 var express = require('express');
-var passport = require('passport');
+var session = require('express-session');
+var passport =require('passport');
+var crypto =require('crypto');
+var q = require('q');
 
 var userModel = require('../model/user.js');
 var loginCtrl = require('../controller/login.js');
@@ -29,28 +32,22 @@ loginRouter.post('/registration', function(req, res, next) {
         } else {
             console.log('result', result);
             user.registrationKey = hash;
-            return userModel.create(user); 
+            var newUser = {
+                local: {
+                    username: user.username,
+                    email: user.email,
+                    password: user.password,
+                    registrationKey: hash
+                }
+            };
+            return userModel.create(newUser); 
         }
     })
     .then(function(user){
-        console.log('user', user);
+        // console.log('user', user);
         if(user){
-            loginCtrl.sendEmail(user.email, hash, req, next);
-
-            userModel.register(new userModel({
-                username: req.body.username
-            }), req.body.password, function(err, account) {
-                if (err) {
-                    return res.render('index');
-                }
-
-                passport.authenticate('local')(req, res, function() {
-                    res.json(user);
-                });
-            });
-
-
-            // res.json(user);
+            loginCtrl.sendEmail(user.local.email, hash, req, next);
+            res.json(user);
         } 
     })
     .catch(function(err){
@@ -60,15 +57,58 @@ loginRouter.post('/registration', function(req, res, next) {
     });
 });
 
+loginRouter.get('/confirm/:hash', passport.authenticate('local-confirm-email'/*, {
+    successRedirect: 'todos',
+    failureRedirect: '/'
+}*/)/*, function(req, res, next){
+    console.log('/confirm/:hash');
+    req.render('index');
+}*/);
+// loginRouter.get('/confirm/:hash', function(req, res, next){
+//     req.query = req.params; // GET to POST simulator!
+//     passport.authenticate('local-confirm-email', function(err, user, info) {
+//         console.log(arguments);
+//         if (err) {
+//             console.log('Error info: ', info);
+//         } else if (!user) {
+//             console.log('User not found: ', info)
+//         } else {
+//             console.log('User activated')
+//         }
+//         res.redirect('/');
+//     })(req, res, next);
+// });
 
-loginRouter.get('/confirm/:hash', passport.authenticate('confirmRegistration', {
-    successRedirect: '/todos',
-    failureRedirect: '/login',
-    failureFlash: true
-}, function(){
-    console.log('confirmRegistration callback arguments', arguments);
-}), function(req, res, next){
-    console.log('render');
-    res.render('index');
-});
+// loginRouter.get('/confirm/:hash', function(req, res, next){
+//     var hash = req.params.hash;
+//     loginCtrl.getUserByHash(hash)
+//         .then(function(user){
+//             if(user){
+//                 console.log('user = ' , user);
+//                 console.log('user.username = ', user.username);
+//                 req.session.userName = user.username;
+//             }
+//             res.render('index');
+//         })
+//         .catch(function(err){
+//             console.log('err', err);
+//             res.render('index');
+//         });
+// });
 
+
+
+loginRouter.get('/auth/facebook',
+    passport.authenticate('facebook'), function(req, res, next){
+        console.log('fb');
+        res.render('index');
+    });
+
+loginRouter.get('/auth/facebook/callback',
+    passport.authenticate('facebook', {
+            failureRedirect: '/'
+        }),
+    function(req, res) {
+        console.log('fb cb');
+        res.redirect('/todos');
+    });

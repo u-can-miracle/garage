@@ -15,13 +15,13 @@ module.exports = {
 
 function isUsernameExist(username){
 	return userModel.findOne({
-            username: username
+            'local.username': username
         });
 }
 
 function isEmailExist(email){
 	return userModel.findOne({
-            email: email
+            'local.email': email
         });
 }
 
@@ -55,6 +55,7 @@ function sendEmail(email, hash, req, next){
 }
 
 function getUserByHash(hash){
-	return userModel.findOne({registrationKey: hash});
+	return userModel.findOne({'local.registrationKey': hash});
+    // return userModel.update({'local.registrationKey': hash}, {'local.registrationKey': ''});
 }
 

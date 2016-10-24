@@ -1,4 +1,5 @@
-var loginRouter = require('./login');
+var loginRouter = require('./login.js');
+var todosRouter = require('./todos.js');
 
 
 module.exports = function(app) {
@@ -7,6 +8,7 @@ module.exports = function(app) {
     });
 
     app.use('', loginRouter);
+    app.use('', todosRouter);
     
     app.get('*', function(req, res) {
     	// is autentificate res.redirect('/todos');
