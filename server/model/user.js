@@ -2,19 +2,19 @@ var mongoose = require('mongoose');
 var User;
 
 var userSchema = mongoose.Schema({
-	username: String,
-	password: String,
 	local: {
 	    username: {
-	        type: String,
-	        unique: true
+	        type: String
 	    },
 	    email: {
-	        type: String,
-	        unique: true
+	        type: String
 	    },
 	    password: String,
-	    registrationKey: String
+	    registrationKey: String,
+	    isUserConfirmedViaEmail: {
+	    	type: Boolean,
+	    	default: false
+	    }
 	},
     facebook: {
         id: String,

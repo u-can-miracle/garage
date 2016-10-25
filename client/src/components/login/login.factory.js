@@ -43,8 +43,6 @@
 			};
 			var defer = $q.defer();
 
-			console.log('regUser', regUser);
-
 			$http.post('/registration', regUser)
 				.then(function(response){
 					defer.resolve(response.data);
@@ -56,14 +54,14 @@
 		function login(username, password){
 			var loginUser = {username: username, password: password};
 			var defer = $q.defer();
+			console.log('loginUser', loginUser);
 			$http.post('/login', loginUser)
 				.then(function(response){
-					if(response.data.success === true){
+					console.log(response);
+					if(response.data.loginSuccess === true){
 						factory.setCurrentUser(response.data.user);
-						defer.resolve(true);
-					} else {
-						defer.resolve(false);
 					}					
+					defer.resolve(response.data);
 				});
 
 			return defer.promise;

@@ -1,0 +1,13 @@
+.bg-gradient{
+	background: #4f86bb; /* Old browsers */
+	background: -moz-linear-gradient(top,  #4f86bb 0%, #355ea1 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  #4f86bb 0%,#355ea1 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  #4f86bb 0%,#355ea1 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f86bb', endColorstr='#355ea1',GradientType=0 ); /* IE6-9 */
+}
+/***  Usage  ***/
+/*
+.article {
+    @extend .bg-gradient;
+}
+*/

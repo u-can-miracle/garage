@@ -5,13 +5,14 @@
 	  .module('login')
 	  .controller('loginController', loginController);
 
-	loginController.$inject = ['ngToast', 'loginFactory', 'factoryHelper'];
+	loginController.$inject = ['ngToast', 'loginFactory', 'factoryHelper', '$state'];
 
-	function loginController(ngToast, loginFactory, factoryHelper) {
+	function loginController(ngToast, loginFactory, factoryHelper, $state) {
 		var vm = this;
 
 		vm.userName;
 		vm.pass;
+		vm.loginError;
 
 		vm.reg = {};
 		vm.reg.userName;
@@ -71,14 +72,15 @@
 			loginFactory.registration(username, email, password)
 				.then(function(data){
 					console.log('reg data = ', data);
-					if(data.usernameAlreadyExist){
-						vm.reg.alreadyExist = 'This username already exist';
-					} else if(data.emailAlreadyExist){
-						vm.reg.alreadyExist = 'This email already exist';
-					} else {
+					if(data.successRegistered === true){
 						vm.reg.alreadyExist = null;
 	                    ngToast.success({
 	                        content: 'You are register successfully!'
+	                    });	
+					} else {
+						vm.reg.alreadyExist = data.message;
+	                    ngToast.warning({
+	                        content: vm.reg.alreadyExist
 	                    });						
 					}
 				});
@@ -87,14 +89,16 @@
 		function login(username, password){
 			loginFactory.login(username, password) 
 				.then(function(data){
-					if(data === true){
-						vm.isAuthenticated = loginFactory.isAuthenticated();
+					vm.loginError = '';
+					if(data.loginSuccess === true){
+						$state.go('main.todos');
 	                    ngToast.success({
 	                        content: 'You are logined successfully!'
 	                    });
 					} else {
+						vm.loginError = data.message;
 	                    ngToast.warning({
-	                        content: 'Username or password wrong'
+	                        content: vm.loginError
 	                    });
 					}
 				});

@@ -7,26 +7,35 @@ var userModel = require('../model/user.js');
 
 
 module.exports = {
-	isUsernameExist: isUsernameExist,
-	isEmailExist: isEmailExist,
-	sendEmail: sendEmail,
-	getUserByHash: getUserByHash
+	getUserByUsername: getUserByUsername,
+    getUserByPassword: getUserByPassword,
+    getUserByEmail: getUserByEmail,
+    sendEmail: sendEmail,
+	getUserByHash: getUserByHash,
+    updateUserEmailConfirmation: updateUserEmailConfirmation
 };
 
-function isUsernameExist(username){
+function getUserByUsername(username){
 	return userModel.findOne({
             'local.username': username
         });
 }
 
-function isEmailExist(email){
+function getUserByEmail(email){
 	return userModel.findOne({
             'local.email': email
         });
 }
 
+function getUserByPassword(pass){
+    return userModel.findOne({'local.password': pass});
+}
+
+function getUserByHash(hash){
+    return userModel.findOne({'local.registrationKey': hash});
+}
+
 function sendEmail(email, hash, req, next){
-	
     var smtpTransport = nodemailer.createTransport("SMTP", {
         host: 'smtp.gmail.com',
         port: 465,
@@ -42,10 +51,11 @@ function sendEmail(email, hash, req, next){
         from: "FullStack-js mailer <rubygarag@gmail.com>", // sender address.  Must be the same as authenticated user if using Gmail.
         to: email, // receiver
         subject: "Fullstack-js registration", // subject
+        // text: 'You have registered at rubygarage-fullstack-js.heroku.com.\n\n'
         text: 'You are receiving this because you (or someone else) have registered at rubygarage-fullstack-js.heroku.com.\n\n' +
             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
             'http://' + req.headers.host + '/confirm/' + hash + '\n\n' +
-            'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+            'If you did not request this, please ignore this email and your password will remain unchanged.\n'            
     }, function (error, response) { //callback
         if (error) {
             console.log('error', error);
@@ -54,8 +64,17 @@ function sendEmail(email, hash, req, next){
     });
 }
 
-function getUserByHash(hash){
-	return userModel.findOne({'local.registrationKey': hash});
-    // return userModel.update({'local.registrationKey': hash}, {'local.registrationKey': ''});
+function updateUserEmailConfirmation(hash){
+    return userModel.findOneAndUpdate({'local.registrationKey': hash})
+        .then(function(user){
+            user.local.isUserConfirmedViaEmail = true;
+            user.local.registrationKey = '';
+            user.save();
+            return user;
+        })
+        .catch(function(err){
+            console.log('updateUserEmailConfirmation err', err);
+            return err;
+        });
 }
 

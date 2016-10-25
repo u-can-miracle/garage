@@ -11,26 +11,66 @@ var loginRouter = express.Router();
 
 module.exports = loginRouter;
 
+loginRouter.post('/login', function(req, res, next) {
+        q.all([
+            loginCtrl.getUserByUsername(req.body.username), 
+            loginCtrl.getUserByPassword(req.body.password)
+        ])
+        .then(function(result){
+            var userByUsername = result[0];
+            var userByPassword = result[1];
+            if(!userByUsername || !userByPassword){
+                res.json({
+                    loginSuccess: false,
+                    message: 'Username or password is wrong'
+                });   
+            } else if(userByUsername.local.isUserConfirmedViaEmail === false){// not confirmed
+                res.json({
+                    loginSuccess: false,
+                    message: 'Chech your email and confirm your account'
+                });
+            } else{
+                next()
+            }
+        })
+        .catch(function(err){
+            console.log('/login err', err);
+            next(err);
+        })
+    },
+    passport.authenticate('login', {
+        failureRedirect: '/'
+    }),
+    function(req, res, next) {
+        res.json({
+            loginSuccess: true,
+            user: req.user
+        });
+    });
 
 loginRouter.post('/registration', function(req, res, next) {
     var hash = crypto.randomBytes(16).toString('hex');
     var user = req.body;
 
     q.all([
-        loginCtrl.isUsernameExist(user.username),
-        loginCtrl.isEmailExist(user.email)        
+        loginCtrl.getUserByUsername(user.username),
+        loginCtrl.getUserByEmail(user.email)        
     ])
     .then(function(result){
         var isUsernameExist = result[0];
         var isEmailExist = result[1];
+
         if(isUsernameExist){
-            console.log('usernameAlreadyExist');
-            res.json({usernameAlreadyExist: true});  
+            res.json({
+                successRegistered: false,
+                message: 'This username already exist'
+            });
         } else if(isEmailExist){
-            console.log('emailAlreadyExist');
-            res.json({emailAlreadyExist: true});
+            res.json({
+                successRegistered: false,
+                message: 'This email already exist'
+            });
         } else {
-            console.log('result', result);
             user.registrationKey = hash;
             var newUser = {
                 local: {
@@ -44,10 +84,12 @@ loginRouter.post('/registration', function(req, res, next) {
         }
     })
     .then(function(user){
-        // console.log('user', user);
         if(user){
             loginCtrl.sendEmail(user.local.email, hash, req, next);
-            res.json(user);
+            res.json({
+                successRegistered: true,
+                user: user
+            });
         } 
     })
     .catch(function(err){
@@ -57,50 +99,22 @@ loginRouter.post('/registration', function(req, res, next) {
     });
 });
 
-loginRouter.get('/confirm/:hash', passport.authenticate('local-confirm-email'/*, {
-    successRedirect: 'todos',
-    failureRedirect: '/'
-}*/)/*, function(req, res, next){
-    console.log('/confirm/:hash');
-    req.render('index');
-}*/);
-// loginRouter.get('/confirm/:hash', function(req, res, next){
-//     req.query = req.params; // GET to POST simulator!
-//     passport.authenticate('local-confirm-email', function(err, user, info) {
-//         console.log(arguments);
-//         if (err) {
-//             console.log('Error info: ', info);
-//         } else if (!user) {
-//             console.log('User not found: ', info)
-//         } else {
-//             console.log('User activated')
-//         }
-//         res.redirect('/');
-//     })(req, res, next);
-// });
-
-// loginRouter.get('/confirm/:hash', function(req, res, next){
-//     var hash = req.params.hash;
-//     loginCtrl.getUserByHash(hash)
-//         .then(function(user){
-//             if(user){
-//                 console.log('user = ' , user);
-//                 console.log('user.username = ', user.username);
-//                 req.session.userName = user.username;
-//             }
-//             res.render('index');
-//         })
-//         .catch(function(err){
-//             console.log('err', err);
-//             res.render('index');
-//         });
-// });
-
+loginRouter.get('/confirm/:hash', function(req, res, next) {
+        //http://stackoverflow.com/questions/39787623/passport-js-with-get-method
+        //https://github.com/jaredhanson/passport-local/blob/master/lib/strategy.js#L71
+        req.query = req.params; // GET to POST hack! 
+        next();
+    },
+    passport.authenticate('local-confirm-email', {
+        failureRedirect: '/'
+    }),
+    function(req, res, next) {
+        res.render('index');
+    });
 
 
 loginRouter.get('/auth/facebook',
     passport.authenticate('facebook'), function(req, res, next){
-        console.log('fb');
         res.render('index');
     });
 
@@ -109,6 +123,6 @@ loginRouter.get('/auth/facebook/callback',
             failureRedirect: '/'
         }),
     function(req, res) {
-        console.log('fb cb');
         res.redirect('/todos');
     });
+

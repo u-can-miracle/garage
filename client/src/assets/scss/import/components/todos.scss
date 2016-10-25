@@ -1,0 +1,39 @@
+.todo-list{
+	max-width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	@extend .bg-gradient;
+	.todo-list-header{
+		position: relative;
+		padding-top: 15px;
+		padding-bottom: 12px;
+		padding-left: 52px;
+		padding-right: 10px;
+		color: $overlay-color;
+		.fa-calendar{
+			position: absolute;
+			left: 14px;
+			top: 12px;
+			color: $four-color;
+		}
+		span{
+
+		}
+		.control-btns-wrapper{
+			position: absolute;
+			right: 10px;
+			top: 12px;
+			.control-btn{
+				padding-right: 10px;
+				padding-left: 10px;
+				border-right: 1px solid $thirty-color;
+				&:last-child{
+					border-right: none;
+				}
+			}
+			.fa{
+				color: $thirty-color;
+			}
+		}
+	}
+}

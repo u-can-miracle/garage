@@ -4,12 +4,14 @@
 @import 'meta/extends';
 
 @import 'import/import-bootstrap';
+@import '../../../bower_components/font-awesome/scss/font-awesome';
 
 @import 'import/main_style';
 
 
 @import 'import/components/toastr';
 @import 'import/components/login';
+@import 'import/components/todos';
 
 
 @import 'import/media';
