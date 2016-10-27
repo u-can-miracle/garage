@@ -5,9 +5,9 @@
 	  .module('login')
 	  .factory('loginFactory', loginFactory);
 
-	loginFactory.$inject = ['$http', 'ngToast', '$q'];
+	loginFactory.$inject = ['$http', '$q'];
 
-	function loginFactory($http, ngToast, $q) {
+	function loginFactory($http, $q) {
 		var factory = {
 			setCurrentUser: setCurrentUser,
 			getCurrentUser: getCurrentUser,
@@ -41,6 +41,7 @@
 				email: email,
 				password: password
 			};
+
 			var defer = $q.defer();
 
 			$http.post('/registration', regUser)
@@ -48,19 +49,15 @@
 					defer.resolve(response.data);
 				});
 
-			return defer.promise;	
+			return defer.promise;
 		}
 
 		function login(username, password){
 			var loginUser = {username: username, password: password};
 			var defer = $q.defer();
-			console.log('loginUser', loginUser);
+			
 			$http.post('/login', loginUser)
-				.then(function(response){
-					console.log(response);
-					if(response.data.loginSuccess === true){
-						factory.setCurrentUser(response.data.user);
-					}					
+				.then(function(response){		
 					defer.resolve(response.data);
 				});
 

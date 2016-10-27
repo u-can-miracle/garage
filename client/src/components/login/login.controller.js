@@ -34,7 +34,6 @@
 
 		vm.login = login;
 		vm.registration = registration;
-		vm.isAuthenticated = loginFactory.isAuthenticated();
 
 
 
@@ -46,40 +45,39 @@
         }	
 
         function clearwhitespaceUsername(){
-        	vm.userName = clearWhitespace(vm.userName);
+        	vm.userName = vm.clearWhitespace(vm.userName);
         }
         function clearwhitespacePass(){
-        	vm.pass = clearWhitespace(vm.pass);
+        	vm.pass = vm.clearWhitespace(vm.pass);
         }        
 
         function clearwhitespaceRegUsername(){
-        	vm.reg.userName = clearWhitespace(vm.reg.userName);
+        	vm.reg.userName = vm.clearWhitespace(vm.reg.userName);
         }
         function clearWhitespaceRegEmail(){
-        	vm.reg.email = clearWhitespace(vm.reg.email);
+        	vm.reg.email = vm.clearWhitespace(vm.reg.email);
         }	
         function clearWhitespaceRegPass(){
-        	vm.reg.password = clearWhitespace(vm.reg.password);
+        	vm.reg.password = vm.clearWhitespace(vm.reg.password);
         }	
         function clearWhitespaceRegConfirm(){
-        	vm.reg.confirmPassword = clearWhitespace(vm.reg.confirmPassword);
+        	vm.reg.confirmPassword = vm.clearWhitespace(vm.reg.confirmPassword);
         }	                
 
 
         
         // Registration
 		function registration(username, email, password){
-			loginFactory.registration(username, email, password)
+			return loginFactory.registration(username, email, password)
 				.then(function(data){
-					console.log('reg data = ', data);
 					if(data.successRegistered === true){
 						vm.reg.alreadyExist = null;
-	                    ngToast.success({
+	                    return ngToast.success({
 	                        content: 'You are register successfully!'
 	                    });	
 					} else {
 						vm.reg.alreadyExist = data.message;
-	                    ngToast.warning({
+	                    return ngToast.warning({
 	                        content: vm.reg.alreadyExist
 	                    });						
 					}
@@ -87,17 +85,17 @@
 		}
 
 		function login(username, password){
-			loginFactory.login(username, password) 
+			return loginFactory.login(username, password) 
 				.then(function(data){
 					vm.loginError = '';
 					if(data.loginSuccess === true){
 						$state.go('main.todos');
-	                    ngToast.success({
+	                    return ngToast.success({
 	                        content: 'You are logined successfully!'
 	                    });
 					} else {
 						vm.loginError = data.message;
-	                    ngToast.warning({
+	                    return ngToast.warning({
 	                        content: vm.loginError
 	                    });
 					}

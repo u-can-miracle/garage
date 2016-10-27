@@ -9,65 +9,45 @@ module.exports = function(config) {
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ['jasmine'],
-
+        frameworks: ['jasmine', 'sinon'/*, 'bard'*/],
 
         // list of files / patterns to load in the browser
         files: [
             // libs:js
-              ".//src/dependencies/js/jquery.js",
-              ".//src/dependencies/js/angular.js",
-            // endinject
+                ".//src/dependencies/js/jquery.js",
+                ".//src/dependencies/js/angular.js",
+                ".//src/dependencies/js/bootstrap.js",
+              // endinject
 
             // dependencies:js
-              "./src/dependencies/js/bootstrap.js",
-              "./src/dependencies/js/angular-ui-router.js",
-            // endinject
+                "./src/dependencies/js/ngToast.js",
+                "./src/dependencies/js/angular-ui-router.js",
+                "./src/dependencies/js/angular-sanitize.js",
+                "./src/dependencies/js/angular-messages.js",
+                "./src/dependencies/js/angular-material.js",
+                "./src/dependencies/js/angular-aria.js",
+                "./src/dependencies/js/angular-animate.js",
+              // endinject
 
             // testHelpers:js
-              "./bower_components/angular-mocks/angular-mocks.js",
-            // endinject              
+                "./bower_components/angular-mocks/angular-mocks.js",
+              // endinject              
 
             // components:js
-              "./src/components/login/login.module.js",
-              "./src/components/login/login.service.js",
-              "./src/components/login/login.controller.js",
-              "./src/components/app.module.js",
-              "./src/components/app.route.js",
-            // endinject
+                "./src/components/login/login.module.js",
+                "./src/components/login/login.factory.js",
+                "./src/components/login/login.controller.js",
+                "./src/components/app.module.js",
+                "./src/components/app.run.js",
+                "./src/components/app.factory.helper.js",
+                "./src/components/app.controller.js",
+                "./src/components/app.config.js",
+              // endinject
 
             // test:js
-              "./src/components/login/login.controller.spec.js"
-            // endinject            
-
-
-
-// -----------------
-
-            // 'bower_components/jquery/dist/jquery.js',
-            // 'bower_components/angular/angular.js',
-            // 'bower_components/angular-mocks/angular-mocks.js',
-            // 'bower_components/angular-route/angular-route.js',
-
-            // 'src/components/**/*.js'
-
-// -----------------
-
-            // 'src/components/**/*.spec.js',
-            /*
-            'src/components/product/product.module.js',
-            'src/components/product/singleProduct.controller.js',
-            'src/components/product/product.controller.js',
-            'src/components/login/login.module.js',
-            'src/components/login/register.controller.js',
-            'src/components/login/login.controller.js',
-            'src/components/dataService/dataRequest.module.js',
-            'src/components/dataService/dataStorageHandler.factory.js',
-            'src/components/dataService/data.storage.service.js',
-            'src/components/app.module.js',
-            'src/components/app.run.js',
-            'src/components/app.route.js',
-            'src/components/app.controller.js'*/
+                "./src/components/login/login.factory.spec.js",
+                "./src/components/login/login.controller.spec.js"
+              // endinject            
         ],
 
 
@@ -105,7 +85,8 @@ module.exports = function(config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['Chrome'],
+        // browsers: ['Chrome'],
+        browsers: ['PhantomJS'],
 
 
         // Continuous Integration mode
