@@ -13,7 +13,6 @@ module.exports = function(app) {
     app.get('*', function(req, res) {
     	// is autentificate res.redirect('/todos');
     	// else 
-    	console.log('*');
         res.redirect('/');
     });
 };

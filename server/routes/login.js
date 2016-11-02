@@ -42,6 +42,7 @@ loginRouter.post('/login', function(req, res, next) {
         failureRedirect: '/'
     }),
     function(req, res, next) {
+        // console.log('login req', req.user); // authenticate user
         res.json({
             loginSuccess: true,
             user: req.user
@@ -80,6 +81,7 @@ loginRouter.post('/registration', function(req, res, next) {
                     registrationKey: hash
                 }
             };
+            console.log('app: ', Object.keys(userModel.create));
             return userModel.create(newUser); 
         }
     })
