@@ -1,10 +1,14 @@
 describe('loginRouter: ', function() {
+    var q = require('q');
+
     var app = require('../../server.js');
 
     var chai = require('chai');
     var expect = chai.expect;
 
     var mockery = require('mockery');
+    var mock = require('mock-require');
+
     var supertest = require('supertest');
     var sinon = require('sinon');
 	var mongooseMock = require('mongoose-mock');
@@ -12,15 +16,68 @@ describe('loginRouter: ', function() {
 
 
     before(function() {
-        mockery.enable({
-            warnOnReplace: false,
-            warnOnUnregistered: false,
-            useCleanCache: true
-        });
+        // mockery.enable({
+        //     warnOnReplace: false,
+        //     warnOnUnregistered: false,
+        //     useCleanCache: true
+        // });
+        /*
+        (function(){
+            mockery.registerMock( '../model/user.js', { create: function() {
+              console.log('mock, ../model/user.js');
+              return q.when('mocked data');
+            }});
+
+            mockery.registerMock( '../model/user', { create: function() {
+              console.log('mock, ../model/user');
+              return q.when('mocked data');
+            }});
+
+            mockery.registerMock( './model/user.js', { create: function() {
+              console.log('mock, ./model/user.js');
+              return q.when('mocked data');
+            }});
+
+            mockery.registerMock( './model/user', { create: function() {
+              console.log('mock, ./model/user');
+              return q.when('mocked data');
+            }});        
+
+            mockery.registerMock( 'model/user.js', { create: function() {
+              console.log('mock, model/user.js');
+              return q.when('mocked data');
+            }});
+
+            mockery.registerMock( 'model/user', { create: function() {
+              console.log('mock, model/user');
+              return q.when('mocked data');
+            }});        
+
+            mockery.registerMock( '../user.js', { create: function() {
+              console.log('mock, ../user.js');
+              return q.when('mocked data');
+            }});
+
+            mockery.registerMock( '../user', { create: function() {
+              console.log('mock, ../user');
+              return q.when('mocked data');
+            }});        
+
+            mockery.registerMock( 'user.js', { create: function() {
+              console.log('mock, user.js');
+              return q.when('mocked data');
+            }}); 
+
+            mockery.registerMock( 'user', { create: function() {
+              console.log('mock, user');
+              return q.when('mocked data');
+            }});                                            
+        })();  
+        */                                
     });
 
     after(function() {
-    	mockery.disable();
+    	// mockery.disable();
     });
 
 
@@ -78,7 +135,7 @@ describe('loginRouter: ', function() {
 	    });	    
     });
 
-    describe.only('/registration', function(){
+    describe('/registration', function(){
     	var super_test;
 
     	beforeEach(function(){
@@ -94,13 +151,13 @@ describe('loginRouter: ', function() {
     	
 
 
-        it.only('should respond with success for registration not existing user', function(done){
-        	super_test
+        it('should respond with success for registration not existing user', function(done){
+            super_test
         		.send('{"username": "newdUser", "email": "newuser@gmail.com", "password": "pass1"}')
         		.expect(200)
         		.end(function(err, res){
         			console.log(res.body);
-        			expect(res.body.successRegistered).to.be.true;
+        			// expect(res.body.successRegistered).to.be.true;
 					done();
         		});
         });	
@@ -108,7 +165,6 @@ describe('loginRouter: ', function() {
         it('should send email for new registered user with right address', function(done){
         	var loginCtrl = require('../controller/login.js');
         	var sendEmailStub = sinon.stub(loginCtrl, 'sendEmail');
-
 
         	super_test
         		.send('{"username": "newdUser", "email": "newuser@gmail.com", "password": "pass1"}')
@@ -123,19 +179,25 @@ describe('loginRouter: ', function() {
         });	
 
 
-        it.skip('should create new user model after registration not existing user with right data', function(done){
-            var userModelMock = {
-                create: sinon.stub()
+        it.only('should create new user model after registration not existing user with right data', function(done){
+            var mailerStub = {
+                create: function() {
+                    console.log('Stubed');
+                },
+                '@global': true
             };
-            mockery.registerMock('../model/user.js', userModelMock);
+            var loginRouter = proxyquire('./login', {
+                '../controller/login.js': mailerStub
+            });
 
-        	super_test
-        		.send('{"username": "sdgshehedh", "email": "nesdfhser@gmail.com13", "password": "pass1"}')
+            super_test
+        		.send('{"username": "newuser", "email": "nesdfhser@gmail.com13", "password": "pass1"}')
         		.expect(200)
         		.end(function(err, res){
-        			console.log('userModelMock.create.callCount', userModelMock.create.callCount);
+                    console.log('mailerStub.create.callCount', mailerStub.create.callCount);
 					done();
         		});        	
         });
     });
+    
 });

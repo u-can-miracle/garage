@@ -63,19 +63,19 @@ loginRouter.post('/registration', function(req, res, next) {
         var isUsernameExist = result[0];
         var isEmailExist = result[1];
 
-        if(isUsernameExist){
-            console.log('if');
-            res.json({
-                successRegistered: false,
-                message: 'This username already exist'
-            });
-        } else if(isEmailExist){
-            console.log('else if');
-            res.json({
-                successRegistered: false,
-                message: 'This email already exist'
-            });
-        } else {
+        // if(isUsernameExist){
+        //     console.log('if');
+        //     res.json({
+        //         successRegistered: false,
+        //         message: 'This username already exist'
+        //     });
+        // } else if(isEmailExist){
+        //     console.log('else if');
+        //     res.json({
+        //         successRegistered: false,
+        //         message: 'This email already exist'
+        //     });
+        // } else {
             console.log('else');
             user.registrationKey = hash;
             var newUser = {
@@ -86,9 +86,14 @@ loginRouter.post('/registration', function(req, res, next) {
                     registrationKey: hash
                 }
             };
-
-            console.log('app ', String(userModel.create));
-            return userModel.create(newUser); 
+            var newUserModel = new userModel(newUser);
+            newUserModel.save(function(){
+                console.log('arguments.length', arguments.length);
+                return q.when('data');
+            })
+            // console.log('app: ', Object.keys(userModel.create));
+            // return userModel.create(newUser); 
+            // return q.when('data');
             /*
             userModel.create(newUser, function(err, user){
                 if (err) {
@@ -98,12 +103,12 @@ loginRouter.post('/registration', function(req, res, next) {
                 }
             }); 
             */
-        }
+        // }
     })
     .then(function(user){
         console.log('sendEmail user', user);
         if(user){
-            loginCtrl.sendEmail(user.local.email, hash, req, next);
+            // loginCtrl.sendEmail(user.local.email, hash, req, next);
             res.json({
                 successRegistered: true,
                 user: user
