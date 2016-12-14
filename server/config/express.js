@@ -5,13 +5,13 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
 
-var userModel = require('../model/user.js');
 var passportConfig = require('./passport.js');
 
-var expressConfig = function(app){
+
+module.exports = function expressConfig(app){
     app.set('view engine', 'ejs');
     app.set('views', './client/src');
-    app.use(express.static(path.resolve(__dirname, 'client/src')));
+    app.use(express.static('/client/src'));
 
     app.use( bodyParser.json() );
     app.use( bodyParser.urlencoded({
@@ -32,4 +32,4 @@ var expressConfig = function(app){
 };
 
 
-module.exports = expressConfig;
+

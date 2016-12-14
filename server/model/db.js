@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var User = require('./user');
 var env = process.env.NODE_ENV || 'development';
 var config = require('../config/config.js')[env];
 
