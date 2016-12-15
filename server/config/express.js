@@ -9,7 +9,7 @@ var session = require('express-session');
 module.exports = function expressConfig(app){
     app.set('view engine', 'ejs');
     app.set('views', './client/src');
-    app.use(express.static('/client/src'));
+    app.use(express.static('client/src'));
 
     app.use( bodyParser.json() );
     app.use( bodyParser.urlencoded({
