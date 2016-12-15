@@ -5,8 +5,6 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
 
-var passportConfig = require('./passport.js');
-
 
 module.exports = function expressConfig(app){
     app.set('view engine', 'ejs');
@@ -27,9 +25,4 @@ module.exports = function expressConfig(app){
         resave: true,
         saveUninitialized: true
     }));
-
-    passportConfig(app);
 };
-
-
-

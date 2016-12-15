@@ -8,6 +8,7 @@ var db = require('./server/model/db'); // mongo init
 var routes = require('./server/routes/routes.js');
 
 require('./server/config/express.js')(app); 
+require('./server/config/passport.js')(app);
 
 
 
