@@ -5,7 +5,12 @@ describe('loginRouter: ', function() {
     var expect = chai.expect;
     var sinon = require('sinon');
 
-    var passport =require('passport');
+
+    // Stub passport before usage in app
+    var passport = require('passport');
+    var passStub = sinon.stub(passport, 'authenticate');
+    passStub.returns(function(req, res, next){ next() });
+
 
 
     var app = require('../../server.js');
@@ -17,29 +22,17 @@ describe('loginRouter: ', function() {
         chai.use(chaiHttp);
     });
 
-    after(function() {
-
-    });
-
-
-    beforeEach(function() {
-
-    });
-
-
-    afterEach(function() {
-
-    });
-
 
 
     /***************  Tests  ***************/
     /**************************************/
 
     describe('/login ', function() {
-        var user
+        var user;
+        var stubByName;
+        var stubByPass;
+
         beforeEach(function() {
-            console.log('beforeEach');
             user = {
                 local: {
                     username: 'username',
@@ -54,30 +47,73 @@ describe('loginRouter: ', function() {
                     name: 'fbName'
                 }
             };
+
+            stubByName = sinon.stub(loginCtrl, "getUserByUsername");
+            stubByPass = sinon.stub(loginCtrl, "getUserByPassword");
         });
 
-        it('should set user session with right user data', function(done) {
-            console.log('it');
-            var stubByName = sinon.stub(loginCtrl, "getUserByUsername");
-            var stubByPass = sinon.stub(loginCtrl, "getUserByPassword");
-            var passportStub = sinon.stub(passport, 'authenticate');
+        afterEach(function(){
+          stubByName.restore();
+          stubByPass.restore();
+        });
 
-            stubByName.returns(q.when(user));
-            stubByPass.returns(q.when(user));
-            passportStub.returns(function(req, res, next) { console.log('stb'); next(); });
-            // passportStub.yields(new Error('fails here'));
 
+        /***  Unit Tests  ***/
+
+        it('should return {successRegistered: true} with right user data', function(done) {
+          stubByName.returns(q.when(user));
+          stubByPass.returns(q.when(user));
+
+          chai.request(app)
+            .post('/login')
+            .send(user)
+            .end(function(req, res) {
+              expect(res.body.loginSuccess).to.be.true;
+              done();
+            });
+        });
+
+        it('should return {successRegistered: false} without user name', function(done) {
+          stubByName.returns(q.when(null));
+          stubByPass.returns(q.when(user));
 
             chai.request(app)
                 .post('/login')
                 .send(user)
                 .end(function(req, res) {
-                    expect(1).to.equal(1);
-
-                    stubByName.restore();
-                    stubByPass.restore();
-                    done();
+                  expect(res.body.loginSuccess).to.be.false;
+                  expect(res.body.message).to.be.equal('Username or password is wrong');
+                  done();
                 });
+        });
+
+        it('should return {successRegistered: false} without user password', function(done) {
+          stubByName.returns(q.when(user));
+          stubByPass.returns(q.when(null));
+
+            chai.request(app)
+                .post('/login')
+                .send(user)
+                .end(function(req, res) {
+                  expect(res.body.loginSuccess).to.be.false;
+                  expect(res.body.message).to.be.equal('Username or password is wrong');
+                  done();
+                });
+        });
+
+        it('should return right response to not confirmed user', function(done){
+          user.local.isUserConfirmedViaEmail = false;
+          stubByName.returns(q.when(user));
+          stubByPass.returns(q.when(user));
+
+          chai.request(app)
+            .post('/login')
+            .send(user)
+            .end(function(erq, res){
+              expect(res.body.loginSuccess).to.be.false;
+              expect(res.body.message).to.be.equal('Chech your email and confirm your account');
+              done();
+            });
         });
     });
 });
