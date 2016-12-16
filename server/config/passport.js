@@ -9,6 +9,7 @@ var loginCtrl = require('../controller/login.js');
 var UserModel = require('../model/user.js');
 
 module.exports = function(app) {
+	console.log('login');
 	passport.use('login', new localStrategy({
 		usernameField: 'username',
 		passwordField: 'password',

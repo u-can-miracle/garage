@@ -12,6 +12,8 @@ var loginRouter = express.Router();
 module.exports = loginRouter;
 
 loginRouter.post('/login', function(req, res, next) {
+    console.log('req.body', req.body);
+
         q.all([
             loginCtrl.getUserByUsername(req.body.username), 
             loginCtrl.getUserByPassword(req.body.password)
@@ -30,6 +32,7 @@ loginRouter.post('/login', function(req, res, next) {
                     message: 'Chech your email and confirm your account'
                 });
             } else{
+                console.log('next');
                 next()
             }
         })
@@ -38,10 +41,15 @@ loginRouter.post('/login', function(req, res, next) {
             next(err);
         })
     },
-    passport.authenticate('login', {
-        failureRedirect: '/'
-    }),
+    // passport.authenticate('login', {
+    //     failureRedirect: '/'
+    // }),
+    function(req, res, next){
+        console.log('middleware');
+        next();
+    },
     function(req, res, next) {
+        console.log('here');
         // console.log('login req', req.user); // authenticate user
         res.json({
             loginSuccess: true,

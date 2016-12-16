@@ -17,6 +17,7 @@
     "angular-mocks": "^1.5.7",
     "bardjs": "^0.1.8",
     "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-angular-filesort": "^1.1.1",
     "gulp-filter": "^4.0.0",
