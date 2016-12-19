@@ -97,7 +97,6 @@ function fbLoginMiddleware(accessToken, refreshToken, profile, cb) {
 						.catch(function(err){
 							console.log('err', err);
 						});
-						console.log('after');
 				} else {
 					return cb(null, user);
 				}

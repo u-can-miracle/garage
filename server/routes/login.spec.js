@@ -68,6 +68,7 @@ describe('loginRouter: ', function() {
             .post('/login')
             .send(user)
             .end(function(req, res) {
+
               expect(res.body.loginSuccess).to.be.true;
               done();
             });
@@ -81,6 +82,7 @@ describe('loginRouter: ', function() {
                 .post('/login')
                 .send(user)
                 .end(function(req, res) {
+
                   expect(res.body.loginSuccess).to.be.false;
                   expect(res.body.message).to.be.equal('Username or password is wrong');
                   done();
@@ -95,6 +97,7 @@ describe('loginRouter: ', function() {
                 .post('/login')
                 .send(user)
                 .end(function(req, res) {
+
                   expect(res.body.loginSuccess).to.be.false;
                   expect(res.body.message).to.be.equal('Username or password is wrong');
                   done();
@@ -110,6 +113,7 @@ describe('loginRouter: ', function() {
             .post('/login')
             .send(user)
             .end(function(erq, res){
+              
               expect(res.body.loginSuccess).to.be.false;
               expect(res.body.message).to.be.equal('Chech your email and confirm your account');
               done();

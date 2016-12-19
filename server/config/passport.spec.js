@@ -57,6 +57,7 @@ describe('passport middleware testing: ', function(){
 
       passportLogin('req', 'username', 'password', cbSpy)
         .then(function(){
+          
           expect(cbSpy.calledWithExactly(null, user)).to.be.true;
           done();
         });
@@ -68,6 +69,7 @@ describe('passport middleware testing: ', function(){
 
       passportLogin('req', 'username', 'password', cbSpy)
         .then(function(){
+
           expect(cbSpy.calledWithExactly(null, false)).to.be.true;
           done();
         });
@@ -97,6 +99,7 @@ describe('passport middleware testing: ', function(){
 
       localConfirmEmailMiddleware(hash, hash, cbSpy)
         .then(function(){
+
           expect(cbSpy.calledWithExactly(null, user)).to.be.true;
           expect(stubUpdateConfirm.calledWithExactly(hash)).to.be.true
           done();
@@ -108,6 +111,7 @@ describe('passport middleware testing: ', function(){
 
       localConfirmEmailMiddleware(hash, hash, cbSpy)
         .then(function(){
+
           expect(cbSpy.calledWithExactly(null, false)).to.be.true;
           done();
         });
