@@ -64,7 +64,7 @@ function loginHandleMiiddleware(req, username, password, cb){
 }
 
 function localConfirmEmailMiddleware(hash, sameHash, cb){
-	return process.nextTick(function(){
+	// return process.nextTick(function(){
 		return loginCtrl.getUserByHash(hash)
 			.then(function(user){
 				if(!user){
@@ -76,29 +76,28 @@ function localConfirmEmailMiddleware(hash, sameHash, cb){
 			.catch(function(err){
 				console.log('local-confirm-email err', err);
 			});
-	});
+	// });
 }
 
 function fbLoginMiddleware(accessToken, refreshToken, profile, cb) {
-	return process.nextTick(function(){
+	// return process.nextTick(function(){
 		return UserModel.findOne({'facebook.id': profile.id})
 			.then(function(user){
-				console.log('facebook.id user', user);
-
 				if(!user){
 					var newUser = {};
-					newUser['facebook'] = {};
+					newUser.facebook = {};
 					newUser.facebook.id = profile.id;
 					newUser.facebook.name = profile.displayName;
 					newUser.facebook.accessToken = accessToken;
-					UserModel.create(newUser, function(err){
-						if(err){
+
+					return q.resolve(UserModel.create(newUser))
+						.then(function(newUser){
+							cb(null, newUser);
+						})
+						.catch(function(err){
 							console.log('err', err);
-						} else {
-							console.log('newUser', newUser);
-							return cb(null, newUser);
-						}
-					})
+						});
+						console.log('after');
 				} else {
 					return cb(null, user);
 				}
@@ -106,5 +105,5 @@ function fbLoginMiddleware(accessToken, refreshToken, profile, cb) {
 			.catch(function(err){
 				console.log('err', err);
 			});
-	});
+	// });
 }

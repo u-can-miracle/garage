@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var User;
 
+mongoose.Promise = require('q').Promise;
+
 var userSchema = mongoose.Schema({
 	local: {
 	    username: {
