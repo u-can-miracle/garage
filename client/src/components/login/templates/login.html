@@ -3,7 +3,7 @@
     <md-tabs md-dynamic-height md-border-bottom>
       <md-tab label="Login">
         <md-content class="md-padding">
-          	<form name="vm.loginForm" ng-submit="vm.login(vm.userName, vm.pass)" autocomplete="off">
+          	<form name="vm.loginForm" ng-submit="vm.login(vm.userName, vm.pass)" autocomplete="off" class="login-form">
 				<input style="display:none" type="text" name="fakename">
 				<input style="display:none" type="password" name="fakepass">
 				<div class="form-group"
@@ -48,7 +48,7 @@
 				<div class="text-warning" ng-show="vm.loginError" ng-bind="vm.loginError"></div>
 				<button type="submit" class="btn btn-default">Submit</button>
 			</form>
-			<form action="/auth/facebook" method="GET">
+			<form action="/auth/facebook" method="GET" class="fb-form">
 				<input type="submit" value="Facebook" class="btn btn-primary">
 			</form>
         </md-content>

@@ -2,18 +2,18 @@
 	max-width: 700px;
 	margin-left: auto;
 	margin-right: auto;
-	@extend .bg-gradient;
 	.todo-list-header{
 		position: relative;
-		padding-top: 15px;
+		padding-top: 14px;
 		padding-bottom: 12px;
 		padding-left: 52px;
-		padding-right: 10px;
+		padding-right: 80px;
 		color: $overlay-color;
+		@extend .bg-gradient;		
 		.fa-calendar{
 			position: absolute;
-			left: 14px;
-			top: 12px;
+		    left: 15px;
+		    top: 15px;
 			color: $four-color;
 		}
 		span{
@@ -30,10 +30,54 @@
 				&:last-child{
 					border-right: none;
 				}
+				&.edit{
+					float: left;
+				}
+				&.remove{
+					float: right;
+				}
 			}
 			.fa{
 				color: $thirty-color;
 			}
 		}
+	}
+
+	.todo-list-input{
+		padding: 10px 10px 10px 52px;
+		background-color: #ececec;
+		.input-table{
+			width: 100%;
+			display: table;
+			.input-wrapper{
+				display: table-cell;
+				input{
+					width: 100%;
+					height: 33px;
+					padding-left: 12px;
+					border: 1px solid #666;
+					border-top-left-radius: 2px;
+					border-bottom-left-radius: 2px;
+					border-top-right-radius: 0;
+					border-bottom-right-radius: 0;	
+					background-color: $light-color;				
+				}
+			}
+			.btn{
+				width: 110px;
+				display: table-cell;
+				border: none;
+				border-top-left-radius: 0;
+				border-bottom-left-radius: 0;
+				transition: all 0.25s ease;
+				@include transition();
+			}
+		}
+	}
+
+	.todo-list-body{
+		border: 1px solid darken(#ebebeb, 20%);
+	    border-bottom-left-radius: 4px;
+	    border-bottom-right-radius: 4px;		
 	}
 }

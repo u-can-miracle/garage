@@ -81,7 +81,7 @@ a:hover, a:focus, a:active, button:hover, button:focus, button:active, input:hov
     @include background-opacity();
 }
 */
-.bg-gradient, .todo-list {
+.bg-gradient, .todo-list .todo-list-header {
   background: #4f86bb;
   /* Old browsers */
   background: -moz-linear-gradient(top, #4f86bb 0%, #355ea1 100%);
@@ -8087,6 +8087,10 @@ h2 {
     margin-bottom: 0; }
   .login-wrapper .text-warning {
     margin-bottom: 10px; }
+  .login-wrapper .login-form .btn {
+    float: left; }
+  .login-wrapper .fb-form {
+    float: right; }
 
 .todo-list {
   max-width: 700px;
@@ -8094,15 +8098,15 @@ h2 {
   margin-right: auto; }
   .todo-list .todo-list-header {
     position: relative;
-    padding-top: 15px;
+    padding-top: 14px;
     padding-bottom: 12px;
     padding-left: 52px;
-    padding-right: 10px;
+    padding-right: 80px;
     color: #fff; }
     .todo-list .todo-list-header .fa-calendar {
       position: absolute;
-      left: 14px;
-      top: 12px;
+      left: 15px;
+      top: 15px;
       color: #1b222d; }
     .todo-list .todo-list-header .control-btns-wrapper {
       position: absolute;
@@ -8114,5 +8118,72 @@ h2 {
         border-right: 1px solid #98b0d2; }
         .todo-list .todo-list-header .control-btns-wrapper .control-btn:last-child {
           border-right: none; }
+        .todo-list .todo-list-header .control-btns-wrapper .control-btn.edit {
+          float: left; }
+        .todo-list .todo-list-header .control-btns-wrapper .control-btn.remove {
+          float: right; }
       .todo-list .todo-list-header .control-btns-wrapper .fa {
         color: #98b0d2; }
+  .todo-list .todo-list-input {
+    padding: 10px 10px 10px 52px;
+    background-color: #ececec; }
+    .todo-list .todo-list-input .input-table {
+      width: 100%;
+      display: table; }
+      .todo-list .todo-list-input .input-table .input-wrapper {
+        display: table-cell; }
+        .todo-list .todo-list-input .input-table .input-wrapper input {
+          width: 100%;
+          height: 33px;
+          padding-left: 12px;
+          border: 1px solid #666;
+          border-top-left-radius: 2px;
+          border-bottom-left-radius: 2px;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          background-color: #fff; }
+      .todo-list .todo-list-input .input-table .btn {
+        width: 110px;
+        display: table-cell;
+        border: none;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        transition: all 0.25s ease; }
+  .todo-list .todo-list-body {
+    border: 1px solid #b8b8b8;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px; }
+
+.single-todo {
+  display: table;
+  width: 100%;
+  border-bottom: 1px solid #b8b8b8;
+  background-color: #fff;
+  cursor: default; }
+  .single-todo:hover {
+    background-color: #e7ecee; }
+  .single-todo:last-child {
+    border-bottom: none;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px; }
+  .single-todo .checkbox-wrapper {
+    display: table-cell;
+    width: 52px;
+    border-right: 1px solid #ebebeb;
+    text-align: center; }
+  .single-todo .task-title-wrapper {
+    display: table-cell;
+    padding-top: 10px;
+    padding-bottom: 11px;
+    border-right: 1px solid #ebebeb; }
+    .single-todo .task-title-wrapper .task-title {
+      padding-right: 12px;
+      padding-left: 12px; }
+  .single-todo .controls {
+    display: table-cell;
+    width: 120px;
+    text-align: center; }
+    .single-todo .controls a {
+      margin: 0 6px; }
+      .single-todo .controls a:hover {
+        text-decoration: none; }
