@@ -34,9 +34,10 @@
                 controller: 'loginController as vm',
                 templateUrl: '/components/login/templates/confirm.html'
             })
-            .state('main.todos', {
-                url: 'todos',
-                templateUrl: '/components/todos/todos.html'
+            .state('main.todo', {
+                url: 'todo',
+                controller: 'todoCtrl as vm',
+                templateUrl: '/components/todo/templates/todo.html'
             });
 
         $urlRouterProvider.otherwise('/login');

@@ -89,7 +89,7 @@
 				.then(function(data){
 					vm.loginError = '';
 					if(data.loginSuccess === true){
-						$state.go('main.todos');
+						$state.go('main.todo');
 	                    return ngToast.success({
 	                        content: 'You are logined successfully!'
 	                    });
