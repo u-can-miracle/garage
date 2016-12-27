@@ -81,7 +81,7 @@ a:hover, a:focus, a:active, button:hover, button:focus, button:active, input:hov
     @include background-opacity();
 }
 */
-.bg-gradient, .todo-list .todo-list-header {
+.bg-gradient, .project .project-header {
   background: #4f86bb;
   /* Old browsers */
   background: -moz-linear-gradient(top, #4f86bb 0%, #355ea1 100%);
@@ -8092,47 +8092,48 @@ h2 {
   .login-wrapper .fb-form {
     float: right; }
 
-.todo-list {
+.project {
   max-width: 700px;
   margin-left: auto;
-  margin-right: auto; }
-  .todo-list .todo-list-header {
+  margin-right: auto;
+  margin-bottom: 45px; }
+  .project .project-header {
     position: relative;
     padding-top: 14px;
     padding-bottom: 12px;
     padding-left: 52px;
     padding-right: 80px;
     color: #fff; }
-    .todo-list .todo-list-header .fa-calendar {
+    .project .project-header .fa-calendar {
       position: absolute;
       left: 15px;
       top: 15px;
       color: #1b222d; }
-    .todo-list .todo-list-header .control-btns-wrapper {
+    .project .project-header .control-btns-wrapper {
       position: absolute;
       right: 10px;
       top: 12px; }
-      .todo-list .todo-list-header .control-btns-wrapper .control-btn {
+      .project .project-header .control-btns-wrapper .control-btn {
         padding-right: 10px;
         padding-left: 10px;
         border-right: 1px solid #98b0d2; }
-        .todo-list .todo-list-header .control-btns-wrapper .control-btn:last-child {
+        .project .project-header .control-btns-wrapper .control-btn:last-child {
           border-right: none; }
-        .todo-list .todo-list-header .control-btns-wrapper .control-btn.edit {
+        .project .project-header .control-btns-wrapper .control-btn.edit {
           float: left; }
-        .todo-list .todo-list-header .control-btns-wrapper .control-btn.remove {
+        .project .project-header .control-btns-wrapper .control-btn.remove {
           float: right; }
-      .todo-list .todo-list-header .control-btns-wrapper .fa {
+      .project .project-header .control-btns-wrapper .fa {
         color: #98b0d2; }
-  .todo-list .todo-list-input {
+  .project .project-input {
     padding: 10px 10px 10px 52px;
     background-color: #ececec; }
-    .todo-list .todo-list-input .input-table {
+    .project .project-input .input-table {
       width: 100%;
       display: table; }
-      .todo-list .todo-list-input .input-table .input-wrapper {
+      .project .project-input .input-table .input-wrapper {
         display: table-cell; }
-        .todo-list .todo-list-input .input-table .input-wrapper input {
+        .project .project-input .input-table .input-wrapper input {
           width: 100%;
           height: 33px;
           padding-left: 12px;
@@ -8142,50 +8143,50 @@ h2 {
           border-top-right-radius: 0;
           border-bottom-right-radius: 0;
           background-color: #fff; }
-      .todo-list .todo-list-input .input-table .btn {
+      .project .project-input .input-table .btn {
         width: 110px;
         display: table-cell;
         border: none;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         transition: all 0.25s ease; }
-  .todo-list .todo-list-body {
+  .project .project-body {
     border: 1px solid #b8b8b8;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px; }
 
-.single-todo {
+.task {
   display: table;
   width: 100%;
   border-bottom: 1px solid #b8b8b8;
   background-color: #fff;
   cursor: default; }
-  .single-todo:hover {
+  .task:hover {
     background-color: #e7ecee; }
-  .single-todo:last-child {
+  .task:last-child {
     border-bottom: none;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px; }
-  .single-todo .completed {
+  .task .completed {
     text-decoration: line-through; }
-  .single-todo .checkbox-wrapper {
+  .task .checkbox-wrapper {
     display: table-cell;
     width: 52px;
     border-right: 1px solid #ebebeb;
     text-align: center; }
-  .single-todo .task-title-wrapper {
+  .task .task-title-wrapper {
     display: table-cell;
     padding-top: 10px;
     padding-bottom: 11px;
     border-right: 1px solid #ebebeb; }
-    .single-todo .task-title-wrapper .task-title {
+    .task .task-title-wrapper .task-title {
       padding-right: 12px;
       padding-left: 12px; }
-  .single-todo .controls {
+  .task .controls {
     display: table-cell;
     width: 120px;
     text-align: center; }
-    .single-todo .controls a {
+    .task .controls a {
       margin: 0 6px; }
-      .single-todo .controls a:hover {
+      .task .controls a:hover {
         text-decoration: none; }

@@ -1,5 +1,5 @@
 angular.module('app', [
     'login',
-    'todo',
+    'project',
     'ui.router'
 ]);

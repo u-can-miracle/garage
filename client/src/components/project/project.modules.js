@@ -2,5 +2,5 @@
 	'use strict';
 
 	angular
-	  .module('todo', ['ngMaterial']);
+	  .module('project', ['task']);
 })();

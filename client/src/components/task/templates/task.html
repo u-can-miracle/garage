@@ -1,0 +1,16 @@
+<div ng-class="{'completed': taskCtrl.task.isCompleted}">
+	<div class="checkbox-wrapper">
+		<input type="checkbox" ng-model="taskCtrl.task.isCompleted">
+	</div>
+	<div class="task-title-wrapper">
+		<div class="task-title">{{taskCtrl.task.taskTitle}}</div>
+	</div>
+	<div class="controls">
+		<a href="#" class="control-btn edit">
+			<i class="fa fa-pencil" aria-hidden="true"></i>	
+		</a>
+		<a href="#" class="control-btn remove" ng-click="taskCtrl.deleteItem()">
+			<i class="fa fa-trash " aria-hidden="true"></i>	
+		</a>				
+	</div>				
+</div><!-- /.single-task -->

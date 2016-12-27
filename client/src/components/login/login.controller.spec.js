@@ -149,7 +149,7 @@ describe('Test loginController: ', function() {
 	    }); 
 
 
-	    it('success - login should confirm with success and redirect to $state.go("main.todo")', function(){
+	    it('success - login should confirm with success and redirect to $state.go("main.project")', function(){
 	    	vm.loginError = 'Warning text';
 	    	logFactory.login.returns(deferred.promise);
 
@@ -166,7 +166,7 @@ describe('Test loginController: ', function() {
 
 	    	expect(mockToast.success.callCount).toEqual(1);
 	    	expect(mockState.go.callCount).toEqual(1);
-	    	expect(mockState.go.calledWith('main.todo')).toEqual(true);
+	    	expect(mockState.go.calledWith('main.project')).toEqual(true);
 	    	expect(vm.loginError).toEqual('');
 	    });    
 
