@@ -87,6 +87,7 @@
 		function login(username, password){
 			return loginFactory.login(username, password) 
 				.then(function(data){
+					console.log('login data: ', data);
 					vm.loginError = '';
 					if(data.loginSuccess === true){
 						$state.go('main.project');

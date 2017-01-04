@@ -1,5 +1,5 @@
 var loginRouter = require('./login.js');
-var todosRouter = require('./todos.js');
+var projectsRouter = require('./projects.js');
 
 
 module.exports = function(app) {
@@ -7,13 +7,31 @@ module.exports = function(app) {
         res.render('index');
     });
 
-    app.use('', loginRouter);
-    app.use('', todosRouter);
-    
-    app.get('*', function(req, res) {
-    	// is autentificate res.redirect('/todos');
-    	// else 
-        res.redirect('/');
+    app.use(function(req, res, next){
+        // console.log('req.logIn', req.logIn);
+        console.log('req.user: ', req.user);
+        console.log('req: ', 'req');
+        console.log('----------------');
+        next();
     });
+
+    app.use('', loginRouter);
+    app.use('', projectsRouter);
+    
+
+
+    app.use(function(req, res, next){
+        // console.log('req.logIn', req.logIn);
+        console.log('req.user: ', req.user);
+        console.log('req: ', 'req');
+        console.log('================');
+        next();
+    });    
+    // app.get('*', function(req, res) {
+    // 	// is autentificate res.redirect('/todos');
+    // 	// else 
+    //     console.log('*')
+    //     res.redirect('/login');
+    // });
 };
 

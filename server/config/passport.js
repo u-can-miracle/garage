@@ -18,6 +18,11 @@ module.exports = {
 }
 
 function passportStrategyConfiguration(app) {
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+
+
 	passport.use('login', new localStrategy({
 		usernameField: 'username',
 		passwordField: 'password',
@@ -35,31 +40,30 @@ function passportStrategyConfiguration(app) {
             callbackURL: fbCallback
         }, fbLoginMiddleware));
 
-    app.use(passport.initialize());
-    app.use(passport.session());
+
 
     passport.serializeUser(function(user, cb) {
-    	console.log('serializeUser');
+    	console.log('serializeUser user: ', user);
         cb(null, user);
     });
 
-    passport.deserializeUser(function(obj, cb) {
+    passport.deserializeUser(function(user, cb) {
     	console.log('deserializeUser');
-        cb(null, obj);
+        cb(null, user);
     });
 }
 
 function loginHandleMiiddleware(req, username, password, cb){
 	return loginCtrl.getUserByUsername(username)
 		.then(function(user){
-			if(user){
+			if(user){					
 				return cb(null, user);
 			} else {
 				return cb(null, false);
 			}
 		})
 		.catch(function(err){
-			console.log('passport local login err', err);
+			console.log('passport local login err: ', err);
 		});
 }
 

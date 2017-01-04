@@ -2,7 +2,11 @@
 	<h2>Simple todo list</h2>
 
 	<div ng-repeat="project in projContCtrl.projects">
-		<project project="project" on-edit="" on-delete=""></project>
+		<project 
+			project="project" 
+			on-edit="" 
+			on-delete="projContCtrl.deleteEntityFromArray(project, projContCtrl.projects)"
+			></project>
 	</div>
 </div><!-- /.container -->
 
