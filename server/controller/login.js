@@ -7,6 +7,7 @@ var userModel = require('../model/user.js');
 
 
 module.exports = {
+    getUserById: getUserById,
 	getUserByUsername: getUserByUsername,
     getUserByPassword: getUserByPassword,
     getUserByEmail: getUserByEmail,
@@ -14,6 +15,12 @@ module.exports = {
 	getUserByHash: getUserByHash,
     updateUserEmailConfirmation: updateUserEmailConfirmation
 };
+
+
+
+function getUserById(id) {
+    return userModel.findById(id);
+}
 
 function getUserByUsername(username){
 	return userModel.findOne({
@@ -34,6 +41,23 @@ function getUserByPassword(pass){
 function getUserByHash(hash){
     return userModel.findOne({'local.registrationKey': hash});
 }
+
+function updateUserEmailConfirmation(hash){
+    return userModel.findOneAndUpdate({'local.registrationKey': hash})
+        .then(function(user){
+            user.local.isUserConfirmedViaEmail = true;
+            user.local.registrationKey = '';
+            user.save();
+            return user;
+        })
+        .catch(function(err){
+            console.log('updateUserEmailConfirmation err', err);
+            return err;
+        });
+}
+
+
+
 
 function sendEmail(email, hash, req, next){
     var smtpTransport = nodemailer.createTransport("SMTP", {
@@ -63,18 +87,3 @@ function sendEmail(email, hash, req, next){
         smtpTransport.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
     });
 }
-
-function updateUserEmailConfirmation(hash){
-    return userModel.findOneAndUpdate({'local.registrationKey': hash})
-        .then(function(user){
-            user.local.isUserConfirmedViaEmail = true;
-            user.local.registrationKey = '';
-            user.save();
-            return user;
-        })
-        .catch(function(err){
-            console.log('updateUserEmailConfirmation err', err);
-            return err;
-        });
-}
-

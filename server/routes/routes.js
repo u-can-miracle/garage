@@ -8,9 +8,7 @@ module.exports = function(app) {
     });
 
     app.use(function(req, res, next){
-        // console.log('req.logIn', req.logIn);
         console.log('req.user: ', req.user);
-        console.log('req: ', 'req');
         console.log('----------------');
         next();
     });
@@ -21,17 +19,8 @@ module.exports = function(app) {
 
 
     app.use(function(req, res, next){
-        // console.log('req.logIn', req.logIn);
-        console.log('req.user: ', req.user);
-        console.log('req: ', 'req');
-        console.log('================');
-        next();
+        console.log('rout not found');
+        res.render('index');
     });    
-    // app.get('*', function(req, res) {
-    // 	// is autentificate res.redirect('/todos');
-    // 	// else 
-    //     console.log('*')
-    //     res.redirect('/login');
-    // });
 };
 

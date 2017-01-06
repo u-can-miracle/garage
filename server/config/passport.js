@@ -18,11 +18,6 @@ module.exports = {
 }
 
 function passportStrategyConfiguration(app) {
-    app.use(passport.initialize());
-    app.use(passport.session());
-
-
-
 	passport.use('login', new localStrategy({
 		usernameField: 'username',
 		passwordField: 'password',
@@ -44,14 +39,27 @@ function passportStrategyConfiguration(app) {
 
     passport.serializeUser(function(user, cb) {
     	console.log('serializeUser user: ', user);
-        cb(null, user);
+        cb(null, user._id);
     });
 
-    passport.deserializeUser(function(user, cb) {
-    	console.log('deserializeUser');
-        cb(null, user);
+    passport.deserializeUser(function(id, cb) {
+    	loginCtrl.getUserById(id)
+    		.then(function(user){
+		    	console.log('deserializeUser');
+		        cb(null, user);
+    		})
+    		.catch(function(err){
+    			cb(err);
+    		})
     });
+
+    app.use(passport.initialize());
+    app.use(passport.session());    
 }
+
+
+
+
 
 function loginHandleMiiddleware(req, username, password, cb){
 	return loginCtrl.getUserByUsername(username)
@@ -68,45 +76,41 @@ function loginHandleMiiddleware(req, username, password, cb){
 }
 
 function localConfirmEmailMiddleware(hash, sameHash, cb){
-	// return process.nextTick(function(){
-		return loginCtrl.getUserByHash(hash)
-			.then(function(user){
-				if(!user){
-					return cb(null, false);
-				} else {
-					return q.all([cb(null, user), loginCtrl.updateUserEmailConfirmation(hash)])
-				}
-			})
-			.catch(function(err){
-				console.log('local-confirm-email err', err);
-			});
-	// });
+	return loginCtrl.getUserByHash(hash)
+		.then(function(user){
+			if(!user){
+				return cb(null, false);
+			} else {
+				return q.all([cb(null, user), loginCtrl.updateUserEmailConfirmation(hash)])
+			}
+		})
+		.catch(function(err){
+			console.log('local-confirm-email err', err);
+		});
 }
 
 function fbLoginMiddleware(accessToken, refreshToken, profile, cb) {
-	// return process.nextTick(function(){
-		return UserModel.findOne({'facebook.id': profile.id})
-			.then(function(user){
-				if(!user){
-					var newUser = {};
-					newUser.facebook = {};
-					newUser.facebook.id = profile.id;
-					newUser.facebook.name = profile.displayName;
-					newUser.facebook.accessToken = accessToken;
+	return UserModel.findOne({'facebook.id': profile.id})
+		.then(function(user){
+			if(!user){
+				var newUser = {};
+				newUser.facebook = {};
+				newUser.facebook.id = profile.id;
+				newUser.facebook.name = profile.displayName;
+				newUser.facebook.accessToken = accessToken;
 
-					return q.resolve(UserModel.create(newUser))
-						.then(function(newUser){
-							cb(null, newUser);
-						})
-						.catch(function(err){
-							console.log('err', err);
-						});
-				} else {
-					return cb(null, user);
-				}
-			})
-			.catch(function(err){
-				console.log('err', err);
-			});
-	// });
+				return q.resolve(UserModel.create(newUser))
+					.then(function(newUser){
+						cb(null, newUser);
+					})
+					.catch(function(err){
+						console.log('err', err);
+					});
+			} else {
+				return cb(null, user);
+			}
+		})
+		.catch(function(err){
+			console.log('err', err);
+		});
 }

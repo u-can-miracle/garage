@@ -19,10 +19,7 @@ module.exports = function expressConfig(app){
     app.use(cookieParser());
     app.use(session({
         secret: 'super secret',
-        cookie: {
-            secure: true
-        }, 
-        resave: true,
-        saveUninitialized: true
+        resave: false,
+        saveUninitialized: false
     }));
 };

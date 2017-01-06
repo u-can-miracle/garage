@@ -15,48 +15,7 @@ loginRouter.get('/login', function(req, res, next) {
     res.render('index');
 });
 
-loginRouter.post('/login', function(req, res, next) {
-        q.all([
-                loginCtrl.getUserByUsername(req.body.username),
-                loginCtrl.getUserByPassword(req.body.password)
-            ])
-            .then(function(result) {
-                var userByUsername = result[0];
-                var userByPassword = result[1];
-                if (!userByUsername || !userByPassword) {
-                    res.json({
-                        loginSuccess: false,
-                        message: 'Username or password is wrong'
-                    });
-                } else if (userByUsername.local.isUserConfirmedViaEmail === false) { // not confirmed
-                    res.json({
-                        loginSuccess: false,
-                        message: 'Chech your email and confirm your account'
-                    });
-                } else if (result[0].email === result[1].email) {
-                    console.log('next result[0]: ', result[0]);
-                    next();
-                    // req.logIn(result[0], function(err){
-                    //     if(err){
-                    //         console.log('req.logIn err', err);
-                    //         res.json({
-                    //             loginSuccess: false,
-                    //             err: err
-                    //         });                
-                    //     }
-                    //     console.log('req.user: ', req.user);
-                    //     return res.json({
-                    //         loginSuccess: true,
-                    //         user: req.user
-                    //     });
-                    // });                
-                }
-            })
-            .catch(function(err) {
-                console.log('/login err', err);
-                next(err);
-            });
-    },
+loginRouter.post('/login', 
     passport.authenticate('login', {
         failureRedirect: '/'
     }),
@@ -100,15 +59,6 @@ loginRouter.post('/registration', function(req, res, next) {
                 };
 
                 return userModel.create(newUser);
-                /*
-                userModel.create(newUser, function(err, user){
-                    if (err) {
-                        return q.when(err);
-                    } else {
-                        return q.when(user);
-                    }
-                });
-                */
             }
         })
         .then(function(user) {
@@ -156,6 +106,6 @@ loginRouter.get('/auth/facebook/callback',
     });
 
 loginRouter.get('/logout', function(req, res, next) {
-
     next();
+    req.render('index');
 });
