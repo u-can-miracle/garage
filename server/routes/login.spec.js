@@ -73,51 +73,5 @@ describe('loginRouter: ', function() {
               done();
             });
         });
-
-        it('should return {successRegistered: false} without user name', function(done) {
-          stubByName.returns(q.when(null));
-          stubByPass.returns(q.when(user));
-
-            chai.request(app)
-                .post('/login')
-                .send(user)
-                .end(function(req, res) {
-
-                  expect(res.body.loginSuccess).to.be.false;
-                  expect(res.body.message).to.be.equal('Username or password is wrong');
-                  done();
-                });
-        });
-
-        it('should return {successRegistered: false} without user password', function(done) {
-          stubByName.returns(q.when(user));
-          stubByPass.returns(q.when(null));
-
-            chai.request(app)
-                .post('/login')
-                .send(user)
-                .end(function(req, res) {
-
-                  expect(res.body.loginSuccess).to.be.false;
-                  expect(res.body.message).to.be.equal('Username or password is wrong');
-                  done();
-                });
-        });
-
-        it('should return right response to not confirmed user', function(done){
-          user.local.isUserConfirmedViaEmail = false;
-          stubByName.returns(q.when(user));
-          stubByPass.returns(q.when(user));
-
-          chai.request(app)
-            .post('/login')
-            .send(user)
-            .end(function(erq, res){
-              
-              expect(res.body.loginSuccess).to.be.false;
-              expect(res.body.message).to.be.equal('Chech your email and confirm your account');
-              done();
-            });
-        });
     });
 });

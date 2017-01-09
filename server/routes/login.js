@@ -17,11 +17,13 @@ loginRouter.get('/login', function(req, res, next) {
 
 loginRouter.post('/login', 
     passport.authenticate('login', {
-        failureRedirect: '/'
+        failureRedirect: '/login'
     }),
     function(req, res) {
-        console.log('/projects');
-        res.redirect('/projects');
+        res.json({
+            loginSuccess: true,
+            user: req.user
+        });
     }
 );
 

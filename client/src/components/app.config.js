@@ -40,7 +40,7 @@
                 templateUrl: '/components/project/templates/project-container.html'
             });
 
-        // $urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/login');
     }
 })();
 

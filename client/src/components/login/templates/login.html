@@ -3,10 +3,14 @@
     <md-tabs md-dynamic-height md-border-bottom>
       <md-tab label="Login">
         <md-content class="md-padding">
-          	<form name="vm.loginForm" ng-submit="vm.login(vm.userName, vm.pass)" autocomplete="off" class="login-form">
+          	<form name="vm.loginForm" 
+          		ng-submit="vm.login(vm.userName, vm.pass)" 
+          		autocomplete="off" 
+          		class="login-form">
 				<input style="display:none" type="text" name="fakename">
-				<input style="display:none" type="password" name="fakepass">
-				<div class="form-group"
+				<input style="display:none" type="password" name="fakepass">          	
+				<input style="display:none" type="email" name="fakeemail">          	
+				<div class="form-group" 
 					 ng-class="(vm.loginForm.username.$dirty && !vm.loginForm.username.$valid) ? 'has-error' : ''">
 					<label for="username">User name</label>
 					<input 
@@ -25,7 +29,7 @@
 							<span ng-message="required">Please, enter a name</span>
 						</p>											
 				</div>
-				<div class="form-group"
+				<div class="form-group" 
 					 ng-class="(vm.loginForm.pass.$dirty && !vm.loginForm.pass.$valid) ? 'has-error' : ''">
 					<label for="pass">Password</label>
 					<input 

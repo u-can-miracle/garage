@@ -118,6 +118,7 @@ describe('passport middleware testing: ', function(){
     });
   });
 
+
   describe('should call callback of fbLoginMiddleware with (null, user) when ', function(){
     var findStub;
     var createStub;
