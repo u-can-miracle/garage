@@ -2,5 +2,5 @@
 	'use strict';
 
 	angular
-	  .module('project', ['task']);
+	  .module('project', ['task', 'text-edit']);
 })();

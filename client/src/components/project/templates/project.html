@@ -1,7 +1,7 @@
 <div class="project">
 	<div class="project-header">
 		<i class="fa fa-calendar" aria-hidden="true"></i>
-		<span ng-bind="projCtrl.project.projectName"></span>
+		<span text-edit="projCtrl.project.projectName" on-blur="projCtrl.projectUpdate(projCtrl.project.projectName)"></span>
 		<div class="control-btns-wrapper">
 			<a href="#" class="control-btn edit">
 				<i class="fa fa-pencil" aria-hidden="true"></i>	

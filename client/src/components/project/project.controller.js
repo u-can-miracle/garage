@@ -5,10 +5,11 @@
         .module('project')
         .controller('projectController', projectController);
 
-    projectController.$inject = [];
+    projectController.$inject = ['projectService'];
 
-    function projectController() {
+    function projectController(projectService) {
         var projCtrl = this;
+        projCtrl.projectUpdate = projectService.projectUpdate;
 
 
         /***  Declaration  ***/

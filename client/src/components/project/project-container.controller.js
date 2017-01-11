@@ -5,14 +5,14 @@
         .module('project')
         .controller('projContainerCtrl', projContainerCtrl);
 
-    projContainerCtrl.$inject = [];
+    projContainerCtrl.$inject = ['projectService'];
 
-    function projContainerCtrl() {
+    function projContainerCtrl(projectService) {
         var projContCtrl = this;
 
         projContCtrl.projects = null;
         projContCtrl.deleteEntityFromArray = deleteEntityFromArray;
-
+        projContCtrl.createProject = projectService.createProject;
 
 
 
@@ -48,6 +48,6 @@
             var pos = array.indexOf(entity);
 
             return array.splice(pos, 1);
-        }
+        }     
     }
 })();
