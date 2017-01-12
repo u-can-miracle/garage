@@ -7,6 +7,10 @@ module.exports = function(app) {
         res.render('index');
     });
 
+    app.use(function(req, res, next){
+    	console.log('req.user', req.user);
+    	next();
+    });
     
 
     app.use('', loginRouter);
@@ -15,7 +19,7 @@ module.exports = function(app) {
 
 
     app.use(function(req, res, next){
-        console.log('rout not found');
+        console.log('------  rout not found ------');
         res.redirect('/login');
     });    
 };

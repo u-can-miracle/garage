@@ -5,15 +5,15 @@
         .module('project')
         .controller('projContainerCtrl', projContainerCtrl);
 
-    projContainerCtrl.$inject = ['projectService'];
+    projContainerCtrl.$inject = ['projectService', 'loginFactory', '$state'];
 
-    function projContainerCtrl(projectService) {
+    function projContainerCtrl(projectService, loginFactory, $state) {
         var projContCtrl = this;
 
         projContCtrl.projects = null;
         projContCtrl.deleteEntityFromArray = deleteEntityFromArray;
         projContCtrl.createProject = projectService.createProject;
-
+        projContCtrl.logout = logout;
 
 
 
@@ -48,6 +48,16 @@
             var pos = array.indexOf(entity);
 
             return array.splice(pos, 1);
-        }     
+        }  
+
+        function logout(){
+            loginFactory.logout()
+                .then(function(resp){
+                    $state.go('main.login');
+                })
+                .catch(function(err){
+                    console.log('logout err', err);
+                });
+        }   
     }
 })();

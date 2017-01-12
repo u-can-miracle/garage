@@ -13,7 +13,8 @@
 			getCurrentUser: getCurrentUser,
 			isAuthenticated: isAuthenticated,
 			registration: registration,
-			login: login
+			login: login,
+			logout: logout
 		};
 		
 		return factory;
@@ -59,6 +60,17 @@
 			$http.post('/login', loginUser)
 				.then(function(response){		
 					defer.resolve(response.data);
+				});
+
+			return defer.promise;
+		}
+
+		function logout(){
+			var defer = $q.defer();
+
+			$http.post('/logout')
+				.then(function(resp){
+					defer.resolve(resp)
 				});
 
 			return defer.promise;

@@ -12,7 +12,11 @@ var loginRouter = express.Router();
 module.exports = loginRouter;
 
 loginRouter.get('/login', function(req, res, next) {
-    res.render('index');
+    if(req.user){
+        res.redirect('/projects');
+    } else {
+        res.render('index');
+    }
 });
 
 loginRouter.post('/login', 
@@ -107,7 +111,9 @@ loginRouter.get('/auth/facebook/callback',
         res.redirect('/todos');
     });
 
-loginRouter.get('/logout', function(req, res, next) {
-    next();
-    req.render('index');
+loginRouter.post('/logout', function(req, res, next) {
+    req.logout();
+    res.redirect('/login');
+     // MongoStore.destroy(sid, callback)
 });
+

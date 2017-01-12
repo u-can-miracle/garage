@@ -3,11 +3,16 @@ var env = process.env.NODE_ENV || 'development';
 var config = require('../config/config.js')[env];
 
 mongoose.connect(config.db);
-var db = mongoose.connection;
+var dbConnection = mongoose.connection;
 
 mongoose.Promise = require('q').Promise;
 
-db.on('error', console.error.bind(console, 'Connection error ...'));
-db.once('open', function() {
+dbConnection.on('error', console.error.bind(console, 'Connection error ...'));
+dbConnection.once('open', function() {
     console.log('MongoDB opened');
 });
+
+module.exports = {
+	connection: dbConnection
+};
+

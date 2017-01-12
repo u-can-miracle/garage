@@ -4,7 +4,7 @@ var env = process.env.NODE_ENV || 'development';
 
 var config = require('./server/config/config.js')[env];
 
-require('./server/model/db.js'); // mongo init
+require('./server/config/db.js'); // mongo init
 require('./server/config/express.js')(app);
 require('./server/config/passport.js').passportStrategyConfiguration(app);
 

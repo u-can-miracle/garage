@@ -23,7 +23,7 @@ var angDependPath = [depPath + '/**/*.js',
 var testHelpers = ['bower_components/angular-mocks/angular-mocks.js'];
 
 
-gulp.task('sass', ['replace-fonts'], function() {
+gulp.task('sass', function() {
     return gulp.src(scssPath + '/style.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest(cssPath));
