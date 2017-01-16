@@ -5,29 +5,42 @@
 	  .module('project')
 	  .service('projectService', projectService);
 
-	projectService.$inject = ['$http'];
+	projectService.$inject = ['$http', '$q', 'apiConstant'];
 
-	function projectService($http) {
+	function projectService($http, $q, apiConstant) {
 		this.createProject = createProject;
+		this.getAllProjects = getAllProjects;
 		this.projectUpdate = projectUpdate;
 
 
 		/***  Declaration  ***/
 
-		function createProject(projectArray){
-	        var newProject = {
-	            projectName: '',
-	            tasks: []
-	        };
+		function getAllProjects(){
+			var defer = $q.defer();
 
-			return $http.post('/projects/create', newProject)
-				.then(function(resp){
-	           		projectArray.unshift(newProject);
-					console.log('projectService resp', resp);
+			$http.get(apiConstant.project.getAll)
+				.then(function(allProjects){
+					defer.resolve(allProjects);
 				})
 				.catch(function(err){
-					console.log('projectService err', err);
+					defer.resolve(err);
 				});
+
+			return defer.promise;
+		}
+
+		function createProject(projectName){
+			var defer = $q.defer();
+
+			$http.post(apiConstant.project.create, {projectName: projectName})
+				.then(function(resp){
+					defer.resolve(resp);
+				})
+				.catch(function(err){
+					defer.resolve(err);
+				});
+
+			return defer.promise;
 		}
 
 

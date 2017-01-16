@@ -11,8 +11,11 @@
         var projContCtrl = this;
 
         projContCtrl.projects = null;
+        projContCtrl.isProjectCreateFormVisible = false;
+
         projContCtrl.deleteEntityFromArray = deleteEntityFromArray;
-        projContCtrl.createProject = projectService.createProject;
+        projContCtrl.getAllProjects = getAllProjects;
+        projContCtrl.createProject = createProject;
         projContCtrl.logout = logout;
 
 
@@ -20,35 +23,15 @@
 
         init();
 
+
+
         /***  Declaration  ***/
 
+
         function init(){
-            projContCtrl.projects = [{
-                projectName: 'Project 1',
-                tasks: [{
-                    isCompleted: true,
-                    taskTitle: '@TimBiegeleisen item.html itself has no controller. but its parent, "items.html" has a controller that set "names" to an array'
-                }, {
-                    isCompleted: false,
-                    taskTitle: 'Basically what you have to do is use bindings to bind the data you are looping with ng-repeat to access it within your component.'
-                }]
-            }, {
-                projectName: 'Project 2',
-                tasks: [{
-                    isCompleted: false,
-                    taskTitle: '@TimBiegeleisen item.html itself has no controller. but its parent, "items.html" has a controller that set "names" to an array'
-                }, {
-                    isCompleted: true,
-                    taskTitle: 'Basically what you have to do is use bindings to bind the data you are looping with ng-repeat to access it within your component.'
-                }]
-            }];
+            projContCtrl.getAllProjects();
         }
 
-        function deleteEntityFromArray(entity, array){
-            var pos = array.indexOf(entity);
-
-            return array.splice(pos, 1);
-        }  
 
         function logout(){
             loginFactory.logout()
@@ -59,5 +42,35 @@
                     console.log('logout err', err);
                 });
         }   
+
+        function deleteEntityFromArray(entity, array){
+            var pos = array.indexOf(entity);
+
+            return array.splice(pos, 1);
+        }  
+
+        function getAllProjects(){
+            projectService.getAllProjects()
+                .then(function(resp){
+                    console.log('ctrl resp', resp);
+                    projContCtrl.projects = resp.data.allProjects;
+                })
+                .catch(function(err){
+                    console.log('getAllProjects err', err);
+                });
+        }
+
+        function createProject(projectName){
+            return projectService.createProject(projectName)
+                .then(function(data){
+                    projContCtrl.projects.push(data.newProject);
+                    projContCtrl.isProjectCreateFormVisible = false;
+                })
+                .catch(function(err){
+                    console.log('ctrl err', err);
+                });
+        }
     }
 })();
+
+

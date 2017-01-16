@@ -1,5 +1,5 @@
 var loginRouter = require('./login.js');
-var projectsRouter = require('./projects.js');
+var projectRouter = require('./project.js');
 
 
 module.exports = function(app) {
@@ -8,18 +8,18 @@ module.exports = function(app) {
     });
 
     app.use(function(req, res, next){
-    	console.log('req.user', req.user);
+    	// console.log('req.user', req.user);
     	next();
     });
     
 
     app.use('', loginRouter);
-    app.use('', projectsRouter);
+    app.use('', projectRouter);
     
 
 
     app.use(function(req, res, next){
-        console.log('------  rout not found ------');
+        // console.log('------  rout not found ------');
         res.redirect('/login');
     });    
 };

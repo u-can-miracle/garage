@@ -13,7 +13,7 @@ module.exports = loginRouter;
 
 loginRouter.get('/login', function(req, res, next) {
     if(req.user){
-        res.redirect('/projects');
+        res.redirect('/project');
     } else {
         res.render('index');
     }

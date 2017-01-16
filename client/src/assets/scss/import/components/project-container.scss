@@ -11,3 +11,52 @@
 		text-decoration: none;
 	}
 }
+
+.add-project-btn{
+	display: table;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 30px;
+	color: $overlay-color;
+	cursor: pointer;
+	@extend .bg-gradient;	
+	&:hover, &:focus, &:active{
+		text-decoration: none;
+		color: $overlay-color;
+	}
+	span{
+		display: inline-block;
+		padding: 10px 22px;
+	}
+}
+
+.project-craete-form{
+	position: relative;
+	max-width: 700px;
+	height: 45px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 45px;
+	padding-top: 6px;
+	padding-bottom: 12px;
+	padding-left: 52px;
+	padding-right: 10px;	
+	@extend .bg-gradient;	
+	.project-input{
+		padding: 0;
+		.input-table .input-wrapper input{
+			border-top: none;
+			border-bottom: none;
+			border-left: none;
+		}
+	}
+	.fa-calendar{
+		position: absolute;
+	    left: 15px;
+	    top: 15px;
+		color: $four-color;
+	}	
+	input{
+		border: none;
+	}
+}

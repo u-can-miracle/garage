@@ -1,18 +1,3 @@
-.add-project-btn{
-	display: table;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 30px;
-	padding: 10px 22px;
-	color: $overlay-color;
-	cursor: pointer;
-	@extend .bg-gradient;	
-	&:hover, &:focus, &:active{
-		text-decoration: none;
-		color: $overlay-color;
-	}
-}
-
 .project{
 	max-width: 700px;
 	margin-left: auto;
@@ -60,41 +45,41 @@
 		}
 	}
 
-	.project-input{
-		padding: 10px 10px 10px 52px;
-		background-color: #ececec;
-		.input-table{
-			width: 100%;
-			display: table;
-			.input-wrapper{
-				display: table-cell;
-				input{
-					width: 100%;
-					height: 33px;
-					padding-left: 12px;
-					border: 1px solid #666;
-					border-top-left-radius: 2px;
-					border-bottom-left-radius: 2px;
-					border-top-right-radius: 0;
-					border-bottom-right-radius: 0;	
-					background-color: $light-color;				
-				}
-			}
-			.btn{
-				width: 110px;
-				display: table-cell;
-				border: none;
-				border-top-left-radius: 0;
-				border-bottom-left-radius: 0;
-				transition: all 0.25s ease;
-				@include transition();
-			}
-		}
-	}
-
 	.project-body{
 		border: 1px solid darken(#ebebeb, 20%);
 	    border-bottom-left-radius: 4px;
 	    border-bottom-right-radius: 4px;		
+	}
+}
+
+.project-input{
+	padding: 10px 10px 10px 52px;
+	background-color: #ececec;
+	.input-table{
+		width: 100%;
+		display: table;
+		.input-wrapper{
+			display: table-cell;
+			input{
+				width: 100%;
+				height: 33px;
+				padding-left: 12px;
+				border: 1px solid #666;
+				border-top-left-radius: 2px;
+				border-bottom-left-radius: 2px;
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 0;	
+				background-color: $light-color;				
+			}
+		}
+		.btn{
+			width: 110px;
+			display: table-cell;
+			border: none;
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+			transition: all 0.25s ease;
+			@include transition();
+		}
 	}
 }

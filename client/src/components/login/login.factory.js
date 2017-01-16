@@ -5,9 +5,9 @@
 	  .module('login')
 	  .factory('loginFactory', loginFactory);
 
-	loginFactory.$inject = ['$http', '$q'];
+	loginFactory.$inject = ['$http', '$q', 'apiConstant'];
 
-	function loginFactory($http, $q) {
+	function loginFactory($http, $q, apiConstant) {
 		var factory = {
 			setCurrentUser: setCurrentUser,
 			getCurrentUser: getCurrentUser,
@@ -45,7 +45,7 @@
 
 			var defer = $q.defer();
 
-			$http.post('/registration', regUser)
+			$http.post(apiConstant.user.registration, regUser)
 				.then(function(response){
 					defer.resolve(response.data);
 				});
@@ -57,7 +57,7 @@
 			var loginUser = {username: username, password: password};
 			var defer = $q.defer();
 			
-			$http.post('/login', loginUser)
+			$http.post(apiConstant.user.login, loginUser)
 				.then(function(response){		
 					defer.resolve(response.data);
 				});
@@ -68,7 +68,7 @@
 		function logout(){
 			var defer = $q.defer();
 
-			$http.post('/logout')
+			$http.post(apiConstant.user.logout)
 				.then(function(resp){
 					defer.resolve(resp)
 				});

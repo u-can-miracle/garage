@@ -35,7 +35,7 @@
                 templateUrl: '/components/login/templates/confirm.html'
             })
             .state('main.project', {
-                url: 'projects',
+                url: 'project',
                 controller: 'projContainerCtrl as projContCtrl',
                 templateUrl: '/components/project/templates/project-container.html'
             });
