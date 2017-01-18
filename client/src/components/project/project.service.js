@@ -8,9 +8,10 @@
 	projectService.$inject = ['$http', '$q', 'apiConstant'];
 
 	function projectService($http, $q, apiConstant) {
-		this.createProject = createProject;
+		this.projectCreate = projectCreate;
 		this.getAllProjects = getAllProjects;
 		this.projectUpdate = projectUpdate;
+		this.projectDelete = projectDelete;
 
 
 		/***  Declaration  ***/
@@ -23,13 +24,13 @@
 					defer.resolve(allProjects);
 				})
 				.catch(function(err){
-					defer.resolve(err);
+					defer.reject(err);
 				});
 
 			return defer.promise;
 		}
 
-		function createProject(projectName){
+		function projectCreate(projectName){
 			var defer = $q.defer();
 
 			$http.post(apiConstant.project.create, {projectName: projectName})
@@ -37,15 +38,42 @@
 					defer.resolve(resp);
 				})
 				.catch(function(err){
-					defer.resolve(err);
+					defer.reject(err);
 				});
 
 			return defer.promise;
 		}
 
 
-		function projectUpdate(name){
-			console.log(name);
+		function projectUpdate(projId, projName){
+			var updatedData = {projId: projId, projName: projName};
+			var defer = $q.defer();
+
+			$http.put(apiConstant.project.update, updatedData)
+				.then(function(resp){
+					defer.resolve(resp);
+				})
+				.catch(function(err){
+					defer.reject(err);
+				});
+
+			return defer.promise;
+		}
+
+		function projectDelete(projId){
+			var defer = $q.defer();
+
+			console.log('del projId: ', projId);
+
+			$http.delete(apiConstant.project.delete + '/' + projId)
+				.then(function(resp){
+					defer.resolve(resp);
+				})
+				.catch(function(err){
+					defer.reject(err);
+				});
+
+			return defer.promise;
 		}
 	}
 })();

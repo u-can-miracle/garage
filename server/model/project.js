@@ -14,6 +14,9 @@ var projectSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    updated_at: {
+        type: Date
+    },
     created_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

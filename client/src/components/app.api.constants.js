@@ -11,7 +11,9 @@
 	  	},
 	  	project: {
 	  		getAll: '/projects/getAll',
-	  		create: '/project/create'
+	  		create: '/project/create',
+	  		update: '/project/update',
+	  		delete: '/project/delete'
 	  	}
 	  });
 

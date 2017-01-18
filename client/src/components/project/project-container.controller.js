@@ -15,7 +15,7 @@
 
         projContCtrl.deleteEntityFromArray = deleteEntityFromArray;
         projContCtrl.getAllProjects = getAllProjects;
-        projContCtrl.createProject = createProject;
+        projContCtrl.projectCreate = projectCreate;
         projContCtrl.logout = logout;
 
 
@@ -52,7 +52,6 @@
         function getAllProjects(){
             projectService.getAllProjects()
                 .then(function(resp){
-                    console.log('ctrl resp', resp);
                     projContCtrl.projects = resp.data.allProjects;
                 })
                 .catch(function(err){
@@ -60,10 +59,10 @@
                 });
         }
 
-        function createProject(projectName){
-            return projectService.createProject(projectName)
-                .then(function(data){
-                    projContCtrl.projects.push(data.newProject);
+        function projectCreate(projectName){
+            return projectService.projectCreate(projectName)
+                .then(function(resp){
+                    projContCtrl.projects.push(resp.data.proj);
                     projContCtrl.isProjectCreateFormVisible = false;
                 })
                 .catch(function(err){

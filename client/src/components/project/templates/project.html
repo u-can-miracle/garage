@@ -1,12 +1,12 @@
 <div class="project">
 	<div class="project-header">
 		<i class="fa fa-calendar" aria-hidden="true"></i>
-		<span text-edit="projCtrl.project.name" on-blur="projCtrl.projectUpdate(projCtrl.project.name)"></span>
+		<span text-edit="projCtrl.project.name" on-change="projCtrl.projectUpdate(projCtrl.project._id, projCtrl.project.name)"></span>
 		<div class="control-btns-wrapper">
 			<a href="#" class="control-btn edit">
 				<i class="fa fa-pencil" aria-hidden="true"></i>	
 			</a>
-			<a href="#" class="control-btn remove">
+			<a href="#" class="control-btn remove" ng-click="projCtrl.projectDelete(projCtrl.project._id)">
 				<i class="fa fa-trash " aria-hidden="true"></i>	
 			</a>
 		</div>
@@ -23,7 +23,7 @@
 
 	<div class="project-body">
 		<div ng-repeat="task in projCtrl.project.tasks" class="task">
-			<task task="task" on-delete="projCtrl.deleteTodoItem(item)" on-edit=""></task>
+			<task task="task" ng-click="projCtrl.projectDelete(projCtrl.project._id)"></task>
 		</div>
 	</div><!-- .project-body -->
 </div><!-- /.single-project -->
