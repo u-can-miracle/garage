@@ -57,7 +57,7 @@ describe('project controller testing: ', function() {
     });
 
 
-    describe('createProject should: ', function() {
+    describe('createProject should call: ', function() {
     	/****  Prepearing  ****/
     	var modelCreateStub;
     	var idString;
@@ -75,7 +75,7 @@ describe('project controller testing: ', function() {
 
     	/****  Execution  ****/
 
-        it('call projectModel.create', function(done) {
+        it('projectModel.create', function(done) {
             projectCtrl.createProject(idString, 'projName')
                 .then(function(res) {
                     expect(modelCreateStub.callCount).to.eql(1);
@@ -83,10 +83,9 @@ describe('project controller testing: ', function() {
                 });
         });
 
-        it('call projectModel.create with right params', function(done) {
+        it('projectModel.create with right params', function(done) {
             projectCtrl.createProject(idString, 'projName')
                 .then(function(res) {
-                	console.log('modelCreateStub.getCall(0).args[0]', modelCreateStub.getCall(0).args[0]);
                     expect(modelCreateStub.getCall(0).args[0]).to.eql({
                     	created_by: idString,
                     	name: 'projName'
@@ -94,5 +93,92 @@ describe('project controller testing: ', function() {
                     done();
                 });
         });        
+    });
+
+
+    describe('updateProject should call: ', function(){
+    	/****  Prepearing  ****/
+    	var modelUpdateStub;
+
+    	beforeEach(function(){
+    		var execObj = {
+    			exec: function(){
+    				return q.when('data');
+    			}
+    		};
+    		modelUpdateStub = sinon.stub(projectModel, 'update').returns(execObj);
+    	});
+
+    	afterEach(function(){
+    		modelUpdateStub.restore();
+    	});
+
+
+
+    	/****  Execution  ****/
+
+    	it('projectModel.update', function(done){
+            projectCtrl.updateProject('idString', 'projName')
+                .then(function(res) {
+                    expect(modelUpdateStub.callCount).to.eql(1);
+                    done();
+                });    		
+    	});
+
+    	it('projectModel.update with expected params', function(done){
+            projectCtrl.updateProject('idString', 'projName')
+                .then(function(res) {
+                    expect(modelUpdateStub.getCall(0).args[0]).to.eql({
+                    	_id: 'idString'
+                    });
+                    expect(modelUpdateStub.getCall(0).args[1].name).to.eql('projName');
+                    done();
+                });
+    	});
+    });
+
+
+    describe('deleteProject should call: ', function(){
+    	/****  Prepearing  ****/
+    	var modelDeleteStub;
+
+    	beforeEach(function(){
+            var execObj = {
+                remove: function() {
+                    return {
+                        exec: function() {
+                            return q.when('result');
+                        }
+                    };
+                }
+            };
+    		modelDeleteStub = sinon.stub(projectModel, 'find').returns(execObj);
+    	});
+
+    	afterEach(function(){
+    		modelDeleteStub.restore();
+    	});
+
+
+
+    	/****  Execution  ****/
+
+    	it('projectModel.find', function(done){
+            projectCtrl.deleteProject('projectId')
+                .then(function(res) {
+                    expect(modelDeleteStub.callCount).to.eql(1);
+                    done();
+                }); 
+    	});
+
+    	it('projectModel.find with expected params', function(done){
+            projectCtrl.deleteProject('projectId')
+                .then(function(res) {
+                    expect(modelDeleteStub.getCall(0).args[0]).to.eql({
+                    	_id: 'projectId'
+                    });
+                    done();
+                }); 
+    	});    	
     });
 });
