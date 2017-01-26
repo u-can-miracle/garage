@@ -19,19 +19,19 @@ function getAllProjects(userId) {
 
 function createProject(created_by, projectName) {
     var defer = q.defer();
-    var project = new projectModel({
+    var project = {
         created_by: created_by,
         name: projectName
-    });
+    };
 
-    project.save(function(err, proj) {
+    return projectModel.create(project, function(err, proj) {
         if (err) {
             defer.reject(err)
+        } else {
+            defer.resolve(proj);
         }
-        defer.resolve(proj);
+        return defer.promise;
     });
-
-    return defer.promise;
 }
 
 function updateProject(id, newName) {

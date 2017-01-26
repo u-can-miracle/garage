@@ -1,7 +1,6 @@
 describe('passport middleware testing: ', function(){
   var q = require('q');
   var chai = require('chai');
-  var chaiHttp = require('chai-http');
   var expect = chai.expect;
   var sinon = require('sinon');
 

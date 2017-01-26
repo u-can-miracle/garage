@@ -32,6 +32,7 @@
     "karma-sinon": "^1.0.5",
     "main-bower-files": "^2.13.1",
     "mocha": "^3.1.2",
+    "mockery": "^2.0.0",
     "sinon": "^1.17.6"
   },
   "dependencies": {

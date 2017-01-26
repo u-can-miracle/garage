@@ -6,7 +6,7 @@ describe('loginRouter: ', function() {
     var sinon = require('sinon');
 
 
-    // Stub passport before usage in app
+    // Stub passport before use it
     var passport = require('passport');
     var passStub = sinon.stub(passport, 'authenticate');
     passStub.returns(function(req, res, next){ next() });
