@@ -8,12 +8,13 @@ var userModel = require('../model/user.js');
 
 module.exports = {
     getUserById: getUserById,
-	getUserByUsername: getUserByUsername,
+    getUserByUsername: getUserByUsername,
     getUserByPassword: getUserByPassword,
     getUserByEmail: getUserByEmail,
     sendEmail: sendEmail,
-	getUserByHash: getUserByHash,
-    updateUserEmailConfirmation: updateUserEmailConfirmation
+    getUserByHash: getUserByHash,
+    updateUserEmailConfirmation: updateUserEmailConfirmation,
+    ensureAuthenticated: ensureAuthenticated
 };
 
 
@@ -22,44 +23,60 @@ function getUserById(id) {
     return userModel.findById(id);
 }
 
-function getUserByUsername(username){
-	return userModel.findOne({
-            'local.username': username
-        });
+function getUserByUsername(username) {
+    return userModel.findOne({
+        'local.username': username
+    });
 }
 
-function getUserByEmail(email){
-	return userModel.findOne({
-            'local.email': email
-        });
+function getUserByEmail(email) {
+    return userModel.findOne({
+        'local.email': email
+    });
 }
 
-function getUserByPassword(pass){
-    return userModel.findOne({'local.password': pass});
+function getUserByPassword(pass) {
+    return userModel.findOne({
+        'local.password': pass
+    });
 }
 
-function getUserByHash(hash){
-    return userModel.findOne({'local.registrationKey': hash});
+function getUserByHash(hash) {
+    return userModel.findOne({
+        'local.registrationKey': hash
+    });
 }
 
-function updateUserEmailConfirmation(hash){
-    return userModel.findOneAndUpdate({'local.registrationKey': hash})
-        .then(function(user){
-            user.local.isUserConfirmedViaEmail = true;
-            user.local.registrationKey = '';
-            user.save();
-            return user;
-        })
-        .catch(function(err){
-            console.log('updateUserEmailConfirmation err', err);
-            return err;
-        });
+function updateUserEmailConfirmation(hash, callback) {
+    var defer = q.defer();
+
+    userModel.update({
+        'local.registrationKey': hash
+    }, {
+        $set: {
+            'local.isUserConfirmedViaEmail': true,
+            'local.registrationKey': ''
+        }
+    }, function(err, user) {
+        if (err) {
+            defer.reject(err);
+        } else {
+            defer.resolve(user);
+        }
+
+        /****  For testing  ****/
+        if (callback) {
+            console.log('callback');
+            callback(err, user);
+        }
+    });
+
+    return defer.promise;
 }
 
 
 
-
-function sendEmail(email, hash, req, next){
+function sendEmail(email, hash, req, next) {
     var smtpTransport = nodemailer.createTransport("SMTP", {
         host: 'smtp.gmail.com',
         port: 465,
@@ -79,11 +96,19 @@ function sendEmail(email, hash, req, next){
         text: 'You are receiving this because you (or someone else) have registered at rubygarage-fullstack-js.heroku.com.\n\n' +
             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
             'http://' + req.headers.host + '/confirm/' + hash + '\n\n' +
-            'If you did not request this, please ignore this email and your password will remain unchanged.\n'            
-    }, function (error, response) { //callback
+            'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+    }, function(error, response) { //callback
         if (error) {
             console.log('error', error);
         }
         smtpTransport.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
     });
+}
+
+function ensureAuthenticated(req, res, next) {
+    console.log('login ctrl sure');
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login');
 }

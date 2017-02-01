@@ -1,8 +1,7 @@
 var express = require('express');
 var app = express();
-var env = process.env.NODE_ENV || 'development';
 
-var config = require('./server/config/config.js')[env];
+var config = require('./server/config/config.js');
 
 require('./server/config/db.js'); // mongo init
 require('./server/config/express.js')(app);

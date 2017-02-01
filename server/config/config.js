@@ -1,4 +1,6 @@
-module.exports = {
+var env = process.env.NODE_ENV || 'development';
+
+var config = {
 	development: {
 		// db: 'mongodb://localhost/localGarage',
 		db: 'mongodb://fullstack-js:fullstack-js@ds061076.mlab.com:61076/heroku_9x0jm97v',
@@ -10,4 +12,6 @@ module.exports = {
 		port: process.env.PORT || 80,
 		facebookCallback: 'http://rubygarage-fullstack-js.heroku.com/auth/facebook/callback'
 	}
-};
+}
+
+module.exports = config[env];

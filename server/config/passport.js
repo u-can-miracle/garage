@@ -3,8 +3,7 @@ var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var fbStrategy = require('passport-facebook').Strategy;
 
-var env = process.env.NODE_ENV || 'development';
-var fbCallback = require('./config.js')[env].facebookCallback;
+var fbCallback = require('./config.js').facebookCallback;
 var loginCtrl = require('../controller/login.js');
 var UserModel = require('../model/user.js');
 
@@ -79,13 +78,15 @@ function localConfirmEmailMiddleware(hash, sameHash, cb){
 	return loginCtrl.getUserByHash(hash)
 		.then(function(user){
 			if(!user){
-				return cb(null, false);
+				return q.when(cb(null, false));
 			} else {
+				console.log('else');
 				return q.all([cb(null, user), loginCtrl.updateUserEmailConfirmation(hash)])
 			}
 		})
 		.catch(function(err){
 			console.log('local-confirm-email err', err);
+			return q.when(err)
 		});
 }
 

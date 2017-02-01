@@ -1,4 +1,4 @@
-describe('project controller testing: ', function() {
+describe('project controller: ', function() {
     var q = require('q');
     var chai = require('chai');
     var expect = chai.expect;
@@ -36,7 +36,6 @@ describe('project controller testing: ', function() {
 
 
         /****  Execution  ****/
-
         it('find() method', function(done) {
             projectCtrl.getAllProjects(userId)
                 .then(function() {
@@ -57,6 +56,7 @@ describe('project controller testing: ', function() {
     });
 
 
+
     describe('createProject should call: ', function() {
     	/****  Prepearing  ****/
     	var modelCreateStub;
@@ -74,7 +74,6 @@ describe('project controller testing: ', function() {
 
 
     	/****  Execution  ****/
-
         it('projectModel.create', function(done) {
             projectCtrl.createProject(idString, 'projName')
                 .then(function(res) {
@@ -94,6 +93,7 @@ describe('project controller testing: ', function() {
                 });
         });        
     });
+
 
 
     describe('updateProject should call: ', function(){
@@ -116,7 +116,6 @@ describe('project controller testing: ', function() {
 
 
     	/****  Execution  ****/
-
     	it('projectModel.update', function(done){
             projectCtrl.updateProject('idString', 'projName')
                 .then(function(res) {
@@ -136,6 +135,7 @@ describe('project controller testing: ', function() {
                 });
     	});
     });
+
 
 
     describe('deleteProject should call: ', function(){
@@ -162,7 +162,6 @@ describe('project controller testing: ', function() {
 
 
     	/****  Execution  ****/
-
     	it('projectModel.find', function(done){
             projectCtrl.deleteProject('projectId')
                 .then(function(res) {

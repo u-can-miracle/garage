@@ -1,5 +1,5 @@
 var loginRouter = require('./login.js');
-var projectRouter = require('./project.js');
+var projectRouter = require('./project.js').projectRouter;
 
 
 module.exports = function(app) {
