@@ -31,14 +31,14 @@ describe('login controller: ', function() {
         userModelMock
             .expects('update')
             .yields(null, 'result');
-        
+
         // var stubUpdateConfirm = sinon.stub(loginCtrl, 'updateUserEmailConfirmation');
 
 
         /****  Execution  ****/
         it('with expected params', function() {
             loginCtrl.updateUserEmailConfirmation('hash', spy)
-            // userModelMock.verify();
+                // userModelMock.verify();
             expect(spy.callCount).to.eql(1);
             expect(spy.getCall(0).args[1]).to.eql('result');
             userModelMock.restore();
@@ -220,4 +220,40 @@ describe('login controller: ', function() {
 
 
 
+    describe('ensureAuthenticated() ', function() {
+        /****  Prepearing  ****/
+        var request;
+        var response;
+        var next;
+
+        beforeEach(function() {
+            request = {
+                isAuthenticated: sinon.stub()
+            }
+            response = {
+                redirect: sinon.stub()
+            }
+            next = sinon.spy();
+        });
+
+
+
+        /****  Execution  ****/
+        it('should call next()', function() {
+            request.isAuthenticated.returns(true);
+            loginCtrl.ensureAuthenticated(request, response, next);
+
+            expect(next.callCount).to.eql(1);
+            expect(response.redirect.callCount).to.eql(0);
+        });
+
+        it('should call response.redirect()', function() {
+            request.isAuthenticated.returns(false);
+            loginCtrl.ensureAuthenticated(request, response, next);
+
+            expect(next.callCount).to.eql(0);
+            expect(response.redirect.callCount).to.eql(1);
+            expect(response.redirect.getCall(0).args[0]).to.eql('/login');
+        });        
+    });
 });

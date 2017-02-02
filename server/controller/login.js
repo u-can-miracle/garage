@@ -74,7 +74,12 @@ function updateUserEmailConfirmation(hash, callback) {
     return defer.promise;
 }
 
-
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login');
+}
 
 function sendEmail(email, hash, req, next) {
     var smtpTransport = nodemailer.createTransport("SMTP", {
@@ -105,10 +110,3 @@ function sendEmail(email, hash, req, next) {
     });
 }
 
-function ensureAuthenticated(req, res, next) {
-    console.log('login ctrl sure');
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}

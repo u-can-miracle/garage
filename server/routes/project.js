@@ -6,7 +6,12 @@ var q = require('q');
 
 module.exports = {
 	projectRouter: projectRouter,
-	getAllProjectMiddleware: getAllProjectMiddleware
+
+	/****  For testing  ****/
+	getAllProjectMiddleware: getAllProjectMiddleware,
+	createProjectMiddleware: createProjectMiddleware,
+	updateProjMiddleware: updateProjMiddleware,
+	deleteProjMiddleware: deleteProjMiddleware
 };
 
 projectRouter.get('/project', loginCtrl.ensureAuthenticated, function(req, res){
@@ -17,38 +22,17 @@ projectRouter.get('/project', loginCtrl.ensureAuthenticated, function(req, res){
 projectRouter.get('/projects/getAll', loginCtrl.ensureAuthenticated, getAllProjectMiddleware);
 
 
-projectRouter.post('/project/create', function(req, res){
-	projectCtrl.createProject(req.user._id, req.body.projectName)
-		.then(function(proj){
-			console.log('rout proj', proj);
-			res.json({proj: proj});
-		})
-		.catch(function(){
-			res.json({err: err});
-		});
-});
+projectRouter.post('/project/create', createProjectMiddleware);
 
 
-projectRouter.put('/project/update', function(req, res){
-	projectCtrl.updateProject(req.body.projId, req.body.projName)
-		.then(function(proj){
-			res.json({proj: proj});
-		})
-		.catch(function(err){
-			res.json({err: err});
-		});
-});
+projectRouter.put('/project/update', updateProjMiddleware);
 
 
-projectRouter.delete('/project/delete/:projId', function(req, res){
-	projectCtrl.deleteProject(req.params.projId)
-		.then(function(proj){
-			res.json({proj: proj});
-		})
-		.catch(function(err){
-			res.json({err: err});
-		});
-});
+projectRouter.delete('/project/delete/:projId', deleteProjMiddleware);
+
+
+
+
 
 function getAllProjectMiddleware(req, res){
 	return projectCtrl.getAllProjects(req.user._id)
@@ -57,5 +41,35 @@ function getAllProjectMiddleware(req, res){
 		})
 		.catch(function(err){
 			console.log('Route getAllProjects err', err);
+		});
+}
+
+function createProjectMiddleware(req, res){
+	return projectCtrl.createProject(req.user._id, req.body.projectName)
+		.then(function(proj){
+			res.json({proj: proj});
+		})
+		.catch(function(){
+			res.json({err: err});
+		});
+}
+
+function updateProjMiddleware(req, res){
+	return projectCtrl.updateProject(req.body.projId, req.body.projName)
+		.then(function(proj){
+			res.json({proj: proj});
+		})
+		.catch(function(err){
+			res.json({err: err});
+		});
+}
+
+function deleteProjMiddleware(req, res){
+	return projectCtrl.deleteProject(req.params.projId)
+		.then(function(proj){
+			res.json({proj: proj});
+		})
+		.catch(function(err){
+			res.json({err: err});
 		});
 }
