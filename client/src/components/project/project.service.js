@@ -8,8 +8,8 @@
 	projectService.$inject = ['$http', '$q', 'apiConstant'];
 
 	function projectService($http, $q, apiConstant) {
-		this.projectCreate = projectCreate;
 		this.getAllProjects = getAllProjects;
+		this.projectCreate = projectCreate;
 		this.projectUpdate = projectUpdate;
 		this.projectDelete = projectDelete;
 
@@ -62,8 +62,6 @@
 
 		function projectDelete(projId){
 			var defer = $q.defer();
-
-			console.log('del projId: ', projId);
 
 			$http.delete(apiConstant.project.delete + '/' + projId)
 				.then(function(resp){

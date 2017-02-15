@@ -25,7 +25,7 @@
                 .ok('Yes remove task!')
                 .cancel('Do not remove');
 
-                $mdDialog.show(confirm).then(function(result) {
+                return $mdDialog.show(confirm).then(function(result) {
                     if(true === result){
                         taskCtrl.onDelete({todo: taskCtrl.todo});
                     }

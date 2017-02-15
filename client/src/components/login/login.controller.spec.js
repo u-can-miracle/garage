@@ -21,6 +21,10 @@ describe('Test loginController: ', function() {
         module('login', 'ngToast', 'ui.router');
 
         module(function($provide) {
+            $provide.service('$$isDocumentHidden', function() {
+                this.go = sinon.stub();
+            });
+
             $provide.factory('factoryHelper', function() {
                 return {
                     notAllowWhitespace: function() {}

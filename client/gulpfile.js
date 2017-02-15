@@ -20,7 +20,7 @@ var angDependPath = [depPath + '/**/*.js',
     '!' + depPath + '/js/bootstrap.js'
 ];
 
-var testHelpers = ['bower_components/angular-mocks/angular-mocks.js'];
+var testHelpers = ['bower_components/angular-mocks/angular-mocks.js', 'bower_components/angular-material/angular-material-mocks.js'];
 
 
 gulp.task('sass', function() {
@@ -82,7 +82,7 @@ gulp.task('karma-inject-js', ['replace-bower-files'], function() {
     };
 
     return gulp.src('./karma.conf.js')
-        .pipe(inject(gulp.src(jsLibsPath, {
+        .pipe(inject(gulp.src(jsLibsPath.concat(['node_modules/q/q.js']), {
             read: false
         }), {
             starttag: '// libs:js',

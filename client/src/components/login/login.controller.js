@@ -10,6 +10,8 @@
 	function loginController(ngToast, loginFactory, factoryHelper, $state) {
 		var vm = this;
 
+		console.log('login page');
+
 		vm.userName;
 		vm.pass;
 		vm.loginError;
