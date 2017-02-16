@@ -35,7 +35,10 @@ function passportStrategyConfiguration(app) {
         }, fbLoginMiddleware));
 
 
+    app.use(passport.initialize());
+    app.use(passport.session());  
 
+    
     passport.serializeUser(function(user, cb) {
     	console.log('serializeUser user: ', user);
         cb(null, user._id);
@@ -51,9 +54,6 @@ function passportStrategyConfiguration(app) {
     			cb(err);
     		})
     });
-
-    app.use(passport.initialize());
-    app.use(passport.session());    
 }
 
 
