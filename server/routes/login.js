@@ -11,43 +11,17 @@ var loginRouter = express.Router();
 
 module.exports = loginRouter;
 
-loginRouter.post('/login', function(req, res, next) {
-        q.all([
-            loginCtrl.getUserByUsername(req.body.username),
-            loginCtrl.getUserByPassword(req.body.password)
-        ])
-        .then(function(result){
-            var userByUsername = result[0];
-            var userByPassword = result[1];
-            if(!userByUsername || !userByPassword){
-                res.json({
-                    loginSuccess: false,
-                    message: 'Username or password is wrong'
-                });
-            } else if(userByUsername.local.isUserConfirmedViaEmail === false){// not confirmed
-                res.json({
-                    loginSuccess: false,
-                    message: 'Chech your email and confirm your account'
-                });
-            } else{
-                next()
-            }
-        })
-        .catch(function(err){
-            console.log('/login err', err);
-            next(err);
-        })
-    },
+loginRouter.post('/login', 
     passport.authenticate('login', {
-        failureRedirect: '/'
+        failureRedirect: '/login'
     }),
-    function(req, res, next) {
-        // console.log('login req', req.user); // authenticate user
+    function(req, res) {
         res.json({
             loginSuccess: true,
             user: req.user
         });
-    });
+    }
+);
 
 loginRouter.post('/registration', function(req, res, next) {
     var hash = crypto.randomBytes(16).toString('hex');
