@@ -7,11 +7,11 @@ var taskSchema = mongoose.Schema({
 	},
 	description: {
 		type: String
-	}
+	},
 	isCompleted: {
 		type: Boolean,
 		default: false
-	}
+	},
 	created_at: {
 		type: Date,
 		default: Date.now

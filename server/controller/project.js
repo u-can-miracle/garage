@@ -6,7 +6,6 @@ var q = require('q');
 module.exports = {
     getAllProjects: getAllProjects,
     createProject: createProject,
-    updateProject: updateProject,
     deleteProject: deleteProject
 };
 
@@ -14,7 +13,7 @@ module.exports = {
 function getAllProjects(userId) {
     return projectModel.find({
         created_by: userId
-    });
+    }).populate('tasks').exec();
 }
 
 function createProject(created_by, projectName) {
@@ -34,15 +33,6 @@ function createProject(created_by, projectName) {
     });
 }
 
-function updateProject(id, newName) {
-    return projectModel.update({
-            _id: id
-        }, {
-            name: newName,
-            updated_at: new Date()
-        })
-        .exec();
-}
 
 function deleteProject(id) {
     return projectModel.find({

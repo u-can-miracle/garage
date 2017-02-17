@@ -1,12 +1,12 @@
 <div class="project">
 	<div class="project-header">
 		<i class="fa fa-calendar" aria-hidden="true"></i>
-		<span text-edit="projCtrl.project.name" on-change="projCtrl.projectUpdate(projCtrl.project._id, projCtrl.project.name)"></span>
+		<span text-edit="projCtrl.project.name" 
+				on-change="projCtrl.updateProject(projCtrl.project._id, projCtrl.project.name)"></span>
 		<div class="control-btns-wrapper">
-			<a href="#" class="control-btn edit">
-				<i class="fa fa-pencil" aria-hidden="true"></i>	
-			</a>
-			<a href="#" class="control-btn remove" ng-click="projCtrl.projectDelete(projCtrl.project._id)">
+			<a href="#" 
+				class="control-btn remove" 
+				ng-click="projCtrl.deleteProject(projCtrl.project._id)">
 				<i class="fa fa-trash " aria-hidden="true"></i>	
 			</a>
 		</div>
@@ -15,15 +15,20 @@
 	<div class="project-input">
 		<div class="input-table">
 			<div class="input-wrapper">
-				<input type="text" class="form-control" placeholder="Task name">
+				<input type="text" 
+						class="form-control" 
+						placeholder="Task name" 
+						ng-model="projCtrl.taskName">
 			</div>
-			<a href="#" class="btn btn-default">Add Task</a>
+			<a href="#" 
+				class="btn btn-default" 
+				ng-click="projCtrl.taskName && projCtrl.taskCreate(projCtrl.taskName, projCtrl.project._id)">Add Task</a>
 		</div>
 	</div><!-- /.project-input -->
 
 	<div class="project-body">
-		<div ng-repeat="task in projCtrl.project.tasks" class="task">
-			<task task="task" ng-click="projCtrl.projectDelete(projCtrl.project._id)"></task>
+		<div ng-repeat="task in projCtrl.project.tasks" class="task-wrapper">
+			<task task="task" on-delete="projCtrl.deleteTask(task._id, projCtrl.project._id)"></task>
 		</div>
 	</div><!-- .project-body -->
 </div><!-- /.single-project -->

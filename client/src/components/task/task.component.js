@@ -7,7 +7,6 @@
             controller: 'taskController',
             bindings: {
                 task: '=',
-                onNameUpdate: '&',
                 onDelete: '&'
             },
             controllerAs: 'taskCtrl'

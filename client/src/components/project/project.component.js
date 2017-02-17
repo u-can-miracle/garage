@@ -6,9 +6,7 @@
             templateUrl: '/components/project/templates/project.html',
             controller: 'projectController',
             bindings: {
-                project: '=',
-                onEdit: '&',
-                onDelete: '&'
+                project: '='
             },
             controllerAs: 'projCtrl'
         });

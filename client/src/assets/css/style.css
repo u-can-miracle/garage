@@ -8207,40 +8207,48 @@ h2 {
   .project-craete-form input {
     border: none; }
 
-.task {
+.task-wrapper {
   display: table;
   width: 100%;
   border-bottom: 1px solid #b8b8b8;
   background-color: #fff;
   cursor: default; }
-  .task:hover {
+  .task-wrapper:hover {
     background-color: #e7ecee; }
-  .task:last-child {
+  .task-wrapper:last-child {
     border-bottom: none;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px; }
-  .task .completed {
+  .task-wrapper .task {
+    width: 100%;
+    display: table; }
+  .task-wrapper .completed, .task-wrapper .completed .text-editer input {
     text-decoration: line-through; }
-  .task .checkbox-wrapper {
+  .task-wrapper .text-editer.active input {
+    border-color: #666; }
+  .task-wrapper .text-editer input {
+    padding-left: 5px;
+    color: #333; }
+  .task-wrapper .checkbox-wrapper {
     display: table-cell;
     width: 52px;
     border-right: 1px solid #ebebeb;
     text-align: center; }
-  .task .task-title-wrapper {
+  .task-wrapper .task-title-wrapper {
     display: table-cell;
     padding-top: 10px;
     padding-bottom: 11px;
     border-right: 1px solid #ebebeb; }
-    .task .task-title-wrapper .task-title {
+    .task-wrapper .task-title-wrapper .task-title {
       padding-right: 12px;
       padding-left: 12px; }
-  .task .controls {
+  .task-wrapper .controls {
     display: table-cell;
-    width: 120px;
+    width: 48px;
     text-align: center; }
-    .task .controls a {
+    .task-wrapper .controls a {
       margin: 0 6px; }
-      .task .controls a:hover {
+      .task-wrapper .controls a:hover {
         text-decoration: none; }
 
 .text-editer input {

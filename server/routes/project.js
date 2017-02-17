@@ -2,6 +2,7 @@ var express = require('express');
 var projectRouter = express.Router();
 var loginCtrl = require('../controller/login.js');
 var projectCtrl = require('../controller/project.js');
+var entityCtrl = require('../controller/entity.js');
 var q = require('q');
 
 module.exports = {
@@ -55,7 +56,7 @@ function createProjectMiddleware(req, res){
 }
 
 function updateProjMiddleware(req, res){
-	return projectCtrl.updateProject(req.body.projId, req.body.projName)
+	return entityCtrl.updateEntity('project', req.body)
 		.then(function(proj){
 			res.json({proj: proj});
 		})
@@ -66,10 +67,15 @@ function updateProjMiddleware(req, res){
 
 function deleteProjMiddleware(req, res){
 	return projectCtrl.deleteProject(req.params.projId)
-		.then(function(proj){
-			res.json({proj: proj});
+		.then(function(result){
+			var isRemoved = false;
+			if(result.result.ok == 1){
+				isRemoved = true;
+			}
+			res.json({isRemoved: isRemoved});
 		})
 		.catch(function(err){
+			console.log('err: ', err);
 			res.json({err: err});
 		});
 }

@@ -5,18 +5,18 @@
         .module('project')
         .controller('projContainerCtrl', projContainerCtrl);
 
-    projContainerCtrl.$inject = ['projectService', 'loginFactory', '$state'];
+    projContainerCtrl.$inject = ['entityService', 'loginFactory', '$state'];
 
-    function projContainerCtrl(projectService, loginFactory, $state) {
+    function projContainerCtrl(entityService, loginFactory, $state) {
         var projContCtrl = this;
 
         projContCtrl.projects = null;
         projContCtrl.isProjectCreateFormVisible = false;
 
         projContCtrl.init = init;
-        projContCtrl.deleteEntityFromArray = deleteEntityFromArray;
+        projContCtrl.removeEntityFromArrayById = entityService.removeEntityFromArrayById;
         projContCtrl.getAllProjects = getAllProjects;
-        projContCtrl.projectCreate = projectCreate;
+        projContCtrl.createProject = createProject;
         projContCtrl.logout = logout;
 
 
@@ -42,18 +42,13 @@
                 .catch(function(err){
                     console.log('logout err', err);
                 });
-        }   
-
-        function deleteEntityFromArray(entity, array){
-            var pos = array.indexOf(entity);
-
-            return array.splice(pos, 1);
-        }  
+        }    
 
         function getAllProjects(){
-            return projectService.getAllProjects()
+            return entityService.getAllProjects()
                 .then(function(resp){
-                    return projContCtrl.projects = resp.data.allProjects;
+                    entityService.allProjects = resp.data.allProjects;
+                    return projContCtrl.projects = entityService.allProjects;
                 })
                 .catch(function(err){
                     console.log('getAllProjects err', err);
@@ -61,9 +56,12 @@
                 });
         }
 
-        function projectCreate(projectName){
-            return projectService.projectCreate(projectName)
+        function createProject(projectName){
+            var data = {projectName: projectName};
+
+            return entityService.createEntity('project', data)
                 .then(function(resp){
+                    projContCtrl.newProjectName = '';
                     projContCtrl.projects.push(resp.data.proj);
                     projContCtrl.isProjectCreateFormVisible = false;
                 })

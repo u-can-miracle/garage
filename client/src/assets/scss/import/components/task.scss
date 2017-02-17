@@ -1,4 +1,4 @@
-.task{
+.task-wrapper{
 	display: table;
 	width: 100%;
 	border-bottom: 1px solid darken(#ebebeb, 20%);
@@ -13,9 +13,26 @@
 		border-bottom-left-radius: 4px;
 		border-bottom-right-radius: 4px;
 	}
-	.completed{
-		text-decoration: line-through;
+	.task{
+		width: 100%;
+		display: table;
 	}
+	.completed{
+		&, .text-editer input{
+			text-decoration: line-through;
+		}
+	}
+	.text-editer{
+		&.active{
+			input{
+				border-color: $thirty-border-color;
+			}
+		}
+		input{
+			padding-left: 5px;
+			color: $primary-text-color;
+		}
+	} 
 	.checkbox-wrapper{
 		display: table-cell;
 		width: 52px;
@@ -34,7 +51,7 @@
 	}
 	.controls{
 		display: table-cell;
-		width: 120px;
+		width: 48px;
 		text-align: center;
 		a{
 			margin: 0 6px;

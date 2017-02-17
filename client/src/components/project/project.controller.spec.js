@@ -19,14 +19,14 @@ describe('Test projectController: ', function() {
                 this.go = sinon.stub();
             });
 
-            $provide.service('projectService', function() {
-                this.projectUpdate = sinon.stub();
-                this.projectDelete = sinon.stub();
+            $provide.service('entityService', function() {
+                this.updateEntity = sinon.stub();
+                this.deleteEntity = sinon.stub();
             });
         });
     });
 
-    beforeEach(inject(function(_$rootScope_, _$controller_, _projectService_, _$q_, $injector) {
+    beforeEach(inject(function(_$rootScope_, _$controller_, _entityService_, _$q_, $injector) {
         rootScope = _$rootScope_;
         $controller = _$controller_;
         controller = $controller('projectController', {
@@ -37,7 +37,7 @@ describe('Test projectController: ', function() {
 
         vm = controller;  
 
-        mockProjectService = _projectService_;
+        mockProjectService = _entityService_;
     }));
 
 
@@ -46,23 +46,23 @@ describe('Test projectController: ', function() {
     /************************************/
 
 
-    it('vm.projectUpdate() should call projectService.projectUpdate() with expected params', function() {
-        mockProjectService.projectUpdate.returns($q.when('result'));
-        vm.projectUpdate('id', 'name');
+    it('vm.updateEntity() should call entityService.updateEntity() with expected params', function() {
+        mockProjectService.updateEntity.returns($q.when('result'));
+        vm.updateEntity('id', 'name');
 
-        expect(mockProjectService.projectUpdate.callCount).toEqual(1);
-        expect(mockProjectService.projectUpdate.getCall(0).args[0]).toEqual('id');
-        expect(mockProjectService.projectUpdate.getCall(0).args[1]).toEqual('name');
+        expect(mockProjectService.updateEntity.callCount).toEqual(1);
+        expect(mockProjectService.updateEntity.getCall(0).args[0]).toEqual('id');
+        expect(mockProjectService.updateEntity.getCall(0).args[1]).toEqual('name');
     });
 
 
 
-    it('vm.projectDelete() should call projectService.projectDelete() with expected params', function() {
-        mockProjectService.projectDelete.returns($q.when('result'));
-        vm.projectDelete('idToDelete');
+    it('vm.deleteEntity() should call entityService.deleteEntity() with expected params', function() {
+        mockProjectService.deleteEntity.returns($q.when('result'));
+        vm.deleteEntity('idToDelete');
 
-        expect(mockProjectService.projectDelete.callCount).toEqual(1);
-        expect(mockProjectService.projectDelete.getCall(0).args[0]).toEqual('idToDelete');
+        expect(mockProjectService.deleteEntity.callCount).toEqual(1);
+        expect(mockProjectService.deleteEntity.getCall(0).args[0]).toEqual('idToDelete');
     });    
     
 });

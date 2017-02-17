@@ -14,7 +14,12 @@
 	  		create: '/project/create',
 	  		update: '/project/update',
 	  		delete: '/project/delete'
-	  	}
+	  	},
+	  	task: {
+	  		create: '/task/create',
+	  		update: '/task/update',
+	  		delete: '/task/delete'
+	  	}	  	
 	  });
 
 })();

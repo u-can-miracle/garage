@@ -1,8 +1,8 @@
-describe('Test projectService: ', function() {
+describe('Test entityService: ', function() {
     var q;
     var http;
     var apiConstant;
-    var projectService;
+    var entityService;
 
     beforeEach(function() {
         module('project');
@@ -33,11 +33,11 @@ describe('Test projectService: ', function() {
         });
     });
 
-    beforeEach(inject(function(_$http_, _$q_, _projectService_) {
+    beforeEach(inject(function(_$http_, _$q_, _entityService_) {
         http = _$http_;
         q = _$q_;
 
-        projectService = _projectService_;
+        entityService = _entityService_;
     }));
 
 
@@ -48,17 +48,17 @@ describe('Test projectService: ', function() {
     /************************************/
 
 
-    it('check projectService exist', function() {
-        expect(projectService).toBeDefined();
+    it('check entityService exist', function() {
+        expect(entityService).toBeDefined();
     });
 
 
 
-    it('projectService.getAllProjects should call http.get()', function() {
+    it('entityService.getAllProjects should call http.get()', function() {
         var getStub = sinon.stub(http, 'get').returns(q.when('result'));
 
         expect(http.get.callCount).toEqual(0);
-        projectService.getAllProjects();
+        entityService.getAllProjects();
         expect(http.get.getCall(0).args[0]).toEqual('/test/getAll');
         expect(http.get.callCount).toEqual(1);
 
@@ -67,11 +67,11 @@ describe('Test projectService: ', function() {
 
 
 
-    it('projectService.projectCreate should call http.post() with expected data', function() {
+    it('entityService.createEntity should call http.post() with expected data', function() {
         var postStub = sinon.stub(http, 'post').returns(q.when('result'));
 
         expect(http.post.callCount).toEqual(0);
-        projectService.projectCreate('projectName');
+        entityService.createEntity('projectName');
 
         expect(http.post.callCount).toEqual(1);
         expect(http.post.getCall(0).args[0]).toEqual('/test/create');
@@ -84,7 +84,7 @@ describe('Test projectService: ', function() {
 
 
 
-    it('projectService.projectUpdate should call http.put() with expected data', function() {
+    it('entityService.updateEntity should call http.put() with expected data', function() {
         var putStub = sinon.stub(http, 'put').returns(q.when('result'));
         var updatedData = {
             projId: 'projId',
@@ -92,7 +92,7 @@ describe('Test projectService: ', function() {
         };
 
         expect(http.put.callCount).toEqual(0);
-        projectService.projectUpdate('projId', 'projName');
+        entityService.updateEntity('projId', 'projName');
 
         expect(http.put.callCount).toEqual(1);
         expect(http.put.getCall(0).args[0]).toEqual('/test/update');
@@ -106,7 +106,7 @@ describe('Test projectService: ', function() {
 
 
 
-    it('projectService.projectDelete should call http.post() with expected data', function() {
+    it('entityService.deleteEntity should call http.post() with expected data', function() {
         var deleteStub = sinon.stub(http, 'delete').returns(q.when('result'));
         var updatedData = {
             projId: 'projId',
@@ -114,7 +114,7 @@ describe('Test projectService: ', function() {
         };
 
         expect(http.delete.callCount).toEqual(0);
-        projectService.projectDelete('123')
+        entityService.deleteEntity('123')
 
         expect(http.delete.callCount).toEqual(1);
         expect(http.delete.getCall(0).args[0]).toEqual('/test/delete/123');

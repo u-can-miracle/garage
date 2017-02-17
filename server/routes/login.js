@@ -114,6 +114,5 @@ loginRouter.get('/auth/facebook/callback',
 loginRouter.post('/logout', function(req, res, next) {
     req.logout();
     res.redirect('/login');
-     // MongoStore.destroy(sid, callback)
 });
 

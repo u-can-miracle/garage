@@ -1,5 +1,6 @@
 var loginRouter = require('./login.js');
 var projectRouter = require('./project.js').projectRouter;
+var taskRouter = require('./task.js').taskRouter;
 
 
 module.exports = function(app) {
@@ -15,6 +16,7 @@ module.exports = function(app) {
 
     app.use('', loginRouter);
     app.use('', projectRouter);
+    app.use('', taskRouter);
     
 
 

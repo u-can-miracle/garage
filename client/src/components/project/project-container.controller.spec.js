@@ -6,7 +6,7 @@ describe('Test projContainerCtrl: ', function() {
     var vm;
     var initStub;
 
-    var mockProjectService, mockLoginFactory, mockState;
+    var mockEntityService, mockLoginFactory, mockState;
 
     beforeAll(function() {
         var allProjResponse = {
@@ -24,10 +24,10 @@ describe('Test projContainerCtrl: ', function() {
             }
         };
 
-        mockProjectService = {
-            projectCreate: sinon.stub().returns(Q.when(createdProject)),
-            projectUpdate: sinon.stub().returns(Q.when('result')),
-            projectDelete: sinon.stub().returns(Q.when('result')),
+        mockEntityService = {
+            createProject: sinon.stub().returns(Q.when(createdProject)),
+            updateEntity: sinon.stub().returns(Q.when('result')),
+            deleteEntity: sinon.stub().returns(Q.when('result')),
             getAllProjects: sinon.stub().returns(Q.when(allProjResponse))
         }
     });
@@ -72,7 +72,7 @@ describe('Test projContainerCtrl: ', function() {
 
 
         vm = $controller('projContainerCtrl', {
-            projectService: mockProjectService
+            entityService: mockEntityService
         });
     }));
 
@@ -124,12 +124,12 @@ describe('Test projContainerCtrl: ', function() {
 
 
     describe('getAllProjects should: ', function() {
-        it('call projectService.getAllProjects', function(done) {
-            var calls = mockProjectService.getAllProjects.callCount; // called by init()
+        it('call entityService.getAllProjects', function(done) {
+            var calls = mockEntityService.getAllProjects.callCount; // called by init()
 
             vm.getAllProjects()
                 .then(function() {
-                    expect(mockProjectService.getAllProjects.callCount).toEqual(calls + 1);
+                    expect(mockEntityService.getAllProjects.callCount).toEqual(calls + 1);
                     done();
                 });
         });
@@ -151,26 +151,26 @@ describe('Test projContainerCtrl: ', function() {
     });
 
 
-    describe('projectCreate should: ', function(){
-        it('call projectService.projectCreate with expected params', function(done){
-            vm.projectCreate('data')
+    describe('createEntity should: ', function(){
+        it('call entityService.createEntity with expected params', function(done){
+            vm.createEntity('data')
                 .then(function(){
-                    expect(mockProjectService.projectCreate.callCount).toEqual(1);
+                    expect(mockEntityService.createEntity.callCount).toEqual(1);
                     done();
                 });
         });
 
-        it('call projectService.projectCreate with expected params', function(done){
-            vm.projectCreate('data')
+        it('call entityService.createEntity with expected params', function(done){
+            vm.createEntity('data')
                 .then(function(){
-                    expect(mockProjectService.projectCreate.getCall(0).args[0]).toEqual('data');
+                    expect(mockEntityService.createEntity.getCall(0).args[0]).toEqual('data');
                     done();
                 });
         });
 
         it('set expected data', function(done){
             vm.projects = [];
-            vm.projectCreate('data')
+            vm.createEntity('data')
                 .then(function(){
                     expect(vm.projects).toContain({proj3: 'createdProject'});
                     expect(vm.isProjectCreateFormVisible).toEqual(false);

@@ -1,16 +1,15 @@
-<div ng-class="{'completed': taskCtrl.task.isCompleted}">
+<div class="task" ng-class="{'completed': taskCtrl.task.isCompleted}">
 	<div class="checkbox-wrapper">
-		<input type="checkbox" ng-model="taskCtrl.task.isCompleted">
+		<input type="checkbox" ng-model="taskCtrl.task.isCompleted" 
+			ng-change="taskCtrl.updateTaskStatus(taskCtrl.task._id, taskCtrl.task.isCompleted)">
 	</div>
 	<div class="task-title-wrapper">
-		<div class="task-title">{{taskCtrl.task.taskTitle}}</div>
+		<div class="task-title" text-edit="taskCtrl.task.name" 
+				on-change="taskCtrl.updateTaskName(taskCtrl.task._id, taskCtrl.task.name)"></div>
 	</div>
 	<div class="controls">
-		<a href="#" class="control-btn edit">
-			<i class="fa fa-pencil" aria-hidden="true"></i>	
-		</a>
-		<a href="#" class="control-btn remove" ng-click="taskCtrl.deleteItem()">
-			<i class="fa fa-trash " aria-hidden="true"></i>	
+		<a href="#" class="control-btn remove" ng-click="taskCtrl.deleteTask()">
+			<i class="fa fa-trash" aria-hidden="true"></i>	
 		</a>				
 	</div>				
 </div><!-- /.single-task -->

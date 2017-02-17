@@ -13,7 +13,7 @@ var scssPath = './src/assets/scss';
 var cssPath = './src/assets/css';
 var depPath = './src/dependencies'
 var compPath = './src/components';
-var jsLibsPath = [depPath + '/js/jquery.js', depPath + '/js/angular.js', depPath + '/js/bootstrap.js'];
+var jsLibsPath = [depPath + '/js/jquery.js', depPath + '/js/angular.js', depPath + '/js/bootstrap.js', depPath + '/js/lodash.js'];
 var angDependPath = [depPath + '/**/*.js',
     '!' + depPath + '/**/jquery.js',
     '!' + depPath + '/**/angular.js',
@@ -142,7 +142,7 @@ gulp.task('karma-inject-js', ['replace-bower-files'], function() {
         .pipe(gulp.dest('./'))
 });
 
-gulp.task('inject', ['replace-bower-files', 'sass'], function() {
+gulp.task('inject', /*['replace-bower-files', 'sass'],*/ function() {
     gulp.src(indexPath)
         .pipe(inject(gulp.src(cssPath + '/style.css', {
             read: false
