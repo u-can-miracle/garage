@@ -3,7 +3,6 @@ describe('project controller: ', function() {
     var chai = require('chai');
     var expect = chai.expect;
     var sinon = require('sinon');
-    var mockery = require('mockery');
 
 	
 	var mongoose = require('mongoose');

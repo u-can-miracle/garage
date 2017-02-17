@@ -5,17 +5,21 @@ var q = require('q');
 var _ = require('lodash');
 
 module.exports = {
-	updateEntity: updateEntity,
+    updateEntity: updateEntity,
+
+    /****  For testing  ****/
+    getModel: getModel
 };
 
 
-
 function updateEntity(entityType, updateData) {
-	var id = updateData.id;
-	var upd = _.omit(updateData, 'id');
-	var model = getModel(entityType);
+    var id = updateData.id;
+    var upd = _.omit(updateData, 'id');
+    var model = getModel(entityType);
 
-	upd.updated_at = new Date();
+    console.log('ctrl', String(getModel));
+
+    upd.updated_at = new Date();
 
     return model.update({
             _id: mongoose.Types.ObjectId(id)
@@ -24,11 +28,10 @@ function updateEntity(entityType, updateData) {
 }
 
 
-function getModel(entityType){
-	var availableModels = {
-		task: taskModel,
-		project: projectModel
-	};
-
-	return availableModels[entityType];
+function getModel(entityType) {
+    var availableModels = {
+        task: taskModel,
+        project: projectModel
+    };
+    return availableModels[entityType];
 }
