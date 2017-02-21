@@ -1,4 +1,4 @@
-describe('project controller: ', function() {
+describe.only('project controller: ', function() {
     var q = require('q');
     var chai = require('chai');
     var expect = chai.expect;
@@ -6,6 +6,7 @@ describe('project controller: ', function() {
 
 	
 	var mongoose = require('mongoose');
+    var monkeypatch = require('monkeypatch');
 
 
     var projectCtrl = require('./project.js');
@@ -23,24 +24,36 @@ describe('project controller: ', function() {
         var projtModStub;
         var userId;
 
+        var modelFind = {
+            populate: function(){
+                return this;
+            },
+            exec: function(){
+                return q.when('data');
+            }
+        };
+        monkeypatch(projectModel, 'find', function(arg) { console.log('arg', arguments); return modelFind; });
+        // projtModStub = sinon.stub(projectModel, 'find');
+
         beforeEach(function() {
-            projtModStub = sinon.stub(projectModel, 'find').returns(q.when('result'));
             userId = 'userId';
         });
 
         afterEach(function() {
-            projtModStub.restore();
+            // projtModStub.restore();
         });
 
 
 
         /****  Execution  ****/
-        it('find() method', function(done) {
-            projectCtrl.getAllProjects(userId)
-                .then(function() {
-                    expect(projtModStub.callCount).to.eql(1);
+        it.only('find() method', function(done) {
+            projectModel.find('123')
+            // projectCtrl.getAllProjects(userId)
+            //     .then(function() {
+                    
+            //         expect(projtModStub.callCount).to.eql(1);
                     done();
-                });
+                // });
         });
 
         it('expected params', function(done) {
@@ -91,48 +104,6 @@ describe('project controller: ', function() {
                     done();
                 });
         });        
-    });
-
-
-
-    describe('updateProject should call: ', function(){
-    	/****  Prepearing  ****/
-    	var modelUpdateStub;
-
-    	beforeEach(function(){
-    		var execObj = {
-    			exec: function(){
-    				return q.when('data');
-    			}
-    		};
-    		modelUpdateStub = sinon.stub(projectModel, 'update').returns(execObj);
-    	});
-
-    	afterEach(function(){
-    		modelUpdateStub.restore();
-    	});
-
-
-
-    	/****  Execution  ****/
-    	it('projectModel.update', function(done){
-            projectCtrl.updateProject('idString', 'projName')
-                .then(function(res) {
-                    expect(modelUpdateStub.callCount).to.eql(1);
-                    done();
-                });    		
-    	});
-
-    	it('projectModel.update with expected params', function(done){
-            projectCtrl.updateProject('idString', 'projName')
-                .then(function(res) {
-                    expect(modelUpdateStub.getCall(0).args[0]).to.eql({
-                    	_id: 'idString'
-                    });
-                    expect(modelUpdateStub.getCall(0).args[1].name).to.eql('projName');
-                    done();
-                });
-    	});
     });
 
 

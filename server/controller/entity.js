@@ -11,13 +11,10 @@ module.exports = {
     getModel: getModel
 };
 
-
 function updateEntity(entityType, updateData) {
     var id = updateData.id;
     var upd = _.omit(updateData, 'id');
-    var model = getModel(entityType);
-
-    console.log('ctrl', String(getModel));
+    var model = module.exports.getModel(entityType); // for testing
 
     upd.updated_at = new Date();
 

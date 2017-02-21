@@ -3,27 +3,24 @@ describe('entity controller: ', function() {
     var chai = require('chai');
     var expect = chai.expect;
     var sinon = require('sinon');
-
-	
-	var mongoose = require('mongoose');
+    var monkeypatch = require('monkeypatch');
 
 
     var entityCtrl = require('./entity.js');
-    // var projectModel = require('../model/project.js');
     
 			
 
 
 
 
-
     /****  Tests  ****/
-    describe.only('updateEntity should call: ', function(){
+    describe('updateEntity should call: ', function(){
     	/****  Prepearing  ****/
     	var getModelStub;
+        var model;
 
     	beforeEach(function(){
-    		var model = {
+    		model = {
                 update: function(){
                     return this;
                 },
@@ -31,6 +28,7 @@ describe('entity controller: ', function() {
     				return q.when('data');
     			}
     		};
+            monkeypatch(entityCtrl, 'getModel', function() { return model; });
     		getModelStub = sinon.stub(entityCtrl, 'getModel').returns(model);
     	});
 
@@ -41,24 +39,19 @@ describe('entity controller: ', function() {
 
 
     	/****  Execution  ****/
-    	it.only('projectModel.update', function(done){
-            // console.log('test', Object.keys(entityCtrl.getModel));
+    	it('getModel with expected params', function(done){
             entityCtrl.updateEntity('task', 'projName')
                 .then(function(res) {
-                    console.log('test', String(entityCtrl.getModel));
-                    // console.log(getModelStub.callCount);
-                    // expect(getModelStub.callCount).to.eql(1);
+                    expect(getModelStub.callCount).to.eql(1);
+                    expect(getModelStub.getCall(0).args[0]).to.eql('task');
                     done();
                 });    		
     	});
 
-    	it('projectModel.update with expected params', function(done){
-            projectCtrl.updateProject('idString', 'projName')
+    	it('model.update() and model.exec()', function(done){
+            entityCtrl.updateEntity('project', 'projName')
                 .then(function(res) {
-                    expect(getModelStub.getCall(0).args[0]).to.eql({
-                    	_id: 'idString'
-                    });
-                    expect(getModelStub.getCall(0).args[1].name).to.eql('projName');
+                    expect(res).to.eql('data');
                     done();
                 });
     	});

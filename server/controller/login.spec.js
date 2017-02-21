@@ -18,7 +18,7 @@ describe('login controller: ', function() {
 
 
     /****  Tests  ****/
-    describe.skip('userModel.updateUserEmailConfirmation should call callback: ', function() {
+    describe/*.skip*/('userModel.updateUserEmailConfirmation should call callback: ', function() {
         /****  Prepearing  ****/
         var spy = sinon.spy();
         var userModelMock = sinon.mock(userModel);
