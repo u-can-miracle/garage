@@ -39,9 +39,11 @@ function getAllProjectMiddleware(req, res){
 	return projectCtrl.getAllProjects(req.user._id)
 		.then(function(allProjects){
 			res.json({allProjects: allProjects});
+			return allProjects;
 		})
 		.catch(function(err){
 			console.log('Route getAllProjects err', err);
+			return err;
 		});
 }
 
@@ -49,9 +51,11 @@ function createProjectMiddleware(req, res){
 	return projectCtrl.createProject(req.user._id, req.body.projectName)
 		.then(function(proj){
 			res.json({proj: proj});
+			return proj;
 		})
-		.catch(function(){
+		.catch(function(err){
 			res.json({err: err});
+			return err;
 		});
 }
 
@@ -59,9 +63,11 @@ function updateProjMiddleware(req, res){
 	return entityCtrl.updateEntity('project', req.body)
 		.then(function(proj){
 			res.json({proj: proj});
+			return proj;
 		})
 		.catch(function(err){
 			res.json({err: err});
+			return err;
 		});
 }
 
@@ -73,9 +79,10 @@ function deleteProjMiddleware(req, res){
 				isRemoved = true;
 			}
 			res.json({isRemoved: isRemoved});
+			return result;
 		})
 		.catch(function(err){
-			console.log('err: ', err);
 			res.json({err: err});
+			return err;
 		});
 }

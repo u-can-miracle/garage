@@ -3,7 +3,6 @@ describe('entity controller: ', function() {
     var chai = require('chai');
     var expect = chai.expect;
     var sinon = require('sinon');
-    var monkeypatch = require('monkeypatch');
 
 
     var entityCtrl = require('./entity.js');
@@ -28,7 +27,6 @@ describe('entity controller: ', function() {
     				return q.when('data');
     			}
     		};
-            monkeypatch(entityCtrl, 'getModel', function() { return model; });
     		getModelStub = sinon.stub(entityCtrl, 'getModel').returns(model);
     	});
 

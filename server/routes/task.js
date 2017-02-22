@@ -37,6 +37,7 @@ function updateTaskMiddleware(req, res){
 			res.json({task: task});
 		})
 		.catch(function(err){
+			console.log('/task/update err: ', err);
 			res.json({err: err});
 		});
 }
