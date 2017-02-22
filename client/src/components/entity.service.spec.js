@@ -24,10 +24,15 @@ describe('Test entityService: ', function() {
         angular.mock.module(function($provide) {
             $provide.constant('apiConstant', {
                 project: {
-                    getAll: '/test/getAll',
-                    create: '/test/create',
-                    update: '/test/update',
-                    delete: '/test/delete'
+                    getAll: '/projects/getAll',
+                    create: '/project/create',
+                    update: '/project/update',
+                    delete: '/project/delete'
+                },
+                task: {
+                    create: '/task/create',
+                    update: '/task/update',
+                    delete: '/task/delete'
                 }
             });
         });
@@ -59,7 +64,7 @@ describe('Test entityService: ', function() {
 
         expect(http.get.callCount).toEqual(0);
         entityService.getAllProjects();
-        expect(http.get.getCall(0).args[0]).toEqual('/test/getAll');
+        expect(http.get.getCall(0).args[0]).toEqual('/projects/getAll');
         expect(http.get.callCount).toEqual(1);
 
         getStub.restore();
@@ -67,58 +72,115 @@ describe('Test entityService: ', function() {
 
 
 
-    it('entityService.createEntity should call http.post() with expected data', function() {
-        var postStub = sinon.stub(http, 'post').returns(q.when('result'));
+    describe('entityService.createEntity should create: ', function() {
+        var postStub;
 
-        expect(http.post.callCount).toEqual(0);
-        entityService.createEntity('projectName');
-
-        expect(http.post.callCount).toEqual(1);
-        expect(http.post.getCall(0).args[0]).toEqual('/test/create');
-        expect(http.post.getCall(0).args[1]).toEqual({
-            projectName: 'projectName'
+        beforeEach(function(){
+            postStub = sinon.stub(http, 'post').returns(q.when('result'));
         });
 
-        postStub.restore();
-    });
-
-
-
-    it('entityService.updateEntity should call http.put() with expected data', function() {
-        var putStub = sinon.stub(http, 'put').returns(q.when('result'));
-        var updatedData = {
-            projId: 'projId',
-            projName: 'projName'
-        };
-
-        expect(http.put.callCount).toEqual(0);
-        entityService.updateEntity('projId', 'projName');
-
-        expect(http.put.callCount).toEqual(1);
-        expect(http.put.getCall(0).args[0]).toEqual('/test/update');
-        expect(http.put.getCall(0).args[1]).toEqual({
-            projId: 'projId',
-            projName: 'projName'
+        afterEach(function(){
+            postStub.restore();
         });
 
-        putStub.restore();
+        it('project', function(){
+            expect(http.post.callCount).toEqual(0);
+            entityService.createEntity('project', 'projectName');
+
+            expect(http.post.callCount).toEqual(1);
+            expect(http.post.getCall(0).args[0]).toEqual('/project/create');
+            expect(http.post.getCall(0).args[1]).toEqual('projectName');
+        });
+
+        it('task', function(){
+            expect(http.post.callCount).toEqual(0);
+            entityService.createEntity('task', 'taskName');
+
+            expect(http.post.callCount).toEqual(1);
+            expect(http.post.getCall(0).args[0]).toEqual('/task/create');
+            expect(http.post.getCall(0).args[1]).toEqual('taskName');
+        });        
     });
 
 
 
-    it('entityService.deleteEntity should call http.post() with expected data', function() {
-        var deleteStub = sinon.stub(http, 'delete').returns(q.when('result'));
-        var updatedData = {
-            projId: 'projId',
-            projName: 'projName'
-        };
+    describe('entityService.updateEntity should update: ', function() {
+        var putStub;
 
-        expect(http.delete.callCount).toEqual(0);
-        entityService.deleteEntity('123')
+        beforeEach(function(){
+            putStub = sinon.stub(http, 'put').returns(q.when('result'));
+        });
 
-        expect(http.delete.callCount).toEqual(1);
-        expect(http.delete.getCall(0).args[0]).toEqual('/test/delete/123');
+        afterEach(function(){
+            putStub.restore();
+        });
 
-        deleteStub.restore();
+        it('project', function(){
+            expect(putStub.callCount).toEqual(0);
+            entityService.updateEntity('project', 'updatedData');
+
+            expect(putStub.callCount).toEqual(1);
+            expect(putStub.getCall(0).args[0]).toEqual('/project/update');
+            expect(putStub.getCall(0).args[1]).toEqual('updatedData');
+        });
+
+        it('task', function(){
+            expect(putStub.callCount).toEqual(0);
+            entityService.updateEntity('task', 'updatedData');
+
+            expect(putStub.callCount).toEqual(1);
+            expect(putStub.getCall(0).args[0]).toEqual('/task/update');
+            expect(putStub.getCall(0).args[1]).toEqual('updatedData');
+        });        
     });
+
+
+
+    describe('entityService.deleteEntity should delete: ', function() {
+        var deleteStub;
+
+        beforeEach(function(){
+            deleteStub = sinon.stub(http, 'delete').returns(q.when('result'));
+        });
+
+        afterEach(function(){
+            deleteStub.restore();
+        });
+
+        it('project', function(){
+            expect(deleteStub.callCount).toEqual(0);
+            entityService.deleteEntity('project', 'projectId');
+
+            expect(deleteStub.callCount).toEqual(1);
+            expect(deleteStub.getCall(0).args[0]).toEqual('/project/delete/projectId');
+        });
+
+        it('task', function(){
+            expect(deleteStub.callCount).toEqual(0);
+            entityService.deleteEntity('task', 'taskId', 'projectId');
+
+            expect(deleteStub.callCount).toEqual(1);
+            expect(deleteStub.getCall(0).args[0]).toEqual('/task/delete/taskId/projectId');
+        }); 
+    });
+
+    describe('entityService.removeEntityFromArrayById should: ', function(){
+        var array;
+
+        beforeEach(function(){
+            array = [{_id: 1}, {_id: 2}];
+        });   
+
+        it('remove entity with existing id', function(){
+            expect(array).toEqual([{_id: 1}, {_id: 2}]);
+            entityService.removeEntityFromArrayById(array, 2);
+            expect(array).toEqual([{_id: 1}]);
+        });
+
+        it('remove entity with existing id', function(){
+            expect(array).toEqual([{_id: 1}, {_id: 2}]);
+            entityService.removeEntityFromArrayById(array, 3);
+            expect(array).toEqual([{_id: 1}, {_id: 2}]);
+        });
+    });    
 });

@@ -99,9 +99,12 @@
 
         function removeEntityFromArrayById(array, entityId){
         	var entity = _.find(array, {_id: entityId});
-        	var index = array.indexOf(entity);
+        	var index;
 
-        	array.splice(index, 1);
+        	if(entity){
+        		index = array.indexOf(entity);
+        		array.splice(index, 1);
+        	}
         }			
 	}
 })();

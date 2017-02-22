@@ -14,60 +14,62 @@ module.exports = function(config) {
         // list of files / patterns to load in the browser
         files: [
             // libs:js
-                                              ".//src/dependencies/js/jquery.js",
-                                              ".//src/dependencies/js/angular.js",
-                                              ".//src/dependencies/js/bootstrap.js",
-                                            // endinject
+                                                ".//src/dependencies/js/jquery.js",
+                                                ".//src/dependencies/js/angular.js",
+                                                ".//src/dependencies/js/bootstrap.js",
+                                                ".//src/dependencies/js/lodash.js",
+                                              // endinject
 
             // testHelpers:js
-                                              "./bower_components/angular-mocks/angular-mocks.js",
-                                              "./bower_components/angular-material/angular-material-mocks.js",
-                                            // endinject       
+                                                "./bower_components/angular-mocks/angular-mocks.js",
+                                                "./bower_components/angular-material/angular-material-mocks.js",
+                                              // endinject       
                                 
             // dependencies:js
-                                              "./src/dependencies/js/q.js",
-                                              "./src/dependencies/js/ngToast.js",
-                                              "./src/dependencies/js/angular-ui-router.js",
-                                              "./src/dependencies/js/angular-sanitize.js",
-                                              "./src/dependencies/js/angular-messages.js",
-                                              "./src/dependencies/js/angular-material.js",
-                                              "./src/dependencies/js/angular-aria.js",
-                                              "./src/dependencies/js/angular-animate.js",
-                                            // endinject
+                                                "./src/dependencies/js/q.js",
+                                                "./src/dependencies/js/ngToast.js",
+                                                "./src/dependencies/js/lodash.js",
+                                                "./src/dependencies/js/angular-ui-router.js",
+                                                "./src/dependencies/js/angular-sanitize.js",
+                                                "./src/dependencies/js/angular-messages.js",
+                                                "./src/dependencies/js/angular-material.js",
+                                                "./src/dependencies/js/angular-aria.js",
+                                                "./src/dependencies/js/angular-animate.js",
+                                              // endinject
 
 
 
             // components:js
-                                              "./src/components/text-edit-directive/text-edit.module.js",
-                                              "./src/components/text-edit-directive/text-edit.directive.js",
-                                              "./src/components/task/task.module.js",
-                                              "./src/components/task/task.controller.js",
-                                              "./src/components/task/task.component.js",
-                                              "./src/components/project/project.modules.js",
-                                              "./src/components/project/project.service.js",
-                                              "./src/components/project/project.controller.js",
-                                              "./src/components/project/project.component.js",
-                                              "./src/components/project/project-container.controller.js",
-                                              "./src/components/login/login.module.js",
-                                              "./src/components/login/login.factory.js",
-                                              "./src/components/login/login.controller.js",
-                                              "./src/components/app.module.js",
-                                              "./src/components/app.run.js",
-                                              "./src/components/app.factory.helper.js",
-                                              "./src/components/app.config.js",
-                                              "./src/components/app.api.constants.js",
-                                            // endinject
+                                                "./src/components/text-edit-directive/text-edit.module.js",
+                                                "./src/components/text-edit-directive/text-edit.directive.js",
+                                                "./src/components/project/project.modules.js",
+                                                "./src/components/project/project.controller.js",
+                                                "./src/components/project/project.component.js",
+                                                "./src/components/project/project-container.controller.js",
+                                                "./src/components/task/task.module.js",
+                                                "./src/components/task/task.controller.js",
+                                                "./src/components/task/task.component.js",
+                                                "./src/components/login/login.module.js",
+                                                "./src/components/login/login.factory.js",
+                                                "./src/components/login/login.controller.js",
+                                                "./src/components/entity.service.js",
+                                                "./src/components/app.module.js",
+                                                "./src/components/app.run.js",
+                                                "./src/components/app.factory.helper.js",
+                                                "./src/components/app.config.js",
+                                                "./src/components/app.api.constants.js",
+                                              // endinject
 
             // test:js
-                                              "./src/components/text-edit-directive/text-edit.directive.spec.js",
-                                              "./src/components/task/task.controller.spec.js",
-                                              "./src/components/project/project.service.spec.js",
-                                              "./src/components/project/project.controller.spec.js",
-                                              "./src/components/project/project-container.controller.spec.js",
-                                              "./src/components/login/login.factory.spec.js",
-                                              "./src/components/login/login.controller.spec.js",
-                                              "./src/components/app.factory.helper.spec.js"
-                                            // endinject            
+                                                "./src/components/text-edit-directive/text-edit.directive.spec.js",
+                                                "./src/components/project/project.controller.spec.js",
+                                                "./src/components/project/project-container.controller.spec.js",
+                                                "./src/components/task/task.controller.spec.js",
+                                                "./src/components/login/login.factory.spec.js",
+                                                "./src/components/login/login.controller.spec.js",
+                                                "./src/components/entity.service.spec.js",
+                                                "./src/components/app.factory.helper.spec.js"
+                                              // endinject            
         ],
 
 

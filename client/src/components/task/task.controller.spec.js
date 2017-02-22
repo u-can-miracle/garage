@@ -1,30 +1,8 @@
 describe('Test Task Ctrl: ', function() {
     var $controller;
     var taskCtrl;
-    var mockMdDialog = {
-        show: function() {},
-        confirm: function() {
-            return this;
-        },
-        title: function() {
-            return this;
-        },
-        textContent: function() {
-            return this;
-        },
-        ariaLabel: function() {
-            return this;
-        },
-        targetEvent: function() {
-            return this;
-        },
-        ok: function() {
-            return this;
-        },
-        cancel: function() {
-            return this;
-        }
-    }
+    var mockMdDialog;
+    var mockEntityService;
 
 
 
@@ -37,13 +15,45 @@ describe('Test Task Ctrl: ', function() {
         });
 
         module('task');
+
+        mockMdDialog = {
+            show: function() {},
+            confirm: function() {
+                return this;
+            },
+            title: function() {
+                return this;
+            },
+            textContent: function() {
+                return this;
+            },
+            ariaLabel: function() {
+                return this;
+            },
+            ok: function() {
+                return this;
+            },
+            cancel: function() {
+                return this;
+            }
+        };
+
+        mockEntityService = {
+            createEntity: sinon.stub(),
+            updateEntity: function() {},
+            deleteEntity: sinon.stub(),
+            getAllProjects: sinon.stub().returns(Q.when('allProjResponse')),
+            removeEntityFromArrayById: sinon.stub(),
+            allProjects: 'allProjects'
+        };
     });
 
     beforeEach(inject(function(_$controller_) {
         $controller = _$controller_;
 
         taskCtrl = $controller('taskController', {
-            $mdDialog: mockMdDialog
+            $mdDialog: mockMdDialog,
+            entityService: mockEntityService
         });
     }));
 
@@ -57,18 +67,50 @@ describe('Test Task Ctrl: ', function() {
         expect(taskCtrl).toBeDefined();
     });
 
-    describe('taskCtrl.deleteItem() should ', function() {
+    it('taskCtrl.updateTaskStatus should call taskCtrl.updateEntity with expected params', function(done) {
+        var updateEntityStub = sinon.stub(mockEntityService, 'updateEntity').returns(Q.when('result'));
+
+        taskCtrl.updateTaskStatus('taskId', 'isCompleted')
+            .then(function() {
+                expect(updateEntityStub.callCount).toEqual(1);
+                expect(updateEntityStub.getCall(0).args[0]).toEqual('task');
+                expect(updateEntityStub.getCall(0).args[1]).toEqual({
+                    id: 'taskId',
+                    isCompleted: 'isCompleted'
+                });
+                updateEntityStub.restore();
+                done();
+            });
+    }); 
+
+    it('taskCtrl.updateTaskName should call taskCtrl.updateTaskName with expected params', function(done) {
+        var updateEntityStub = sinon.stub(mockEntityService, 'updateEntity').returns(Q.when('result'));
+
+        taskCtrl.updateTaskName('taskId', 'newName')
+            .then(function() {
+                expect(updateEntityStub.callCount).toEqual(1);
+                expect(updateEntityStub.getCall(0).args[0]).toEqual('task');
+                expect(updateEntityStub.getCall(0).args[1]).toEqual({
+                    id: 'taskId',
+                    name: 'newName'
+                });
+                updateEntityStub.restore();
+                done();
+            });
+    });    
+
+    describe('taskCtrl.deleteTask() should ', function() {
         var showStub;
         var onDeleteStub;
 
-        beforeEach(function(){
-            taskCtrl.onDelete = function(){};
+        beforeEach(function() {
+            taskCtrl.onDelete = function() {};
 
             onDeleteStub = sinon.stub(taskCtrl, 'onDelete');
             showStub = sinon.stub(mockMdDialog, 'show');
         });
 
-        afterEach(function(){
+        afterEach(function() {
             onDeleteStub.restore();
             showStub.restore();
         });
@@ -78,7 +120,7 @@ describe('Test Task Ctrl: ', function() {
         it('call $mdDialog.show()', function(done) {
             showStub.returns(Q.when('data'));
 
-            taskCtrl.deleteItem()
+            taskCtrl.deleteTask()
                 .then(function() {
                     expect(showStub.callCount).toEqual(1);
                     done();
@@ -88,7 +130,7 @@ describe('Test Task Ctrl: ', function() {
         it('call taskCtrl.onDelete', function(done) {
             showStub.returns(Q.when(true));
 
-            taskCtrl.deleteItem()
+            taskCtrl.deleteTask()
                 .then(function() {
                     expect(taskCtrl.onDelete.callCount).toEqual(1);
                     done();
@@ -98,11 +140,11 @@ describe('Test Task Ctrl: ', function() {
         it('call taskCtrl.onDelete', function(done) {
             showStub.returns(Q.when(false));
 
-            taskCtrl.deleteItem()
+            taskCtrl.deleteTask()
                 .then(function() {
                     expect(taskCtrl.onDelete.callCount).toEqual(0);
                     done();
                 });
-        });        
+        });
     });
 });

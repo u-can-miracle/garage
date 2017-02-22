@@ -20,12 +20,14 @@ describe('Test projContainerCtrl: ', function() {
         };
         var createdProject = {
             data: {
-                proj: {proj3: 'createdProject'}
+                proj: {
+                    proj3: 'createdProject'
+                }
             }
         };
 
         mockEntityService = {
-            createProject: sinon.stub().returns(Q.when(createdProject)),
+            createEntity: sinon.stub().returns(Q.when(createdProject)),
             updateEntity: sinon.stub().returns(Q.when('result')),
             deleteEntity: sinon.stub().returns(Q.when('result')),
             getAllProjects: sinon.stub().returns(Q.when(allProjResponse))
@@ -116,13 +118,6 @@ describe('Test projContainerCtrl: ', function() {
     });
 
 
-    it('deleteEntityFromArray should delete entity', function() {
-        var array = ['aaa', 'bbb', 'ccc'];
-        vm.deleteEntityFromArray('bbb', array);
-        expect(array).toEqual(['aaa', 'ccc']);
-    });
-
-
     describe('getAllProjects should: ', function() {
         it('call entityService.getAllProjects', function(done) {
             var calls = mockEntityService.getAllProjects.callCount; // called by init()
@@ -151,31 +146,36 @@ describe('Test projContainerCtrl: ', function() {
     });
 
 
-    describe('createEntity should: ', function(){
-        it('call entityService.createEntity with expected params', function(done){
-            vm.createEntity('data')
-                .then(function(){
+    describe('createProject should: ', function() {
+        it('call entityService.createEntity with expected params', function(done) {
+            vm.createProject('data')
+                .then(function() {
                     expect(mockEntityService.createEntity.callCount).toEqual(1);
                     done();
                 });
         });
 
-        it('call entityService.createEntity with expected params', function(done){
-            vm.createEntity('data')
-                .then(function(){
-                    expect(mockEntityService.createEntity.getCall(0).args[0]).toEqual('data');
+        it('call entityService.createEntity with expected params', function(done) {
+            vm.createProject('data')
+                .then(function() {
+                    expect(mockEntityService.createEntity.getCall(0).args[0]).toEqual('project');
+                    expect(mockEntityService.createEntity.getCall(0).args[1]).toEqual({
+                        projectName: 'data'
+                    });
                     done();
                 });
         });
 
-        it('set expected data', function(done){
+        it('set expected data to vm.projects', function(done) {
             vm.projects = [];
-            vm.createEntity('data')
-                .then(function(){
-                    expect(vm.projects).toContain({proj3: 'createdProject'});
+            vm.createProject('data')
+                .then(function() {
+                    expect(vm.projects).toContain({
+                        proj3: 'createdProject'
+                    });
                     expect(vm.isProjectCreateFormVisible).toEqual(false);
                     done();
                 });
-        });        
+        });
     });
 });

@@ -10,6 +10,8 @@
     function projectController(entityService, $mdDialog) {
         var projCtrl = this;
 
+        projCtrl.project = {};
+
         projCtrl.updateProject = updateProject;
         projCtrl.deleteProject = deleteProject;
         projCtrl.taskCreate = taskCreate;
@@ -23,7 +25,7 @@
             var updateData = {
                 id: id,
                 name: name
-            }
+            };
             entityService.updateEntity('project', updateData)
                 .then(function(resp) {
                     console.log('resp', resp);
@@ -62,19 +64,21 @@
                 taskName: taskName,
                 projId: projId
             }
+
             return entityService.createEntity('task', taskData)
                 .then(function(resp){
                     projCtrl.taskName = '';
                     projCtrl.project.tasks.push(resp.data.task);
-                })
+                });
         }
 
         function deleteTask(idTask, idProj){
-            return entityService.deleteEntity('task', idTask, idProj).then(function(result){
-                if(result){
-                    entityService.removeEntityFromArrayById(projCtrl.project.tasks, idTask);
-                }
-            })
+            return entityService.deleteEntity('task', idTask, idProj)
+                .then(function(result){
+                    if(result){
+                        entityService.removeEntityFromArrayById(projCtrl.project.tasks, idTask);
+                    }
+                });
         }
     }
 })();
