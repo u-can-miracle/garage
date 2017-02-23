@@ -62,10 +62,15 @@ function passportStrategyConfiguration(app) {
 function loginHandleMiiddleware(req, username, password, cb){
 	return loginCtrl.getUserByUsername(username)
 		.then(function(user){
-			if(user){					
-				return cb(null, user);
+			console.log('user', user);
+			if(user){			
+				if(!user.local.isUserConfirmedViaEmail){
+					return cb(null, false, { message : 'User is not confirmed'});
+				} else {
+					return cb(null, user, { message : 'You are loggin successfully!'});
+				}	
 			} else {
-				return cb(null, false);
+				return cb(null, false, { message : 'Wrong user data'});
 			}
 		})
 		.catch(function(err){

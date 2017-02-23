@@ -12,24 +12,36 @@ var loginRouter = express.Router();
 module.exports = loginRouter;
 
 loginRouter.get('/login', function(req, res, next) {
-    if(req.user){
+    if (req.user) {
         res.redirect('/project');
     } else {
         res.render('index');
     }
 });
 
-loginRouter.post('/login', 
-    passport.authenticate('login', {
-        failureRedirect: '/login'
-    }),
-    function(req, res) {
+
+loginRouter.post('/login', function(req, res, next) {
+    passport.authenticate('login', function(err, user, info, asd) {
+        if (err) {
+            return next(err); // will generate a 500 error
+        }
+
+        if (!user) {
+            return res.json({
+                loginSuccess: false,
+                message: info.message
+            });
+        }
+
         res.json({
             loginSuccess: true,
-            user: req.user
+            user: req.user,
+            message: info.message
         });
-    }
-);
+    })(req, res, next);
+});
+
+
 
 loginRouter.post('/registration', function(req, res, next) {
     var hash = crypto.randomBytes(16).toString('hex');
@@ -115,4 +127,3 @@ loginRouter.post('/logout', function(req, res, next) {
     req.logout();
     res.redirect('/login');
 });
-

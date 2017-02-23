@@ -74,7 +74,7 @@
 					if(data.successRegistered === true){
 						vm.reg.alreadyExist = null;
 	                    return ngToast.success({
-	                        content: 'You are register successfully!'
+	                        content: 'You are register successfully! Visit your email and confirm registration.'
 	                    });	
 					} else {
 						vm.reg.alreadyExist = data.message;
@@ -88,17 +88,14 @@
 		function login(username, password){
 			return loginFactory.login(username, password) 
 				.then(function(data){
-					console.log('login data: ', data);
-					vm.loginError = '';
 					if(data.loginSuccess === true){
 						$state.go('main.project');
 	                    return ngToast.success({
-	                        content: 'You are logined successfully!'
+	                        content: data.message
 	                    });
 					} else {
-						vm.loginError = data.message;
 	                    return ngToast.warning({
-	                        content: vm.loginError
+	                        content: data.message
 	                    });
 					}
 				});
