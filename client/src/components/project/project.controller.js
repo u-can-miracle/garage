@@ -10,8 +10,6 @@
     function projectController(entityService, $mdDialog) {
         var projCtrl = this;
 
-        projCtrl.project = {};
-
         projCtrl.updateProject = updateProject;
         projCtrl.deleteProject = deleteProject;
         projCtrl.taskCreate = taskCreate;

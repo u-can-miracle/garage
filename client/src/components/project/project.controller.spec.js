@@ -205,7 +205,7 @@ describe('Test projectController: ', function() {
 
         it('call entityService.removeEntityFromArrayById with expected params', function(done){
             mockEntityService.deleteEntity.returns(Q.when(true));
-            vm.project.tasks = [];
+            vm.project = {tasks: []};
 
             vm.deleteTask('idTask', 'idProj')
                 .then(function(){
@@ -219,7 +219,7 @@ describe('Test projectController: ', function() {
 
         it('not call entityService.removeEntityFromArrayById', function(done){
             mockEntityService.deleteEntity.returns(Q.when(false));
-            vm.project.tasks = [];
+            vm.project = {tasks: []};
 
             vm.deleteTask('idTask', 'idProj')
                 .then(function(){

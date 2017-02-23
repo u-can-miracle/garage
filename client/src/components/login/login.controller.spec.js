@@ -153,48 +153,43 @@ describe('Test loginController: ', function() {
 	    }); 
 
 
-	    it('success - login should confirm with success and redirect to $state.go("main.project")', function(){
-	    	vm.loginError = 'Warning text';
-	    	logFactory.login.returns(deferred.promise);
+	    it('success - login should confirm with success and redirect to $state.go("main.project")', function(done){
+	    	var responseMsg = {message: 'msg', loginSuccess: true};
+	    	logFactory.login.returns(Q.when(responseMsg));
 
 
 	    	expect(mockToast.success.callCount).toEqual(0);
 	    	expect(mockState.go.callCount).toEqual(0);
-	    	expect(vm.loginError).toEqual('Warning text');
 
 
-	    	vm.login();
-	    	deferred.resolve({loginSuccess: true});
-	    	rootScope.$digest();
-
-
-	    	expect(mockToast.success.callCount).toEqual(1);
-	    	expect(mockState.go.callCount).toEqual(1);
-	    	expect(mockState.go.calledWith('main.project')).toEqual(true);
-	    	expect(vm.loginError).toEqual('');
+	    	vm.login()
+	    		.then(function(){
+			    	expect(mockToast.success.callCount).toEqual(1);
+			    	expect(mockState.go.callCount).toEqual(1);
+			    	expect(mockState.go.calledWith('main.project')).toEqual(true);
+	    			
+					done();
+	    		});
 	    });    
 
 
-	    it('warning - login should show notification', function(){
+	    it('warning - login should show notification', function(done){
 	    	var serverResponse = {
 	    		loginSuccess: false,
 	    		message: 'Wrong data'
 	    	};
-	    	vm.loginError = 'text';
-	    	logFactory.login.returns(deferred.promise);
+	    	logFactory.login.returns(Q.when(serverResponse));
 
 
-			expect(vm.loginError).toEqual('text');
 			expect(mockToast.warning.callCount).toEqual(0);
 
 
-	    	vm.login();
-	    	deferred.resolve(serverResponse);
-	    	rootScope.$digest();
-
-
-	    	expect(vm.loginError).toEqual('Wrong data');
-	    	expect(mockToast.warning.callCount).toEqual(1);
+	    	vm.login()
+	    		.then(function(){
+			    	expect(mockToast.warning.callCount).toEqual(1);
+			    	expect(mockToast.warning.getCall(0).args[0]).toEqual({content: 'Wrong data'});
+	    			done();
+	    		});
 	    });
     });
 });

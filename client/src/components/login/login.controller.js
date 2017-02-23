@@ -13,7 +13,6 @@
 
 		vm.userName;
 		vm.pass;
-		vm.loginError;
 
 		vm.reg = {};
 		vm.reg.userName;

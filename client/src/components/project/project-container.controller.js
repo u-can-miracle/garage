@@ -10,7 +10,7 @@
     function projContainerCtrl(entityService, loginFactory, $state) {
         var projContCtrl = this;
 
-        projContCtrl.projects = null;
+        projContCtrl.projects = [];
         projContCtrl.isProjectCreateFormVisible = false;
 
         projContCtrl.init = init;
@@ -46,9 +46,9 @@
 
         function getAllProjects(){
             return entityService.getAllProjects()
-                .then(function(resp){
-                    entityService.allProjects = resp.data.allProjects;
-                    return projContCtrl.projects = entityService.allProjects;
+                .then(function(allProjects){
+                    entityService.allProjects = allProjects.data.allProjects;
+                    projContCtrl.projects = allProjects.data.allProjects;
                 })
                 .catch(function(err){
                     console.log('getAllProjects err', err);
