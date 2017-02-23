@@ -33,23 +33,21 @@ function passportStrategyConfiguration(app) {
             clientSecret: '904a23224a8d804920ee55e1e882b10e',
             callbackURL: fbCallback
         }, fbLoginMiddleware));
-
     
+
     passport.serializeUser(function(user, cb) {
-    	console.log('serializeUser user: ', user);
         cb(null, user._id);
     });
 
     passport.deserializeUser(function(id, cb) {
     	loginCtrl.getUserById(id)
     		.then(function(user){
-		    	console.log('deserializeUser');
 		        cb(null, user);
     		})
     		.catch(function(err){
     			cb(err);
     		})
-    });
+    });    
 
     app.use(passport.initialize());
     app.use(passport.session());      
@@ -62,15 +60,14 @@ function passportStrategyConfiguration(app) {
 function loginHandleMiiddleware(req, username, password, cb){
 	return loginCtrl.getUserByUsername(username)
 		.then(function(user){
-			console.log('user', user);
 			if(user){			
 				if(!user.local.isUserConfirmedViaEmail){
-					return cb(null, false, { message : 'User is not confirmed'});
+					return cb(null, false, req.flash('loginMessage', 'You should confirm your account' ));
 				} else {
-					return cb(null, user, { message : 'You are loggin successfully!'});
+					return cb(null, user, req.flash('loginMessage', 'You are loggin successfully!' ));
 				}	
 			} else {
-				return cb(null, false, { message : 'Wrong user data'});
+				return cb(null, false, req.flash('loginMessage', 'Wrong user data' ));
 			}
 		})
 		.catch(function(err){
@@ -84,7 +81,6 @@ function localConfirmEmailMiddleware(hash, sameHash, cb){
 			if(!user){
 				return q.when(cb(null, false));
 			} else {
-				console.log('else');
 				return q.all([cb(null, user), loginCtrl.updateUserEmailConfirmation(hash)])
 			}
 		})

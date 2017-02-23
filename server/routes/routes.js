@@ -9,7 +9,7 @@ module.exports = function(app) {
     });
 
     app.use(function(req, res, next){
-    	// console.log('req.user', req.user);
+    	console.log('req.user', req.user);
     	next();
     });
     

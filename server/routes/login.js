@@ -21,26 +21,34 @@ loginRouter.get('/login', function(req, res, next) {
 
 
 loginRouter.post('/login', function(req, res, next) {
-    passport.authenticate('login', function(err, user, info, asd) {
-        if (err) {
-            return next(err); // will generate a 500 error
-        }
+    passport.authenticate('login', {
+            session: true,
+            failureRedirect: '/login'
+        },
+        function(err, user, info, asd) {
+            if (err) {
+                next(err); // will generate a 500 error
+            }
 
-        if (!user) {
-            return res.json({
-                loginSuccess: false,
-                message: info.message
-            });
-        }
-
-        res.json({
-            loginSuccess: true,
-            user: req.user,
-            message: info.message
-        });
-    })(req, res, next);
+            if (!user) {
+                res.json({
+                    loginSuccess: false,
+                    message: req.flash('loginMessage')[0]
+                });
+            } else {
+                req.login(user, function(err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.json({
+                        loginSuccess: true,
+                        user: req.user,
+                        message: req.flash('loginMessage')[0]
+                    });                
+                });                 
+            }
+        })(req, res, next);
 });
-
 
 
 loginRouter.post('/registration', function(req, res, next) {

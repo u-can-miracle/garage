@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var db = require('./db');
+var flash = require('connect-flash');
 
 
 
@@ -17,6 +18,8 @@ module.exports = function expressConfig(app) {
     app.use(bodyParser.urlencoded({
         extended: true
     }));
+
+    app.use(flash());
 
     app.use(cookieParser());
     app.use(session({
